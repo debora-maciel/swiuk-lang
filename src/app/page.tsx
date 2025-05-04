@@ -5,8 +5,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="w-full h-screen bg-orange-100">
-      <div className="flex items-center justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
+    <div className="w-full h-screen bg-orange-100"><div className="flex items-center justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
         <Link href={'/translate'} className="cursor-pointer bg-orange-900 text-white p-2 rounded-full shadow-xl flex items-center justify-center">
           <div className="bg-orange-50 text-white p-4 rounded-full shadow-xl flex items-center justify-center">
             <div className="bg-orange-400 text-white p-7 rounded-full shadow-xl flex items-center justify-center">
