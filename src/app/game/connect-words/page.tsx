@@ -63,9 +63,7 @@ export default function ConnectWordsPage() {
   return (
     <div className="text-center p-6 bg-orange-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-6">Connect Words</h1>
-      {selected.german && selected.german}
-      {selected.english && selected.english}
-      <div className="flex items-start justify-center gap-12 flex-wrap">
+      <div className="flex items-start justify-center gap-5">
         <div>
           {germanWords.map((word, i) => {
             const matchedColor = matchColors[word];
@@ -73,7 +71,7 @@ export default function ConnectWordsPage() {
               <div
                 key={i}
                 onClick={() => handleSelect(word, 'german')}
-                className={`cursor-pointer p-3 my-2 rounded-xl border-b-4 shadow-md text-sm font-medium transform transition duration-300 hover:scale-80 
+                className={`cursor-pointer p-3 my-4 rounded-xl border-b-4 shadow-md text-md font-medium transform transition duration-300 hover:scale-80 
                   ${matchedColor
                     ? `pointer-events-none opacity-90`
                     : selected.german === word ? 'bg-orange-200 border-orange-700 scale-85' : 'bg-white font-bold'
@@ -97,7 +95,7 @@ export default function ConnectWordsPage() {
               <div
                 key={i}
                 onClick={() => handleSelect(word, 'english')}
-                className={`cursor-pointer p-3 my-2 rounded-xl border-b-4 shadow-md text-sm font-medium transform transition duration-300 hover:scale-80 
+                className={`cursor-pointer p-3 my-4 rounded-xl border-b-4 shadow-md text-md font-medium transform transition duration-300 hover:scale-80 
                   ${matchedColor
                     ? 'pointer-events-none opacity-85'
                     : selected.english === word ? 'bg-orange-200 border-orange-700  scale-90 ' : 'bg-white font-bold'
@@ -118,6 +116,7 @@ export default function ConnectWordsPage() {
       {/* <div className="mt-8 text-lg">
         ✅ Matches: {matches.length} / {pairs.length}
       </div> */}
+      <button className='bg-orange-300 w-4/5 md:w-2/6 px-4  mt-2 rounded-xl border-b-7 border-orange-900 py-2'>Next</button>
     </div>
   );
 }
