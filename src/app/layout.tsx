@@ -37,6 +37,9 @@ export default function RootLayout({
           </div>
         </div>
         {children}
+        <footer className="border-t mt-10 border-black/10 text-black/70 pt-2 text-sm pl-2 w-full">
+          Created and designed by Debora Maciel
+        </footer>
       </body>
     </html>
   );

@@ -89,10 +89,6 @@ export default function Home() {
             </Link>
           </div>
         </div>
-
-        <footer className="border-t border-black/10 text-black/70 pt-2 text-sm pl-2 w-full">
-          Created by Debora Maciel
-        </footer>
       </div>
     </div>
   )

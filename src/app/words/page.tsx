@@ -98,7 +98,7 @@ export default function Words() {
     if (words.length === 0) return null;
 
     return (
-        <div className="bg-orange-100 w-full h-full xl:rounded-lg flex items-center justify-center p-4">
+        <div className="w-full h-full xl:rounded-lg flex items-center justify-center p-4">
             <div className="flex flex-col justify-start items-start w-full h-full">
                 <Link href={'/words/choose-language'} className="w-full h-[70px] flex items-center justify-end text-3xl xl:text-5xl font-bolder ">
                     <div className="bg-red-100 border border-b-5 border-l-5 border-r-0 text-red-900 montserrat-semibold rounded-lg p-1">{unknownWords.length}</div>
