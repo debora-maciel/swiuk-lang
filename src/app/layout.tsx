@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import { FaUserAstronaut } from "react-icons/fa6";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,6 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="pl-5 border-b border-black/10 text-base py-2 montserrat-black w-full text-left flex items-center justify-between px-4">
+          <Link href={'/'} className="">Swiuk Lang</Link>
+          <div className="rounded-full bg-black border border-cyan-500 text-white px-1 pt-2">
+            <FaUserAstronaut size={30} />
+          </div>
+        </div>
         {children}
       </body>
     </html>

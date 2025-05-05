@@ -12,7 +12,6 @@ export default function WordLayout({
                 <Link href={'/'} className="text-orange-700 text-5xl">
                     <IoArrowBackCircle />
                 </Link>
-                <Link href={'/'} className="">Swiuk Lang</Link>
             </div>
             {children}
         </div>
