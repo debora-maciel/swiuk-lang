@@ -23,7 +23,7 @@ export default function ConnectWordsPage() {
   const [matches, setMatches] = useState<[string, string][]>([]);
   const [matchColors, setMatchColors] = useState<{ [key: string]: string }>({});
 
-  useEffect(() => {
+  function setup() {
     const allEntries = Object.entries(data) as [string, string | string[]][];
     const filtered = allEntries.filter(([_, val]) => typeof val === 'string');
     const randomItems = filtered.sort(() => 0.5 - Math.random()).slice(0, 10);
@@ -35,6 +35,10 @@ export default function ConnectWordsPage() {
     setPairs(mappedPairs);
     setGermanWords(shuffledGerman);
     setEnglishWords(shuffledEnglish);
+  }
+
+  useEffect(() => {
+    setup();
   }, []);
 
   const handleSelect = (word: string, type: 'german' | 'english') => {
@@ -62,7 +66,21 @@ export default function ConnectWordsPage() {
 
   return (
     <div className="text-center p-6 bg-orange-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Connect Words</h1>
+      <div className="text-3xl font-bold mb-6 flex items-start justify-between">
+        <button>
+          x
+        </button>
+        <b>
+          Connect Words
+        </b>
+        <div className="rounded-xl font-bold text-xs flex flex-col items-center justify-end uppercase w-max bg-white shadow-md p-2">
+          <b className='text-5xl font-black'>{matches.length}</b>
+          Matches
+        </div>
+      </div>
+      <h1 className="text-xl font-bold flex items-start justify-end uppercase w-full">
+        {/* / {pairs.length} */}
+      </h1>
       <div className="flex items-start justify-center gap-5">
         <div>
           {germanWords.map((word, i) => {
@@ -78,7 +96,7 @@ export default function ConnectWordsPage() {
                   }
                 `}
                 style={{
-                  opacity: matchedColor ? 0.4 : 1,
+                  opacity: matchedColor ? 0.6 : 1,
                   backgroundColor: matchedColor || '',
                   borderColor: 'black',
                 }}
@@ -102,7 +120,7 @@ export default function ConnectWordsPage() {
                   }
                   `}
                 style={{
-                  opacity: matchedColor ? 0.4 : 1,
+                  opacity: matchedColor ? 0.6 : 1,
                   backgroundColor: matchedColor || '',
                   borderColor: 'black',
                 }}
@@ -113,10 +131,10 @@ export default function ConnectWordsPage() {
           })}
         </div>
       </div>
-      {/* <div className="mt-8 text-lg">
-        ✅ Matches: {matches.length} / {pairs.length}
-      </div> */}
-      <button className='bg-orange-300 w-4/5 md:w-2/6 px-4  mt-2 rounded-xl border-b-7 border-orange-900 py-2'>Next</button>
+      <button onClick={setup}
+        // disabled={matches.length != pairs.length}
+        // style={{ opacity: matches.length != pairs.length ? 0.5 : 1 }}
+        className='bg-orange-300 w-4/5 md:w-2/6 px-4  mt-2 rounded-xl border-b-7 border-orange-900 py-2'>Next</button>
     </div>
   );
 }
