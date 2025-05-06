@@ -8,6 +8,17 @@ export default function Home() {
   return (
     <div className="w-full overflow-y-scroll pt-4">
       <div className="flex items-center justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
+
+        <div className="w-5/6 px-4 mx-auto">
+          <h1 className="font-bold mb-2 text-lg text-black/90">
+            Welcome to Swiuk Lang
+          </h1>
+          <p className="text-[15px] text-black/70">
+            An immersive environment to expand your German and English vocabulary through structured
+            learning, interactive tools, and integrated translation features.
+          </p>
+        </div>
+
         <div className="border-black text-black w-5/6 border border-black/10 rounded py-3" >
           <div className="pl-19 leading-3 font-bold text-md">Words</div>
           <div className="flex items-start pr-3 gap-3">
@@ -75,7 +86,7 @@ export default function Home() {
               <MdOutlineGTranslate size={30} />
             </div>
             <p className="p-2 text-black/70 leading-5 text-sm">
-                No need to get out of the platform to translate a word. Why navigate to the internet if you can translate a word right here?
+              No need to get out of the platform to translate a word. Why navigate to the internet if you can translate a word right here?
             </p>
           </div>
           <div className="flex gap-2 items-center justify-end pr-5 pt-4 border-t mt-1 border-black/10 rounded-r-xl">
