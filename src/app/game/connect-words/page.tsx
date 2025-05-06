@@ -1,19 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import data from './data/eng_germ_dict.json';
-
-const getRandomColor = () => {
-  const r = 100 + Math.floor(Math.random() * 155);
-  const g = 100 + Math.floor(Math.random() * 155);
-  const b = 100 + Math.floor(Math.random() * 155);
-  return `rgb(${r}, ${g}, ${b})`;
-};
-
-const playSound = (src: string) => {
-  const audio = new Audio(src);
-  audio.play();
-};
+import data from '../../data/eng_germ_dict.json';
+import { utils } from '@/utils/utils';
 
 export default function ConnectWordsPage() {
   const [pairs, setPairs] = useState<[string, string][]>([]);
@@ -26,7 +15,7 @@ export default function ConnectWordsPage() {
   function setup() {
     const allEntries = Object.entries(data) as [string, string | string[]][];
     const filtered = allEntries.filter(([_, val]) => typeof val === 'string');
-    const randomItems = filtered.sort(() => 0.5 - Math.random()).slice(0, 10);
+    const randomItems = filtered.sort(() => 0.5 - Math.random()).slice(0, 6);
 
     const mappedPairs: [string, string][] = randomItems.map(([eng, ger]) => [ger as string, eng]);
     const shuffledGerman = mappedPairs.map(p => p[0]).sort(() => 0.5 - Math.random());
@@ -47,16 +36,16 @@ export default function ConnectWordsPage() {
     if (updated.german && updated.english) {
       const found = pairs.find(([g, e]) => g === updated.german && e === updated.english);
       if (found) {
-        const newColor = getRandomColor();
+        const newColor = utils.getRandomColor();
         setMatches([...matches, found]);
         setMatchColors(prev => ({
           ...prev,
           [found[0]]: newColor,
           [found[1]]: newColor,
         }));
-        playSound('/correct.mp3');
+        utils.playSound('/correct.mp3');
       } else {
-        playSound('/wrong.mp3');
+        utils.playSound('/wrong.mp3');
       }
       setSelected({ german: null, english: null });
     } else {
@@ -65,11 +54,8 @@ export default function ConnectWordsPage() {
   };
 
   return (
-    <div className="text-center p-6 bg-orange-100 min-h-screen">
+    <div className="text-center p-6 min-h-screen">
       <div className="text-3xl font-bold mb-6 flex items-start justify-between">
-        <button>
-          x
-        </button>
         <b>
           Connect Words
         </b>

@@ -3,12 +3,11 @@ import { IoGameController } from "react-icons/io5";
 import { IoIosInformation } from "react-icons/io";
 import { MdOutlineGTranslate } from "react-icons/md";
 import Link from 'next/link';
-import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="w-full overflow-y-scroll pt-4">
-      <div className="flex items-start justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
+      <div className="flex items-center justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
         <div className="border-black text-black w-5/6 border border-black/10 rounded py-3" >
           <div className="pl-19 leading-3 font-bold text-md">Words</div>
           <div className="flex items-start pr-3 gap-3">
@@ -20,20 +19,28 @@ export default function Home() {
             </p>
           </div>
           <div className="flex items-center gap-2 justify-end pr-5 pt-4 border-t mt-1 border-black/10 rounded-r-xl text-black/50">
-            <div className="w-full flex items-center gap-4 pl-10">
-              <div className="flex flex-col items-center justify-center text-sm font-black w-[40px] gap-1">
-                <Image src="/german.png" alt="de" width={50} height={50} className="rounded" />
-                120
+            <div className="w-full flex items-start gap-4 pl-10">
+              <div className="flex border border-black/20  rounded-t-full flex-col items-center justify-center text-sm font-black w-[40px] gap-1">
+                <div className="border-b border-black/20 text-black/60 py-2 text-xs font-bold">
+                  DE
+                </div>
+                <div className="text-md text-black/60 font-[900]">
+                  120
+                </div>
               </div>
-              <div className="flex flex-col items-center justify-center text-sm font-bold w-[40px] gap-1">
-                <Image src="/english.avif" alt="de" width={50} height={50} className="rounded" />
-                300
+              <div className="flex border border-black/20  rounded-t-full flex-col items-center justify-center text-sm font-black w-[40px] gap-1">
+                <div className="border-b border-black/20 text-black/60 py-2 text-xs font-bold">
+                  EN
+                </div>
+                <div className="text-md text-black/60 font-[900]">
+                  300
+                </div>
               </div>
             </div>
             <button className="rounded-full border border-black/20 text-black/50">
               <IoIosInformation size={40} />
             </button>
-            <Link href={'/words/choose-language'}
+            <Link href={'/words/'}
               className="text-white bg-black border border-black/30 rounded-full text-md py-2 px-4 font-[600]">
               Continue
             </Link>
@@ -46,12 +53,12 @@ export default function Home() {
               <IoGameController size={30} />
             </div>
             <p className="p-2 text-black/70 leading-5 text-sm">
-              Here you can have register words that you already know and also learn new ones if you do not know them yet.
+              Game to connect words and it{"'"}s translation/meaning.
             </p>
           </div>
           <div className="flex gap-2 items-center justify-end pr-5 pt-4 border-t mt-1 border-black/10 rounded-r-xl text-black/70">
             <div className="w-full flex items-center gap-4 pl-10">
-              <div className="flex font-normal text-sm font-black gap-1 border px-2 rounded border-black/20">
+              <div className="flex font-normal text-sm font-black gap-1 border px-2 rounded-full border-black/20">
                 Matches: <b className="text-black/60">23</b>
               </div>
             </div>
@@ -68,7 +75,7 @@ export default function Home() {
               <MdOutlineGTranslate size={30} />
             </div>
             <p className="p-2 text-black/70 leading-5 text-sm">
-              Here you can have register words that you already know and also learn new ones if you do not know them yet.
+                No need to get out of the platform to translate a word. Why navigate to the internet if you can translate a word right here?
             </p>
           </div>
           <div className="flex gap-2 items-center justify-end pr-5 pt-4 border-t mt-1 border-black/10 rounded-r-xl">
@@ -83,7 +90,7 @@ export default function Home() {
             <button className="rounded-full border border-black/20 text-black/50">
               <IoIosInformation size={40} />
             </button>
-            <Link href={'/game/connect-words'}
+            <Link href={'/translation'}
               className="text-white bg-black border border-black/30 rounded-full text-md py-2 px-4 font-[600]">
               Navigate
             </Link>

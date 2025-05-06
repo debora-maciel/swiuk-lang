@@ -1,6 +1,3 @@
-import { IoArrowBackCircle } from "react-icons/io5";
-import Link from "next/link";
-
 export default function WordLayout({
     children,
 }: {
@@ -8,11 +5,6 @@ export default function WordLayout({
 }) {
     return (
         <div className="w-full h-screen flex flex-col items-start justify-start overflow-y-scroll">
-            <div className="pl-5 text-xl pt-4 montserrat-black w-full text-left flex items-center justify-between px-4">
-                <Link href={'/'} className="text-black text-5xl">
-                    <IoArrowBackCircle />
-                </Link>
-            </div>
             {children}
         </div>
     );
