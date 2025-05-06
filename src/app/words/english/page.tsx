@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import data from "./../../data/woerter.json";
+import data from "./../../data/words.json";
 import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import { IoArrowBackCircle, IoCheckmark } from "react-icons/io5";
@@ -147,7 +147,7 @@ export default function EnglishWords() {
                     </div>
                     <div className="w-full p-1 mt-1 max-h-[30%] min-h-[30%] px-4">
                         <div className="bg-slate-200/50 rounded-lg p-4 shadow-md border-dashed border-2 border-slate-300 h-full overflow-y-scroll">
-                            {wordData?.MEANINGS.map((meaning, index) => (
+                            {wordData?.MEANINGS && wordData?.MEANINGS.map((meaning, index) => (
                                 <div key={index} className="text-sm xl:text-lg text-slate-700 mb-3">
                                     <div className="font-bold text-slate-800">[{meaning[0]}]</div>
                                     <div className="">{meaning[1]}</div>
@@ -156,7 +156,7 @@ export default function EnglishWords() {
                             ))}
                             <div className="text-sm xl:text-lg font-bold text-slate-800">[Synonyms]</div>
                             <div className="text-sm xl:text-lg text-gray-700 mb-3 flex pt-1 flex flex-wrap gap-2">
-                                {wordData?.SYNONYMS.map((syn, index) => (
+                                {wordData?.SYNONYMS && wordData?.SYNONYMS.map((syn, index) => (
                                     <a href={"https://www.google.com/search?q=" + syn} className="border rounded-lg bg-slate-300/30 text-gray-800 text-sm border-slate-800/20 px-2 w-max" key={index}>{syn}</a>
                                 ))}
                             </div>

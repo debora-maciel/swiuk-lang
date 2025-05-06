@@ -1,8 +1,9 @@
 'use client';
-
-import { useEffect, useState } from 'react';
+import { IoArrowBackCircle } from 'react-icons/io5';
 import data from '../../data/eng_germ_dict.json';
+import { useEffect, useState } from 'react';
 import { utils } from '@/utils/utils';
+import Link from 'next/link';
 
 export default function ConnectWordsPage() {
   const [pairs, setPairs] = useState<[string, string][]>([]);
@@ -15,7 +16,7 @@ export default function ConnectWordsPage() {
   function setup() {
     const allEntries = Object.entries(data) as [string, string | string[]][];
     const filtered = allEntries.filter(([_, val]) => typeof val === 'string');
-    const randomItems = filtered.sort(() => 0.5 - Math.random()).slice(0, 6);
+    const randomItems = filtered.sort(() => 0.5 - Math.random()).slice(0, 8);
 
     const mappedPairs: [string, string][] = randomItems.map(([eng, ger]) => [ger as string, eng]);
     const shuffledGerman = mappedPairs.map(p => p[0]).sort(() => 0.5 - Math.random());
@@ -54,20 +55,25 @@ export default function ConnectWordsPage() {
   };
 
   return (
-    <div className="text-center p-6 min-h-screen">
-      <div className="text-3xl font-bold mb-6 flex items-start justify-between">
-        <b>
+    <div className="text-center bg-white py-6 min-h-screen">
+      <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
+        <Link href={'/'} className="text-black text-5xl">
+          <IoArrowBackCircle />
+        </Link>
+        <div>
           Connect Words
-        </b>
-        <div className="rounded-xl font-bold text-xs flex flex-col items-center justify-end uppercase w-max bg-white shadow-md p-2">
-          <b className='text-5xl font-black'>{matches.length}</b>
-          Matches
         </div>
       </div>
-      <h1 className="text-xl font-bold flex items-start justify-end uppercase w-full">
-        {/* / {pairs.length} */}
-      </h1>
-      <div className="flex items-start justify-center gap-5">
+      <div className='flex justify-end px-6 pb-2'>
+        <div className='border text-black/80 border-black/10 w-min flex flex-col rounded-lg px-2 py-1'>
+          <div className='text-xs'>Matches</div>
+          <div className='font-bold text-lg'>
+            {matches.length}
+          </div>
+        </div>
+      </div>
+      <hr className="text-black/10" />
+      <div className="flex items-start justify-center gap-5 px-4 bg-white">
         <div>
           {germanWords.map((word, i) => {
             const matchedColor = matchColors[word];
@@ -75,16 +81,15 @@ export default function ConnectWordsPage() {
               <div
                 key={i}
                 onClick={() => handleSelect(word, 'german')}
-                className={`cursor-pointer p-3 my-4 rounded-xl border-b-4 shadow-md text-md font-medium transform transition duration-300 hover:scale-80 
+                className={`cursor-pointer py-2 px-3 my-4 border text-black/80 border-black/10 rounded-full shadow-md text-base font-medium transform transition duration-300 hover:scale-80 
                   ${matchedColor
-                    ? `pointer-events-none opacity-90`
-                    : selected.german === word ? 'bg-orange-200 border-orange-700 scale-85' : 'bg-white font-bold'
+                    ? `pointer-events-none`
+                    : selected.german === word ? 'bg-slate-200 scale-80 border-dashed' : ' font-bold'
                   }
                 `}
                 style={{
-                  opacity: matchedColor ? 0.6 : 1,
-                  backgroundColor: matchedColor || '',
-                  borderColor: 'black',
+                  opacity: matchedColor ? 0.7 : 1,
+                  backgroundColor: matchedColor || ''
                 }}
               >
                 {word}
@@ -99,16 +104,15 @@ export default function ConnectWordsPage() {
               <div
                 key={i}
                 onClick={() => handleSelect(word, 'english')}
-                className={`cursor-pointer p-3 my-4 rounded-xl border-b-4 shadow-md text-md font-medium transform transition duration-300 hover:scale-80 
+                className={`cursor-pointer py-2 px-3 font-light border border-black/10 my-4 rounded-full shadow-md text-base font-medium transform transition duration-300 hover:scale-80 
                   ${matchedColor
                     ? 'pointer-events-none opacity-85'
-                    : selected.english === word ? 'bg-orange-200 border-orange-700  scale-90 ' : 'bg-white font-bold'
+                    : selected.english === word ? 'bg-gray-200 scale-80 border-dashed' : '  font-bold'
                   }
                   `}
                 style={{
-                  opacity: matchedColor ? 0.6 : 1,
+                  opacity: matchedColor ? 0.7 : 1,
                   backgroundColor: matchedColor || '',
-                  borderColor: 'black',
                 }}
               >
                 {word}
@@ -117,10 +121,11 @@ export default function ConnectWordsPage() {
           })}
         </div>
       </div>
+      <hr className='my-4 text-black/10' />
       <button onClick={setup}
         // disabled={matches.length != pairs.length}
         // style={{ opacity: matches.length != pairs.length ? 0.5 : 1 }}
-        className='bg-orange-300 w-4/5 md:w-2/6 px-4  mt-2 rounded-xl border-b-7 border-orange-900 py-2'>Next</button>
+        className='bg-black text-white px-10 mt-2 rounded-full py-2'>Next</button>
     </div>
   );
 }

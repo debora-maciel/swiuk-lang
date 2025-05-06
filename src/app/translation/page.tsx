@@ -2,8 +2,11 @@
 import { PiCopy } from "react-icons/pi";
 
 import { useEffect, useRef, useState } from 'react';
+import { GoArrowSwitch } from "react-icons/go";
 import Link from 'next/link';
 import dict from '../data/eng_germ_dict.json';
+import { HiMiniXMark } from "react-icons/hi2";
+import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoArrowBackCircle } from 'react-icons/io5';
 import debounce from 'lodash.debounce';
 
@@ -50,8 +53,9 @@ export default function Translator() {
     }, 150);
 
     const handleChange = (value: string) => {
+        handleTranslate(value);
         setInput(value);
-        setTranslation(null);
+        // setTranslation(null);
         setHighlightIndex(-1);
         debouncedUpdateSuggestions(value);
     };
@@ -130,7 +134,6 @@ export default function Translator() {
 
     return (
         <>
-            {/* Toast */}
             {showToast && (
                 <div className="fixed bottom-20 right-5 bg-black text-white px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 z-50">
                     Copied to clipboard!
@@ -144,71 +147,82 @@ export default function Translator() {
                 <h1 className="text-2xl font-bold mb-4 w-4/6 pt-4">Translator</h1>
             </div>
 
-            <div className="p-4 max-w-md mx-auto text-center relative">
-                <div className="flex justify-center items-center gap-4 mb-4">
-                    <span>{direction === 'de-en' ? 'Deutsch → English' : 'English → Deutsch'}</span>
+            <div className="max-w-lg mx-auto text-center relative w-full">
+                <div className="flex justify-center items-center gap-4 mb-4 w-full">
+                    <span>{direction === 'de-en' ? (<div className="flex items-center gap-3">Deutsch <IoIosArrowRoundForward /> English</div>) : <div className="flex items-center gap-3"> English<IoIosArrowRoundForward />Deutsch</div>}</span>
                     <button
                         onClick={handleSwitch}
-                        className="bg-gray-200 px-3 py-1 rounded text-sm"
+                        className="bg-gray-200 px-3 py-1 rounded text-sm flex items-center gap-1"
                     >
-                        ↔ Switch
+                        <GoArrowSwitch /> Switch
                     </button>
                 </div>
 
-                <input
-                    type="text"
-                    className="border p-2 w-full rounded-lg pl-4"
-                    placeholder={direction === 'de-en' ? 'Type a German word' : 'Type an English word'}
-                    value={input}
-                    onChange={(e) => handleChange(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    onBlur={() => setTimeout(() => setSuggestions([]), 100)}
-                />
+                <div className="flex items-center w-full justify-center h-full flex-col">
+                    <div
+                        className={`flex items-start border-t h-full w-full border-black/10 `}>
+                        <input
+                            type="text"
+                            className="p-2 w-full pl-4 focus:outline-none text-base focus:border-black"
+                            placeholder={direction === 'de-en' ? 'Type a German word' : 'Type an English word'}
+                            value={input}
+                            onChange={(e) => handleChange(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            onBlur={() => setTimeout(() => setSuggestions([]), 100)}
+                        />
+                        <div className="pr-2 pt-2 cursor-pointer" onClick={() => {setInput(''); setTranslation('')}}>
+                            <HiMiniXMark size={20} />
+                        </div>
+                    </div>
 
-                {suggestions.length > 0 && (
-                    <ul
-                        ref={suggestionsRef}
-                        className="absolute z-10 bg-white border w-full text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md"
-                    >
-                        {suggestions.map((sug, index) => (
-                            <li
-                                key={sug}
-                                className={`px-3 py-2 cursor-pointer ${index === highlightIndex ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50'
-                                    }`}
-                                onMouseDown={() => handleSelectSuggestion(sug)}
-                            >
-                                {boldMatch(sug)}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                    {suggestions.length > 0 && (
+                        <ul
+                            ref={suggestionsRef}
+                            className="absolute z-10 bg-white border-0 w-full text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[80%]"
+                        >
+                            {suggestions.map((sug, index) => (
+                                <li
+                                    key={sug}
+                                    className={`px-3 py-2 cursor-pointer ${index === highlightIndex ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50'
+                                        }`}
+                                    onMouseDown={() => handleSelectSuggestion(sug)}
+                                >
+                                    {boldMatch(sug)}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
 
-                <button
+                    {/* <button
                     onClick={() => handleTranslate()}
                     className="bg-black text-white px-4 py-2 rounded-lg w-full mt-2"
                 >
                     Translate
-                </button>
+                </button> */}
 
-                {translation && (
-                    <div className="mt-20 text-lg flex flex-col items-center gap-2">
-                        <div className="flex items-center flex-col w-full rounded border-[0.9px] border-slate-300 bg-slate-300/10">
-                            <div className="relative group flex items-center justify-end w-full">
-                                <button
-                                    onClick={handleCopy}
-                                    className="text-xs cursor-pointer flex items-center gap-1 text-gray-700 px-2 py-1 rounded hover:text-black"
-                                >
-                                    <PiCopy /> Copy
-                                </button>
+                    {translation && (
+                        <div className="h-full text-lg flex flex-col items-center gap-2 w-full">
+                            <div className="flex items-center flex-col w-full 
+                             border-[0.9px] h-full border-slate-300 bg-slate-300/10">
+                                <div className="relative group flex items-center justify-end w-full pt-2">
+
+                                    <span className="flex items-start justify-start text-base h-full w-full pl-4">
+                                        {Array.isArray(translation)
+                                            ? translation.join(', ')
+                                            : translation}
+                                    </span>
+
+                                    <button
+                                        onClick={handleCopy}
+                                        className="text-xs cursor-pointer flex items-center gap-1 text-gray-700 px-2 py-1 rounded hover:text-black"
+                                    >
+                                        <PiCopy /> Copy
+                                    </button>
+                                </div>
                             </div>
-                            <span className="pb-4">
-                                {Array.isArray(translation)
-                                    ? translation.join(', ')
-                                    : translation}
-                            </span>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </>
     );
