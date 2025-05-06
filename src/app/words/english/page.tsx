@@ -98,7 +98,7 @@ export default function EnglishWords() {
 
                 <div className="flex flex-col justify-start items-start w-full h-full">
                     <div className="flex items-center justify-end w-full px-4">
-                        <Link href={'/words/choose-language'} className="w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4">
+                        <Link href={'/words/english/list'} className="w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4">
                             <div className="flex flex-col items-center justify-center border border-black/10 rounded-l-lg py-1 px-2">
                                 <div className="text-xs text-black/60">
                                     Unknown
