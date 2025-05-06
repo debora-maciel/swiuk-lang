@@ -15,8 +15,8 @@ export default function ListWords() {
     const [viewKnown, setViewKnown] = useState(true);
 
     function onLoad() {
-        const known = JSON.parse(localStorage.getItem("knownWords") || "[]");
-        const notKnown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
+        const known = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
+        const notKnown = JSON.parse(localStorage.getItem("DEunknownWords") || "[]");
 
         setKnownWords(known);
         setUnknownWords(notKnown);
@@ -27,22 +27,22 @@ export default function ListWords() {
     }, []);
 
     function onRemoveKnownWord(word: string) {
-        let notKnown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
+        let notKnown = JSON.parse(localStorage.getItem("DEunknownWords") || "[]");
         if (!Array.isArray(notKnown)) notKnown = [];
 
-        localStorage.setItem("knownWords", JSON.stringify(knownWords.filter((w) => w !== word)));
-        localStorage.setItem("unknownWords", JSON.stringify([...notKnown, word]));
+        localStorage.setItem("DEknownWords", JSON.stringify(knownWords.filter((w) => w !== word)));
+        localStorage.setItem("DEunknownWords", JSON.stringify([...notKnown, word]));
 
         onLoad();
     }
 
 
     function onAddKnownWord(word: string) {
-        let known = JSON.parse(localStorage.getItem("knownWords") || "[]");
+        let known = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
         if (!Array.isArray(known)) known = [];
 
-        localStorage.setItem("unknownWords", JSON.stringify(unknownWords.filter((w) => w !== word)));
-        localStorage.setItem("knownWords", JSON.stringify([...known, word]));
+        localStorage.setItem("DEunknownWords", JSON.stringify(unknownWords.filter((w) => w !== word)));
+        localStorage.setItem("DEknownWords", JSON.stringify([...known, word]));
 
         onLoad();
     }
@@ -54,7 +54,7 @@ export default function ListWords() {
     return (
         <div className="w-full py-2 flex flex-col">
             <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-                <Link href={'/words/english'} className="text-black text-5xl">
+                <Link href={'/words/deutsch'} className="text-black text-5xl">
                     <IoArrowBackCircle />
                 </Link>
                 <div>
