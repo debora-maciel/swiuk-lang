@@ -2,15 +2,16 @@
 import { Modal } from "antd"
 import debounce from "lodash.debounce";
 import { useEffect, useRef, useState } from "react";
-import data from '../../data/eng_germ_dict.json';
+import dataDE from '../../data/eng_germ_dict.json';
+import dataEN from "./../../data/words.json";
 import { IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 
 interface INewModal {
-    known: 'DEknownWords';
+    known: 'DEknownWords' | "knownWords";
     icon: 'small' | 'default';
-    unknown: 'DEunknownWords';
+    unknown: 'DEunknownWords' | "unknownWords";
     onOk?: () => void;
     lang: 'DE' | 'EN'
 }
@@ -37,12 +38,12 @@ export default function NewWord(props: INewModal) {
     };
 
     const debouncedUpdateSuggestions = debounce((value: string) => {
-        const dic = props.lang === 'DE' ? Object.keys(data) : Object.values(data);
+        const dic = props.lang === 'DE' ? Object.keys(dataDE) : Object.keys(dataEN);
 
         const filtered = dic
             .filter((word): word is string => typeof word === 'string')
             .filter((word) => word.toLowerCase().startsWith(value.toLowerCase()))
-            .slice(0, 5);
+            .slice(0, 400);
 
         setSuggestions(value ? filtered : []);
     }, 150);
@@ -129,7 +130,7 @@ export default function NewWord(props: INewModal) {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    });
+    }, [null]);
 
     return (
         <div>
@@ -140,7 +141,9 @@ export default function NewWord(props: INewModal) {
                     + New word
                 </button>
                 :
-                <button className="cursor-pointer flex items-center border rounded-full border-gray-700/20 text-black/80 p-2">
+                <button
+                    onClick={showModal}
+                    className="cursor-pointer flex items-center border rounded-full border-gray-700/20 text-black/80 p-2">
                     <BsPlus size={25} />
                 </button>
             }
@@ -180,7 +183,7 @@ export default function NewWord(props: INewModal) {
                         onChange={(e) => handleChange(e.target.value)}
                         onBlur={() => setTimeout(() => setSuggestions([]), 100)}
                         onKeyDown={handleKeyDown}
-                        className="w-full px-2 py-2 focus:outline-none focus:ring-0" placeholder="Search for word" />
+                        className={`w-full px-2 py-2 focus:outline-none focus:ring-0 ${props.lang === 'EN' ? 'lowercase' : ''}`} placeholder="Search for word" />
                 </div>
                 {
                     word.length > 0 &&
@@ -192,7 +195,7 @@ export default function NewWord(props: INewModal) {
                                 <HiMiniXMark size={15} />
                             </div>
                         </div>
-                        <b className="text-lg pl-4 pb-3">
+                        <b className={`${props.lang === 'EN' ? 'lowercase' : ''} text-lg pl-4 pb-3`}>
                             {word}
                         </b>
                     </div>
@@ -208,7 +211,7 @@ export default function NewWord(props: INewModal) {
                             {suggestions.map((sug, index) => (
                                 <li
                                     key={sug}
-                                    className={`px-3 py-2 cursor-pointer ${index === highlightIndex ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50'
+                                    className={`px-3 py-2 cursor-pointer ${props.lang === 'EN' ? 'lowercase' : ''} ${index === highlightIndex ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50'
                                         }`}
                                     onMouseDown={() => handleSelectSuggestion(sug)}
                                 >

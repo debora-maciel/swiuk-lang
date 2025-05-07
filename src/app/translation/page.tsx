@@ -115,7 +115,7 @@ export default function Translator() {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    });
+    }, [null]);
 
     const boldMatch = (suggestion: string) => {
         const i = suggestion.toLowerCase().indexOf(input.toLowerCase());
