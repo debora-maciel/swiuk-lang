@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { colors } from './core/variables/colors';
 import Link from "next/link";
 import { FaUserAstronaut } from "react-icons/fa6";
 
@@ -28,15 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${colors.border10} antialiased max-w-md mx-auto border-x h-full bg-black/20 dark:bg-black`}
       >
-        <div className="pl-5 border-b border-black/10 text-base py-2 montserrat-black w-full text-left flex items-center justify-between px-4">
-          <Link href={'/'} className="">Swiuk Lang</Link>
-          <div className="rounded-full bg-black border border-cyan-500 text-white px-1 pt-2">
+        <div className="bg-white dark:bg-black pl-5 border-b border-black/10 dark:border-white/40 text-base py-2 montserrat-black w-full text-left flex items-center justify-between px-4">
+          <Link href={'/'} className={colors.text}>Swiuk Lang</Link>
+          <div className={`${colors.textReverse} ${colors.backgroundReverse} rounded-full border border-cyan-500 px-1 pt-2`}>
             <FaUserAstronaut size={30} />
           </div>
         </div>
-        {children}
+        <div  className={colors.background}>
+          {children}
+        </div>
         {/* <footer className="border-t mt-10 border-black/10 text-black/70 pt-2 text-sm pl-2 w-full">
           Created and designed by Debora Maciel
         </footer> */}
