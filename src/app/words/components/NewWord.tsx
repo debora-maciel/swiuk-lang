@@ -7,35 +7,28 @@ import dataEN from "./../../data/words.json";
 import { IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
+import { useGlobalMessage } from "@/app/core/components/Message";
 
 interface INewModal {
     known: 'DEknownWords' | "knownWords";
     icon: 'small' | 'default';
     unknown: 'DEunknownWords' | "unknownWords";
     onOk?: () => void;
-    lang: 'DE' | 'EN'
+    lang: 'DE' | 'EN';
 }
 
 export default function NewWord(props: INewModal) {
+    const { openMessage, contextHolder } = useGlobalMessage();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [input, setInput] = useState('');
-    const [alreadyKnown, setAlreadyKnown] = useState(false);
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [highlightIndex, setHighlightIndex] = useState<number>(-1);
     const suggestionsRef = useRef<HTMLUListElement>(null);
-    const [word, setWord] = useState('');
+    const [selectedWords, setSelectedWords] = useState<string[]>([]);
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+    const showModal = () => setIsModalOpen(true);
+    const handleOk = () => setIsModalOpen(false);
+    const handleCancel = () => setIsModalOpen(false);
 
     const debouncedUpdateSuggestions = debounce((value: string) => {
         const dic = props.lang === 'DE' ? Object.keys(dataDE) : Object.keys(dataEN);
@@ -55,16 +48,16 @@ export default function NewWord(props: INewModal) {
     };
 
     const handleSelectSuggestion = (word: string) => {
-        const known = JSON.parse(localStorage.getItem(props.known) || "[]") as [];
+        const known = JSON.parse(localStorage.getItem(props.known) || "[]") as string[];
+        const alreadyInList = selectedWords.includes(word) || known.includes(word);
 
-        if (known.find((c) => c === word)) {
-            setAlreadyKnown(true);
-        } else {
-            setAlreadyKnown(false);
+        if (!alreadyInList) {
+            setSelectedWords(prev => [...prev, word]);
+        }else{
+            openMessage('error', 'Word already known!')
         }
 
-        setInput(word);
-        setWord(word);
+        setInput('');
         setSuggestions([]);
     };
 
@@ -93,36 +86,28 @@ export default function NewWord(props: INewModal) {
         const before = suggestion.slice(0, i);
         const match = suggestion.slice(i, i + input.length);
         const after = suggestion.slice(i + input.length);
-        return (
-            <>
-                {before}
-                <strong>{match}</strong>
-                {after}
-            </>
-        );
+        return (<>{before}<strong>{match}</strong>{after}</>);
     };
 
     function onAddWord() {
-        let known = JSON.parse(localStorage.getItem(props.known) || "[]") as [];
-        const unknownWords = JSON.parse(localStorage.getItem(props.unknown) || "[]") as [];
+        let known = JSON.parse(localStorage.getItem(props.known) || "[]") as string[];
+        const unknownWords = JSON.parse(localStorage.getItem(props.unknown) || "[]") as string[];
 
         if (!Array.isArray(known)) known = [];
 
-        localStorage.setItem(props.unknown, JSON.stringify(unknownWords.filter((w) => w !== word)));
+        const newWords = selectedWords.filter(word => !known.includes(word));
+        const updatedKnown = [...known, ...newWords];
+        const updatedUnknown = unknownWords.filter(word => !newWords.includes(word));
 
-        if (known.find((c) => c === word)) {
-            setAlreadyKnown(true);
-        } else {
-            setAlreadyKnown(false);
-            localStorage.setItem(props.known, JSON.stringify([...known, word]));
-        }
+        localStorage.setItem(props.known, JSON.stringify(updatedKnown));
+        localStorage.setItem(props.unknown, JSON.stringify(updatedUnknown));
 
-        if (props.onOk)
-            props.onOk();
+        if (props.onOk) props.onOk();
 
+
+        openMessage('success', `Word${newWords.length > 1 ? 's' : ''} added succesfully!`)
         handleOk();
-
-        setWord('');
+        setSelectedWords([]);
         setInput('');
     }
 
@@ -130,32 +115,27 @@ export default function NewWord(props: INewModal) {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    }, [null]);
+    }, []);
 
     return (
         <div>
-            {props.icon === 'default' ?
+            {props.icon === 'default' ? (
                 <button
                     onClick={showModal}
                     className="cursor-pointer border border-black/30 text-black/60 font-normal rounded-full px-2 py-1">
                     + New word
                 </button>
-                :
+            ) : (
                 <button
                     onClick={showModal}
                     className="cursor-pointer flex items-center border rounded-full border-gray-700/20 text-black/80 p-2">
                     <BsPlus size={25} />
                 </button>
-            }
-            <Modal open={isModalOpen}
+            )}
+            <Modal
+                open={isModalOpen}
                 onCancel={handleCancel}
-                title={
-                    [
-                        <div key={'title-new-word-modal'} className="leading-4 border-b pb-4 border-black/10">
-                            Add new known word
-                        </div>
-                    ]
-                }
+                title={<div className="leading-4 border-b pb-4 border-black/10">Add new known word</div>}
                 footer={[
                     <div key={'footer-new-word'} className="flex items-center justify-between border-t border-black/10 pt-4">
                         <button
@@ -166,16 +146,17 @@ export default function NewWord(props: INewModal) {
                             Cancel
                         </button>
                         <button
-                            disabled={word.length == 0 && alreadyKnown}
+                            disabled={selectedWords.length === 0}
                             key={'button-submit'}
                             onClick={onAddWord}
-                            style={{ opacity: word.length > 0 && !alreadyKnown ? 1 : 0.4 }}
+                            style={{ opacity: selectedWords.length > 0 ? 1 : 0.4 }}
                             className="bg-black px-6 py-2 border rounded-full text-white"
                         >
                             Confirm
                         </button>
                     </div>
-                ]}>
+                ]}
+            >
                 <div className="border border-black/20 rounded-lg flex items-center pl-2 mt-4">
                     <IoSearchOutline />
                     <input
@@ -183,36 +164,55 @@ export default function NewWord(props: INewModal) {
                         onChange={(e) => handleChange(e.target.value)}
                         onBlur={() => setTimeout(() => setSuggestions([]), 100)}
                         onKeyDown={handleKeyDown}
-                        className={`w-full px-2 py-2 focus:outline-none focus:ring-0 ${props.lang === 'EN' ? 'lowercase' : ''}`} placeholder="Search for word" />
+                        className={`w-full px-2 py-2 focus:outline-none focus:ring-0 ${props.lang === 'EN' ? 'lowercase' : ''}`}
+                        placeholder="Search for word"
+                    />
                 </div>
-                {
-                    word.length > 0 &&
-                    <div className={`${alreadyKnown ? 'bg-lime-100 text-lime-900' : 'bg-slate-100'} rounded-lg my-4 flex flex-col h-min border border-slate-200`}>
-                        <div className="flex items-center justify-between pl-4 pr-2 pt-2">
-                            {alreadyKnown ? 'This word is already known!' : ' Add this word into the Known Words?'}
 
-                            <div onClick={() => { setInput(''); setWord('') }} className="cursor-pointer border rounded-full border-black/50 text-black/60 p-1">
+                {selectedWords.length > 0 && (
+                    <div className="bg-slate-100 rounded-lg my-4 flex flex-col h-min border border-slate-200">
+                        <div className="flex items-center justify-between pl-4 pr-2 pt-2">
+                            Add these words into the Known Words?
+                            <div
+                                onClick={() => {
+                                    setInput('');
+                                    setSelectedWords([]);
+                                }}
+                                className="cursor-pointer border rounded-full border-black/50 text-black/60 p-1"
+                            >
                                 <HiMiniXMark size={15} />
                             </div>
                         </div>
-                        <b className={`${props.lang === 'EN' ? 'lowercase' : ''} text-lg pl-4 pb-3`}>
-                            {word}
-                        </b>
+                        <div className="flex flex-wrap gap-2 p-4">
+                            {selectedWords.map((w, idx) => (
+                                <div
+                                    key={idx}
+                                    className="bg-white border border-gray-300 rounded-full px-3 py-1 text-sm flex items-center gap-2"
+                                >
+                                    <span className={props.lang === 'EN' ? 'lowercase' : ''}>{w}</span>
+                                    <button
+                                        onClick={() => setSelectedWords(prev => prev.filter(word => word !== w))}
+                                        className="text-gray-500 hover:text-red-600"
+                                    >
+                                        <HiMiniXMark size={12} />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                }
+                )}
 
                 <div>
                     {suggestions.length > 0 && (
                         <ul
                             ref={suggestionsRef}
-                            style={{ top: word.length > 0 ? "37%" : "54%" }}
+                            style={{ top: selectedWords.length > 0 ? "37%" : "54%" }}
                             className="absolute z-10 bg-white border-0 w-5/6 text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[37%]"
                         >
                             {suggestions.map((sug, index) => (
                                 <li
                                     key={sug}
-                                    className={`px-3 py-2 cursor-pointer ${props.lang === 'EN' ? 'lowercase' : ''} ${index === highlightIndex ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50'
-                                        }`}
+                                    className={`px-3 py-2 cursor-pointer ${props.lang === 'EN' ? 'lowercase' : ''} ${index === highlightIndex ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50'}`}
                                     onMouseDown={() => handleSelectSuggestion(sug)}
                                 >
                                     {boldMatch(sug)}
@@ -222,7 +222,7 @@ export default function NewWord(props: INewModal) {
                     )}
                 </div>
             </Modal>
+            {contextHolder}
         </div>
-    )
-
+    );
 }
