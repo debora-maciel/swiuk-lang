@@ -89,7 +89,7 @@ export default function Deutsch() {
                     <div className={`flex items-center justify-end w-full px-4`}>
                         <Link href={'/words/deutsch/list'} className={`w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4`}>
                             <div className={`flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2`}>
-                                <div className={`text-xs text-black/60`}>
+                            <div className={`${colors.text60} text-xs`}>
                                     Unknown
                                 </div>
                                 <div className={`${colors.text60} text-xl`}>

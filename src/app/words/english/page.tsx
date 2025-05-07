@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import data from "./../../data/words.json";
 import { HiMiniXMark } from "react-icons/hi2";
-import { IoArrowBackCircle, IoCheckmark } from "react-icons/io5";
+import { IoCheckmark } from "react-icons/io5";
 import LearnMore from "./components/LearnMore";
 import { utils } from "../../../utils/utils";
 import Link from "next/link";
@@ -65,8 +65,6 @@ export default function EnglishWords() {
 
         localStorage.setItem("knownWords", JSON.stringify(knownWords));
 
-        console.log("knownWords", knownWords);
-
         setTimeout(() => {
             setIsCorrect(null);
             setCurrentWord((prev) => (prev + 1) % words.length);
@@ -95,7 +93,7 @@ export default function EnglishWords() {
                     <div className={`flex items-center justify-end w-full px-4`}>
                         <Link href={'/words/english/list'} className={`w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4`}>
                             <div className={`flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2`}>
-                                <div className={`text-xs ${colors.text60}`}>
+                                <div className={`${colors.text60} text-xs`}>
                                     Unknown
                                 </div>
                                 <div className={`${colors.text60} text-xl`}>

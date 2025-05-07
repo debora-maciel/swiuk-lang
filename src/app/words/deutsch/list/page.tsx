@@ -63,21 +63,22 @@ export default function ListWords() {
                     </div>
                 </div>
                 {
-                    viewKnown ? (
-                        <ListWordTable key={'known deutsch'}
-                            data={knownWords}
-                            title="Known Words"
-                            known="DEknownWords"
-                            unknown="DEunknownWords"
-                            lang={"DE"}
-                            onLoad={onLoad}
-                            searchString={searchKnown}
-                            setSearchString={setSearchKnown}
-                            onAddKnownWord={onAddKnownWord}
-                            onRemoveKnownWord={onRemoveKnownWord}
-                            isKnown={true}
-                        />
-                    )
+                    viewKnown ?
+                        (
+                            <ListWordTable key={'known deutsch'}
+                                data={knownWords}
+                                title="Known Words"
+                                known="DEknownWords"
+                                unknown="DEunknownWords"
+                                lang={"DE"}
+                                onLoad={onLoad}
+                                searchString={searchKnown}
+                                setSearchString={setSearchKnown}
+                                onAddKnownWord={onAddKnownWord}
+                                onRemoveKnownWord={onRemoveKnownWord}
+                                isKnown={true}
+                            />
+                        )
                         :
                         (
                             <ListWordTable

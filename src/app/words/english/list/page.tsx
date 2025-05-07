@@ -7,6 +7,7 @@ import { IoIosSearch } from "react-icons/io";
 import { IoIosRemove } from "react-icons/io";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import NewWord from "../../components/NewWord";
+import ListWordTable from "../../components/ListWord";
 
 export default function ListWords() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
@@ -75,102 +76,37 @@ export default function ListWords() {
                 </div>
                 {
                     viewKnown ? (
-                        <table className=" border-separate rounded-l-lg border-spacing-2 border border-black/10 dark:border-black/10 px-4">
-                            <thead className="">
-                                <tr className="">
-                                    <th>
-                                        <div className="w-full flex items-center">
-                                            <div className="ml-2 px-2 p-[2px] font-bold border-[1px] border-black rounded-full">
-                                                {knownWords.length}
-                                            </div>
-                                            <div className="w-3/5 text-right">
-                                                Known
-                                            </div>
-                                            <div className="flex w-2/4 flex justify-end pr-1 text-sm">
-                                                <NewWord lang="EN" unknown="unknownWords" known="knownWords" icon="small" onOk={onLoad} />
-                                            </div>
-                                        </div>
-                                        <div className="border border-black/20 rounded-full flex items-center justify-start gap-2 px-2 py-2 mt-4 shadow-md mb-2">
-                                            <IoIosSearch />
-                                            <input
-                                                value={searchKnown}
-                                                onChange={(evt) => setSearchKnown(evt.target.value)}
-                                                className="text-sm font-light w-full focus:outline-none focus:ring-0" placeholder="Search for a word" />
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {knownWords.length === 0 && (
-                                    <tr>
-                                        <td className="w-full text-center text-sm">No known words was found</td>
-                                    </tr>
-                                )}
-                                {knownWords.filter((w) => w.toLowerCase().includes(searchKnown.toLowerCase()))
-                                    .map((w, i) => (
-                                        <tr key={w + i}>
-                                            <td className="border text-black/50 border-black/20 flex items-center justify-between rounded-full py-1 px-3 lowercase dark:border-black/20">
-                                                {w}
-                                                <div className="flex gap-2">
-                                                    <a href={`https://www.google.com/search?q=${w.toLowerCase()}+meaning`} className="border rounded-full border-black/10 text-black/60 p-1">
-                                                        <IoIosSearch />
-                                                    </a>
-                                                    <div onClick={() => onRemoveKnownWord(w)} className="border rounded-full border-black/10 text-black/60 p-1">
-                                                        <IoIosRemove />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
+                        <ListWordTable
+                            onRemoveKnownWord={onRemoveKnownWord}
+                            setSearchString={setSearchKnown}
+                            onAddKnownWord={onAddKnownWord}
+                            searchString={searchKnown}
+                            unknown="unknownWords"
+                            key={'known english'}
+                            title="Known Words"
+                            known="knownWords"
+                            data={knownWords}
+                            onLoad={onLoad}
+                            isKnown={true}
+                            lang={"EN"}
+                        />
                     )
                         :
                         (
-                            <table className="w-full mx-auto border-separate rounded-lg border-spacing-2 border border-black/10 dark:border-black/10 px-4">
-                                <thead className="">
-                                    <tr className="">
-                                        <th>
-                                            <div className="w-full flex items-center">
-                                                <div className="ml-2 px-2 p-[2px] font-bold border-[1px] border-black rounded-full">
-                                                    {unknownWords.length}
-                                                </div>
-                                                <div className="w-3/5 text-right">
-                                                    Unknown
-                                                </div>
-                                                <div className="flex w-2/4 flex justify-end pr-1 text-sm">
-                                                    <NewWord lang="EN" unknown="unknownWords" known="knownWords" icon="small" onOk={onLoad} />
-                                                </div>
-                                            </div>
-                                            <div className="border border-black/20 rounded-full flex items-center justify-start gap-2 p-2 mt-4 shadow-md mb-2">
-                                                <IoIosSearch />
-                                                <input
-                                                    value={searchUnknown}
-                                                    onChange={(evt) => setSearchUnknown(evt.target.value)}
-                                                    className="text-sm w-full font-light focus:outline-none focus:ring-0" placeholder="Search for a word" />
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {unknownWords.filter((w) => w.toLowerCase().includes(searchUnknown.toLowerCase()))
-                                        .map((w, i) => (
-                                            <tr key={w + i}>
-                                                <td className="border text-black/70 border-black/20 flex items-center justify-between rounded-full py-1 px-3 lowercase dark:border-black/20">
-                                                    {w}
-                                                    <div className="flex gap-2">
-                                                        <a href={`https://www.google.com/search?q=${w.toLowerCase()}+meaning`} className="border rounded-full border-black/10 text-black/60 p-1">
-                                                            <IoIosSearch />
-                                                        </a>
-                                                        <div onClick={() => onAddKnownWord(w)} className="border rounded-full border-black/10 text-black/60 p-1">
-                                                            <IoIosAdd />
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                            </table>
+                            <ListWordTable
+                                onRemoveKnownWord={onRemoveKnownWord}
+                                setSearchString={setSearchUnknown}
+                                onAddKnownWord={onAddKnownWord}
+                                searchString={searchUnknown}
+                                key={'unknown deutsch'}
+                                unknown="unknownWords"
+                                title="Unknown Words"
+                                data={unknownWords}
+                                known="knownWords"
+                                onLoad={onLoad}
+                                isKnown={false}
+                                lang={"EN"}
+                            />
                         )
                 }
             </div>
