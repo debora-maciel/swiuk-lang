@@ -6,7 +6,7 @@ export default function WordDragManager() {
     return (
         <>
             <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-end justify-between px-4 mb-3 ">
-                <Link href={'/'} className="text-black text-5xl">
+                <Link href={'/'} className="text-black text-4xl">
                     <IoArrowBackCircle />
                 </Link>
                 <div className="pr-28">

@@ -55,7 +55,7 @@ export default function ListWords() {
     return (
         <div className="w-full py-2 flex flex-col">
             <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-                <Link href={'/words/english'} className="text-black text-5xl">
+                <Link href={'/words/english'} className="text-black text-4xl">
                     <IoArrowBackCircle />
                 </Link>
                 <div>

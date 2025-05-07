@@ -141,7 +141,7 @@ export default function Translator() {
             )}
 
             <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-                <Link href={'/'} className="text-black text-5xl">
+                <Link href={'/'} className="text-black text-4xl">
                     <IoArrowBackCircle />
                 </Link>
                 <h1 className="text-2xl font-bold mb-4 w-4/6 pt-4">Translator</h1>

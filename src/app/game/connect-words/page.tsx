@@ -60,7 +60,7 @@ export default function ConnectWordsPage() {
   return (
     <div className="text-center bg-white py-6 min-h-screen">
       <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-        <Link href={'/'} className="text-black text-5xl">
+        <Link href={'/'} className="text-black text-4xl">
           <IoArrowBackCircle />
         </Link>
         <div>

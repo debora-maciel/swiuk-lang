@@ -96,7 +96,7 @@ export default function ListWords() {
                                 </div>
                             )}
                             <div className="w-full flex flex-col gap-3 overflow-y-scroll max-h-[400px] border-y py-2 border-black/10 px-6">
-                                {knownWords.filter((w) => w.toLowerCase().includes(searchKnown.toLowerCase()))
+                                {knownWords.sort((a, b) => a.localeCompare(b)).filter((w) => w.toLowerCase().includes(searchKnown.toLowerCase()))
                                     .map((w, i) => (
                                         <div key={w + i} className="border text-black/50 border-black/20 flex items-center justify-between rounded-full py-1 px-3 lowercase dark:border-black/20">
                                             {w}
@@ -120,7 +120,7 @@ export default function ListWords() {
                                     <div className="ml-2 px-2 p-[2px] font-bold border-[1px] border-black rounded-full">
                                         {unknownWords.length}
                                     </div>
-                                    <div className="w-3/5 text-right">
+                                    <div className="w-3/5 fonnt-bold text-right">
                                         Unknown
                                     </div>
                                     <div className="flex w-2/4 flex justify-end pr-1 text-sm">
@@ -135,7 +135,7 @@ export default function ListWords() {
                                         className="text-sm w-full font-light focus:outline-none focus:ring-0" placeholder="Search for a word" />
                                 </div>
                                 <div className="w-full flex flex-col gap-3 overflow-y-scroll max-h-[500px] border-y py-2 border-black/10 px-6">
-                                    {unknownWords.filter((w) => w.toLowerCase().includes(searchUnknown.toLowerCase()))
+                                    {unknownWords.sort((a, b) => a.localeCompare(b)).filter((w) => w.toLowerCase().includes(searchUnknown.toLowerCase()))
                                         .map((w, i) => (
                                             <div key={w + i} className="border text-black/50 border-black/20 flex items-center justify-between rounded-full py-1 px-3 lowercase dark:border-black/20">
                                                 {w}
