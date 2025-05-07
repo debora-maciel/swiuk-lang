@@ -1,10 +1,27 @@
+"use client"
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { IoGameController } from "react-icons/io5";
 import { IoIosInformation } from "react-icons/io";
 import { MdOutlineGTranslate } from "react-icons/md";
 import Link from 'next/link';
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [DEknownWords, setDEKnownWords] = useState<string[]>([]);
+  const [ENknownWords, setENKnownWords] = useState<string[]>([]);
+  const [matches, setMatches] = useState<string[]>([]);
+
+  useEffect(() => {
+    const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
+    const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
+    const matchesData = JSON.parse(localStorage.getItem("matches") || "[]");
+
+    setMatches(matchesData);
+    setDEKnownWords(DEknown);
+    setENKnownWords(ENknown);
+  }, []);
+
+
   return (
     <div className="w-full overflow-y-scroll pt-4">
       <div className="flex items-center justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
@@ -36,7 +53,7 @@ export default function Home() {
                   DE
                 </div>
                 <div className="text-md text-black/60 font-[900]">
-                  120
+                  {DEknownWords.length}
                 </div>
               </div>
               <div className="flex border border-black/20  rounded-t-full flex-col items-center justify-center text-sm font-black w-[40px] gap-1">
@@ -44,7 +61,7 @@ export default function Home() {
                   EN
                 </div>
                 <div className="text-md text-black/60 font-[900]">
-                  300
+                  {ENknownWords.length}
                 </div>
               </div>
             </div>
@@ -70,7 +87,9 @@ export default function Home() {
           <div className="flex gap-2 items-center justify-end pr-5 pt-4 border-t mt-1 border-black/10 rounded-r-xl text-black/70">
             <div className="w-full flex items-center gap-4 pl-10">
               <div className="flex font-normal text-sm font-black gap-1 border px-2 rounded-full border-black/20">
-                Matches: <b className="text-black/60">23</b>
+                Matches: <b className="text-black/60">
+                  {matches.length}
+                </b>
               </div>
             </div>
             <button className="rounded-full border border-black/20 text-black/50">

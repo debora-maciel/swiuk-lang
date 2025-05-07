@@ -14,6 +14,7 @@ export default function ConnectWordsPage() {
   const [matchColors, setMatchColors] = useState<{ [key: string]: string }>({});
 
   function setup() {
+    const matches = JSON.parse(localStorage.getItem("matches") || "[]");
     const allEntries = Object.entries(data) as [string, string | string[]][];
     const filtered = allEntries.filter(([_, val]) => typeof val === 'string');
     const randomItems = filtered.sort(() => 0.5 - Math.random()).slice(0, 8);
@@ -22,6 +23,7 @@ export default function ConnectWordsPage() {
     const shuffledGerman = mappedPairs.map(p => p[0]).sort(() => 0.5 - Math.random());
     const shuffledEnglish = mappedPairs.map(p => p[1]).sort(() => 0.5 - Math.random());
 
+    setMatches(matches);
     setPairs(mappedPairs);
     setGermanWords(shuffledGerman);
     setEnglishWords(shuffledEnglish);
@@ -38,6 +40,7 @@ export default function ConnectWordsPage() {
       const found = pairs.find(([g, e]) => g === updated.german && e === updated.english);
       if (found) {
         const newColor = utils.getRandomColor();
+        localStorage.setItem("matches", JSON.stringify([...matches, found]));
         setMatches([...matches, found]);
         setMatchColors(prev => ({
           ...prev,
