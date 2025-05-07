@@ -117,9 +117,9 @@ export default function Deutsch() {
                         </Link>
                         <NewWord icon="small" known="DEknownWords" unknown="DEunknownWords" lang="DE" key={'word-deutsch'} />
                     </div>
-                    <div className={`${isCorrect === null ? "bg-white" : isCorrect ? "bg-green-400" : "bg-red-400"}` + " mx-auto flex items-center gap-1 w-full h-[130px] border-b border-black/10"}>
+                    <div className={`${isCorrect === null ? "bg-white" : isCorrect ? "bg-green-400" : "bg-red-400"}` + " mx-auto flex items-center gap-1 w-full h-[130px] border border-black/10"}>
                         <div className={styleBorderCorrect + " mx-auto py-3 p-4 rounded-xl transition-all duration-50 ease-in transform max-w-max z-100"}>
-                            <h1 className={styleCorrect + " tracking-wider rounded text-3xl xl:text-5xl font-bold text-center py-4 capitalize"}>
+                            <h1 className={styleCorrect + " break-all tracking-wider rounded text-3xl xl:text-5xl font-bold text-center py-4 capitalize"}>
                                 {words[currentWord]}
                             </h1>
                         </div>

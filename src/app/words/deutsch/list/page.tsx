@@ -95,7 +95,7 @@ export default function ListWords() {
                                     No known words was found
                                 </div>
                             )}
-                            <div className="w-full flex flex-col gap-3 overflow-y-scroll max-h-[500px] border-y py-2 border-black/10 px-6">
+                            <div className="w-full flex flex-col gap-3 overflow-y-scroll max-h-[400px] border-y py-2 border-black/10 px-6">
                                 {knownWords.filter((w) => w.toLowerCase().includes(searchKnown.toLowerCase()))
                                     .map((w, i) => (
                                         <div key={w + i} className="border text-black/50 border-black/20 flex items-center justify-between rounded-full py-1 px-3 lowercase dark:border-black/20">
