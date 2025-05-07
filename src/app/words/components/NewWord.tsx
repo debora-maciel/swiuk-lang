@@ -8,6 +8,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import { useGlobalMessage } from "@/app/core/components/Message";
+import { colors } from "@/app/core/variables/colors";
 
 interface INewModal {
     known: 'DEknownWords' | "knownWords";
@@ -122,25 +123,25 @@ export default function NewWord(props: INewModal) {
             {props.icon === 'default' ? (
                 <button
                     onClick={showModal}
-                    className="cursor-pointer border border-black/30 text-black/60 font-normal rounded-full px-2 py-1">
+                    className={`cursor-pointer border ${colors.border30} ${colors.text60} font-normal rounded-full px-2 py-1`}>
                     + New word
                 </button>
             ) : (
                 <button
                     onClick={showModal}
-                    className="cursor-pointer flex items-center border rounded-full border-gray-700/20 text-black/80 p-2">
+                    className={`cursor-pointer flex items-center border rounded-full ${colors.border30} ${colors.text80} p-2`}>
                     <BsPlus size={25} />
                 </button>
             )}
             <Modal
                 open={isModalOpen}
                 onCancel={handleCancel}
-                title={<div className="leading-4 border-b pb-4 border-black/10">Add new known word</div>}
+                title={<div className={`leading-4 border-b pb-4 border-black/10`}>Add new known word</div>}
                 footer={[
-                    <div key={'footer-new-word'} className="flex items-center justify-between border-t border-black/10 pt-4">
+                    <div key={'footer-new-word'} className={`flex items-center justify-between border-t border-black/10 pt-4`}>
                         <button
                             key={'button-cancel'}
-                            className="border border-black/20 text-black/80 rounded-full px-6 py-2"
+                            className={`border border-black/20 text-black/80 rounded-full px-6 py-2`}
                             onClick={handleOk}
                         >
                             Cancel
@@ -150,14 +151,14 @@ export default function NewWord(props: INewModal) {
                             key={'button-submit'}
                             onClick={onAddWord}
                             style={{ opacity: selectedWords.length > 0 ? 1 : 0.4 }}
-                            className="bg-black px-6 py-2 border rounded-full text-white"
+                            className={`bg-black px-6 py-2 border rounded-full text-white`}
                         >
                             Confirm
                         </button>
                     </div>
                 ]}
             >
-                <div className="border border-black/20 rounded-lg flex items-center pl-2 mt-4">
+                <div className={`border border-black/20 rounded-lg flex items-center pl-2 mt-4`}>
                     <IoSearchOutline />
                     <input
                         value={input}
@@ -170,29 +171,29 @@ export default function NewWord(props: INewModal) {
                 </div>
 
                 {selectedWords.length > 0 && (
-                    <div className="bg-slate-100 rounded-lg my-4 flex flex-col h-min border border-slate-200">
-                        <div className="flex items-center justify-between pl-4 pr-2 pt-2">
+                    <div className={`bg-slate-100 rounded-lg my-4 flex flex-col h-min border border-slate-200`}>
+                        <div className={`flex items-center justify-between pl-4 pr-2 pt-2`}>
                             Add these words into the Known Words?
                             <div
                                 onClick={() => {
                                     setInput('');
                                     setSelectedWords([]);
                                 }}
-                                className="cursor-pointer border rounded-full border-black/50 text-black/60 p-1"
+                                className={`cursor-pointer border rounded-full border-black/50 ${colors.text60} p-1`}
                             >
                                 <HiMiniXMark size={15} />
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-2 p-4">
+                        <div className={`flex flex-wrap gap-2 p-4`}>
                             {selectedWords.map((w, idx) => (
                                 <div
                                     key={idx}
-                                    className="bg-white border border-gray-300 rounded-full px-3 py-1 text-sm flex items-center gap-2"
+                                    className={`bg-white border border-gray-300 rounded-full px-3 py-1 text-sm flex items-center gap-2`}
                                 >
                                     <span className={props.lang === 'EN' ? 'lowercase' : ''}>{w}</span>
                                     <button
                                         onClick={() => setSelectedWords(prev => prev.filter(word => word !== w))}
-                                        className="text-gray-500 hover:text-red-600"
+                                        className={`text-gray-500 hover:text-red-600`}
                                     >
                                         <HiMiniXMark size={12} />
                                     </button>
@@ -207,7 +208,7 @@ export default function NewWord(props: INewModal) {
                         <ul
                             ref={suggestionsRef}
                             style={{ top: selectedWords.length > 0 ? "37%" : "54%" }}
-                            className="absolute z-10 bg-white border-0 w-5/6 text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[37%]"
+                            className={`absolute z-10 bg-white border-0 w-5/6 text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[37%]`}
                         >
                             {suggestions.map((sug, index) => (
                                 <li

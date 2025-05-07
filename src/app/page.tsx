@@ -33,7 +33,7 @@ export default function Home() {
   // }
 
   return (
-    <div className="w-full overflow-y-scroll pt-4">
+    <div className="w-full overflow-y-scroll pt-4 pb-10">
       <div className="flex items-center justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
         <div className="w-5/6 px-4 mx-auto">
           <h1 className={`${colors.text90} font-bold mb-2 text-lg `}>

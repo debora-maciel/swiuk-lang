@@ -9,7 +9,10 @@ export const colors ={
     text50: "text-black/50 dark:text-white/80",
     text60: "text-black/60 dark:text-white/70",
     text70: "text-black/70 dark:text-white/80",
+    text80: "text-black/80 dark:text-white/90",
     text90: "text-black/90 dark:text-white/90",
+
+    textSlate90: "",
 
     background: "bg-white dark:bg-black",
     backgroundReverse: "bg-black dark:bg-white"
