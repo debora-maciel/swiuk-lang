@@ -1,15 +1,14 @@
 'use client';
-import { PiCopy } from "react-icons/pi";
 
+import { IoIosArrowRoundForward } from "react-icons/io";
+import HeaderBack from "../core/components/HeaderBack";
+import { useTheme } from "../core/theme/ThemeContext";
 import { useEffect, useRef, useState } from 'react';
 import { GoArrowSwitch } from "react-icons/go";
-import Link from 'next/link';
 import dict from '../data/eng_germ_dict.json';
 import { HiMiniXMark } from "react-icons/hi2";
-import { IoIosArrowRoundForward } from "react-icons/io";
-import { IoArrowBackCircle } from 'react-icons/io5';
+import { PiCopy } from "react-icons/pi";
 import debounce from 'lodash.debounce';
-import HeaderBack from "../core/components/HeaderBack";
 
 type DictType = Record<string, string | string[]>;
 
@@ -29,6 +28,7 @@ const reversedDict = reverseDict(dict as DictType);
 
 export default function Translator() {
     const [input, setInput] = useState('');
+    const { colors } = useTheme();
     const [translation, setTranslation] = useState<string | string[] | null>(null);
     const [direction, setDirection] = useState<'de-en' | 'en-de'>('de-en');
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -134,21 +134,21 @@ export default function Translator() {
     };
 
     return (
-        <>
+        <div className={`${colors.backgroundSecondary} w-full h-full`}>
             {showToast && (
-                <div className="fixed bottom-20 right-5 bg-black text-white px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 z-50">
+                <div className={`fixed bottom-20 right-5 ${colors.background} text-white px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 z-50`}>
                     Copied to clipboard!
                 </div>
             )}
 
-            <HeaderBack title="Translator" link="/"/>
+            <HeaderBack title="Translator" link="/" />
 
-            <div className="max-w-lg mx-auto text-center relative w-full">
-                <div className="flex justify-center items-center gap-4 mb-4 w-full">
+            <div className={`max-w-lg mx-auto text-center relative w-full`}>
+                <div className={`${colors.text} flex justify-center items-center gap-4 mb-4 w-full`}>
                     <span>{direction === 'de-en' ? (<div className="flex items-center gap-3">Deutsch <IoIosArrowRoundForward /> English</div>) : <div className="flex items-center gap-3"> English<IoIosArrowRoundForward />Deutsch</div>}</span>
                     <button
                         onClick={handleSwitch}
-                        className="bg-gray-200 px-3 py-1 rounded text-sm flex items-center gap-1"
+                        className={`${colors.textReverse} bg-gray-200 px-3 py-1 rounded text-sm flex items-center gap-1`}
                     >
                         <GoArrowSwitch /> Switch
                     </button>
@@ -156,10 +156,10 @@ export default function Translator() {
 
                 <div className="flex items-center w-full justify-center h-full flex-col">
                     <div
-                        className={`flex items-start border-t h-full w-full border-black/10 `}>
+                        className={`flex items-start border-t h-full w-full ${colors.border10}`}>
                         <input
                             type="text"
-                            className="p-2 w-full pl-4 focus:outline-none text-base focus:border-black"
+                            className={`${colors.text} p-2 w-full pl-4 focus:outline-none text-base focus:border-black`}
                             placeholder={direction === 'de-en' ? 'Type a German word' : 'Type an English word'}
                             value={input}
                             onChange={(e) => handleChange(e.target.value)}
@@ -174,7 +174,7 @@ export default function Translator() {
                     {suggestions.length > 0 && (
                         <ul
                             ref={suggestionsRef}
-                            className="absolute z-10 bg-white border-0 w-full text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[80%]"
+                            className={`absolute z-10 ${colors.background} ${colors.text} border-0 w-full text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[80%]`}
                         >
                             {suggestions.map((sug, index) => (
                                 <li
@@ -201,8 +201,7 @@ export default function Translator() {
                             <div className="flex items-center flex-col w-full 
                              border-[0.9px] h-full border-slate-300 bg-slate-300/10">
                                 <div className="relative group flex items-center justify-end w-full pt-2">
-
-                                    <span className="flex items-start justify-start text-base h-full w-full pl-4">
+                                    <span className={`${colors.text} flex items-start justify-start text-base h-full w-full pl-4`}>
                                         {Array.isArray(translation)
                                             ? translation.join(', ')
                                             : translation}
@@ -220,6 +219,6 @@ export default function Translator() {
                     )}
                 </div>
             </div>
-        </>
+        </div>
     );
 }

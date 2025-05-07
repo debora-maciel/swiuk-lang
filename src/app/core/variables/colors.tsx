@@ -17,7 +17,7 @@ export const systemColors: IColors = {
 
     background: "bg-white dark:bg-black",
     backgroundReverse: "bg-black dark:bg-white",
-
+    backgroundSecondary: "bg-white dark:bg-red-600",
     backgroundSlate200: "bg-slate-200/50 dark:bg-gray-700/20",
 }
 
@@ -41,7 +41,7 @@ export const lightColors: IColors = {
 
     background: "bg-white",
     backgroundReverse: "bg-black",
-
+    backgroundSecondary: "bg-white",
     backgroundSlate200: "bg-slate-200/50",
 }
 
@@ -64,7 +64,7 @@ export const darkColors: IColors = {
 
     background: "bg-black",
     backgroundReverse: "bg-white",
-
+    backgroundSecondary: "bg-gray-600",
     backgroundSlate200: "bg-gray-700/20",
 };
 
@@ -85,5 +85,6 @@ export interface IColors {
     textSlate800: string;
     background: string;
     backgroundReverse: string;
+    backgroundSecondary: string;
     backgroundSlate200: string;
 }
