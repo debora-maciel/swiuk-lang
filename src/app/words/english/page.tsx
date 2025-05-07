@@ -8,6 +8,7 @@ import { utils } from "../../../utils/utils";
 import Link from "next/link";
 import NewWord from "../components/NewWord";
 import { useTheme } from "@/app/core/theme/ThemeContext";
+import HeaderBack from "@/app/core/components/HeaderBack";
 
 type WordEntry = {
     MEANINGS: Array<[string, string, string[], any[]]>;
@@ -88,14 +89,7 @@ export default function EnglishWords() {
 
     return (
         <>
-            <div className={`pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3`}>
-                <Link href={'/words'} className={`${colors.text} text-4xl`}>
-                    <IoArrowBackCircle />
-                </Link>
-                <div className={`${colors.text}`}>
-                    English
-                </div>
-            </div>
+            <HeaderBack link="/words/" title="English" />
             <div className={`w-full h-full xl:rounded-lg flex items-center justify-center`}>
                 <div className={`flex flex-col justify-start items-start w-full h-full`}>
                     <div className={`flex items-center justify-end w-full px-4`}>
@@ -123,7 +117,7 @@ export default function EnglishWords() {
                                 </div>
                             </div>
                         </Link>
-                        <NewWord lang="EN" unknown="unknownWords" known="knownWords" icon="small"/>
+                        <NewWord lang="EN" unknown="unknownWords" known="knownWords" icon="small" />
                     </div>
                     <div className={`${isCorrect === null ? `${colors.background}` : isCorrect ? "bg-green-400" : "bg-red-400"}` + ` mx-auto flex items-center gap-1 w-full h-[130px] border ${colors.border} ${colors.border10}`}>
                         <div className={styleBorderCorrect + ` mx-auto py-3 p-4 rounded-xl transition-all duration-50 ease-in transform max-w-max z-100`}>
