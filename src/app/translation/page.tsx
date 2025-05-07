@@ -167,8 +167,8 @@ export default function Translator() {
                             placeholder={direction === 'de-en' ? 'Type a German word' : 'Type an English word'}
                             value={input}
                             onChange={(e) => handleChange(e.target.value)}
-                            onKeyDown={handleKeyDown}
                             onBlur={() => setTimeout(() => setSuggestions([]), 100)}
+                            onKeyDown={handleKeyDown}
                         />
                         <div className="pr-2 pt-2 cursor-pointer" onClick={() => {setInput(''); setTranslation('')}}>
                             <HiMiniXMark size={20} />

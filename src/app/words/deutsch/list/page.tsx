@@ -6,6 +6,7 @@ import { IoArrowBackCircle } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { IoIosRemove } from "react-icons/io";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import NewWord from "../../components/NewWord";
 
 export default function ListWords() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
@@ -86,9 +87,7 @@ export default function ListWords() {
                                                 Known
                                             </div>
                                             <div className="flex w-2/4 flex justify-end pr-1 text-sm">
-                                                <button className="border border-black/30 text-black/60 font-normal rounded-full px-2 py-1">
-                                                    + New word
-                                                </button>
+                                            <NewWord lang="DE" known="DEknownWords" unknown="DEunknownWords" onOk={onLoad}/>
                                             </div>
                                         </div>
                                         <div className="border border-black/20 rounded-full flex items-center justify-start gap-2 px-2 py-2 mt-4 shadow-md mb-2">
@@ -140,9 +139,7 @@ export default function ListWords() {
                                                     Unknown
                                                 </div>
                                                 <div className="flex w-2/4 flex justify-end pr-1 text-sm">
-                                                    <button className="border border-black/30 text-black/60 font-normal rounded-full px-2 py-1">
-                                                        + New word
-                                                    </button>
+                                                    <NewWord lang="DE" known="DEknownWords" unknown="DEunknownWords" onOk={onLoad}/>
                                                 </div>
                                             </div>
                                             <div className="border border-black/20 rounded-full flex items-center justify-start gap-2 p-2 mt-4 shadow-md mb-2">
