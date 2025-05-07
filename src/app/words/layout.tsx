@@ -4,7 +4,7 @@ export default function WordLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="w-full h-screen flex flex-col items-start justify-start overflow-y-scroll">
+        <div className="w-full flex flex-col items-start justify-start overflow-y-scroll">
             {children}
         </div>
     );

@@ -81,7 +81,7 @@ export default function Deutsch() {
     return (
         <>
             <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-                <Link href={'/words/'} className="text-black text-5xl">
+                <Link href={'/words/'} className="text-black text-4xl">
                     <IoArrowBackCircle />
                 </Link>
                 <div>
@@ -119,7 +119,7 @@ export default function Deutsch() {
                     </div>
                     <div className={`${isCorrect === null ? "bg-white" : isCorrect ? "bg-green-400" : "bg-red-400"}` + " mx-auto flex items-center gap-1 w-full h-[130px] border-b border-black/10"}>
                         <div className={styleBorderCorrect + " mx-auto py-3 p-4 rounded-xl transition-all duration-50 ease-in transform max-w-max z-100"}>
-                            <h1 className={styleCorrect + " tracking-wider rounded text-3xl xl:text-5xl font-bold px-10 py-4 capitalize"}>
+                            <h1 className={styleCorrect + " tracking-wider rounded text-3xl xl:text-5xl font-bold text-center py-4 capitalize"}>
                                 {words[currentWord]}
                             </h1>
                         </div>
