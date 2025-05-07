@@ -5,9 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import data from '../../data/eng_germ_dict.json';
 import { IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
+import { BsPlus } from "react-icons/bs";
 
 interface INewModal {
     known: 'DEknownWords';
+    icon: 'small' | 'default';
     unknown: 'DEunknownWords';
     onOk?: () => void;
     lang: 'DE' | 'EN'
@@ -52,7 +54,7 @@ export default function NewWord(props: INewModal) {
     };
 
     const handleSelectSuggestion = (word: string) => {
-        let known = JSON.parse(localStorage.getItem(props.known) || "[]") as [];
+        const known = JSON.parse(localStorage.getItem(props.known) || "[]") as [];
 
         if (known.find((c) => c === word)) {
             setAlreadyKnown(true);
@@ -127,15 +129,21 @@ export default function NewWord(props: INewModal) {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    }, []);
+    });
 
     return (
         <div>
-            <button
-                onClick={showModal}
-                className="cursor-pointer border border-black/30 text-black/60 font-normal rounded-full px-2 py-1">
-                + New word
-            </button>
+            {props.icon === 'default' ?
+                <button
+                    onClick={showModal}
+                    className="cursor-pointer border border-black/30 text-black/60 font-normal rounded-full px-2 py-1">
+                    + New word
+                </button>
+                :
+                <button className="cursor-pointer flex items-center border rounded-full border-gray-700/20 text-black/80 p-2">
+                    <BsPlus size={25} />
+                </button>
+            }
             <Modal open={isModalOpen}
                 onCancel={handleCancel}
                 title={

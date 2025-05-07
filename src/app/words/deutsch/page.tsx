@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import data from "../../data/woerter.json";
 import Link from "next/link";
 import { utils } from "../../../utils/utils";
-import { BsPlus } from "react-icons/bs";
 import { HiMiniXMark } from "react-icons/hi2";
 import { IoArrowBackCircle, IoCheckmark } from "react-icons/io5";
 import LearnMore from "./components/LearnMore";
+import NewWord from "../components/NewWord";
 
 function shuffleArray<T>(array: T[]): T[] {
     const shuffled = [...array];
@@ -115,9 +115,7 @@ export default function Deutsch() {
                                 </div>
                             </div>
                         </Link>
-                        <button className="flex items-center border rounded-full border-gray-700/20 text-black/80 p-2">
-                            <BsPlus size={25} />
-                        </button>
+                        <NewWord icon="small" known="DEknownWords" unknown="DEunknownWords" lang="DE" key={'word-deutsch'} />
                     </div>
                     <div className={`${isCorrect === null ? "bg-white" : isCorrect ? "bg-green-400" : "bg-red-400"}` + " mx-auto flex items-center gap-1 w-full h-[130px] border-b border-black/10"}>
                         <div className={styleBorderCorrect + " mx-auto py-3 p-4 rounded-xl transition-all duration-50 ease-in transform max-w-max z-100"}>

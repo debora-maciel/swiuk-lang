@@ -115,7 +115,7 @@ export default function Translator() {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    }, []);
+    });
 
     const boldMatch = (suggestion: string) => {
         const i = suggestion.toLowerCase().indexOf(input.toLowerCase());
@@ -170,7 +170,7 @@ export default function Translator() {
                             onBlur={() => setTimeout(() => setSuggestions([]), 100)}
                             onKeyDown={handleKeyDown}
                         />
-                        <div className="pr-2 pt-2 cursor-pointer" onClick={() => {setInput(''); setTranslation('')}}>
+                        <div className="pr-2 pt-2 cursor-pointer" onClick={() => { setInput(''); setTranslation('') }}>
                             <HiMiniXMark size={20} />
                         </div>
                     </div>

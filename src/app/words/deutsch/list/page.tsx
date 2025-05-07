@@ -87,7 +87,7 @@ export default function ListWords() {
                                                 Known
                                             </div>
                                             <div className="flex w-2/4 flex justify-end pr-1 text-sm">
-                                            <NewWord lang="DE" known="DEknownWords" unknown="DEunknownWords" onOk={onLoad}/>
+                                            <NewWord key={'knwn'} icon="small" lang="DE" known="DEknownWords" unknown="DEunknownWords" onOk={onLoad}/>
                                             </div>
                                         </div>
                                         <div className="border border-black/20 rounded-full flex items-center justify-start gap-2 px-2 py-2 mt-4 shadow-md mb-2">
@@ -139,7 +139,7 @@ export default function ListWords() {
                                                     Unknown
                                                 </div>
                                                 <div className="flex w-2/4 flex justify-end pr-1 text-sm">
-                                                    <NewWord lang="DE" known="DEknownWords" unknown="DEunknownWords" onOk={onLoad}/>
+                                                    <NewWord key={'unkwde'} icon="small" lang="DE" known="DEknownWords" unknown="DEunknownWords" onOk={onLoad}/>
                                                 </div>
                                             </div>
                                             <div className="border border-black/20 rounded-full flex items-center justify-start gap-2 p-2 mt-4 shadow-md mb-2">
