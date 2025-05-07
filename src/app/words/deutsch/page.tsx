@@ -4,9 +4,10 @@ import data from "../../data/woerter.json";
 import Link from "next/link";
 import { utils } from "../../../utils/utils";
 import { HiMiniXMark } from "react-icons/hi2";
-import { IoArrowBackCircle, IoCheckmark } from "react-icons/io5";
+import { IoCheckmark } from "react-icons/io5";
 import LearnMore from "./components/LearnMore";
 import NewWord from "../components/NewWord";
+import HeaderBack from "@/app/core/components/HeaderBack";
 
 function shuffleArray<T>(array: T[]): T[] {
     const shuffled = [...array];
@@ -80,14 +81,7 @@ export default function Deutsch() {
 
     return (
         <>
-            <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-                <Link href={'/words/'} className="text-black text-4xl">
-                    <IoArrowBackCircle />
-                </Link>
-                <div>
-                    Deutsch
-                </div>
-            </div>
+            <HeaderBack link="/words/" title="Deutsch"/>
             <div className="w-full h-full xl:rounded-lg flex items-center justify-center">
                 <div className="flex flex-col justify-start items-start w-full h-full">
                     <div className="flex items-center justify-end w-full px-4">

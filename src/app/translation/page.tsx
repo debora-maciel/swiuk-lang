@@ -9,6 +9,7 @@ import { HiMiniXMark } from "react-icons/hi2";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoArrowBackCircle } from 'react-icons/io5';
 import debounce from 'lodash.debounce';
+import HeaderBack from "../core/components/HeaderBack";
 
 type DictType = Record<string, string | string[]>;
 
@@ -140,12 +141,7 @@ export default function Translator() {
                 </div>
             )}
 
-            <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-                <Link href={'/'} className="text-black text-4xl">
-                    <IoArrowBackCircle />
-                </Link>
-                <h1 className="text-2xl font-bold mb-4 w-4/6 pt-4">Translator</h1>
-            </div>
+            <HeaderBack title="Translator" link="/"/>
 
             <div className="max-w-lg mx-auto text-center relative w-full">
                 <div className="flex justify-center items-center gap-4 mb-4 w-full">

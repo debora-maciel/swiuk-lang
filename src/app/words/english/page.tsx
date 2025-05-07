@@ -7,7 +7,7 @@ import LearnMore from "./components/LearnMore";
 import { utils } from "../../../utils/utils";
 import Link from "next/link";
 import NewWord from "../components/NewWord";
-import { colors } from "@/app/core/variables/colors";
+import { useTheme } from "@/app/core/theme/ThemeContext";
 
 type WordEntry = {
     MEANINGS: Array<[string, string, string[], any[]]>;
@@ -27,6 +27,7 @@ export default function EnglishWords() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
     const [unknownWords, setUnknownWords] = useState<string[]>([]);
     const [words, setWords] = useState<string[]>([]);
+    const { colors } = useTheme();
     const [currentWord, setCurrentWord] = useState<number>(0);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
@@ -46,7 +47,7 @@ export default function EnglishWords() {
     const wordData = getWordProps(data, words[currentWord]);
 
     const styleCorrect = isCorrect === null
-        ? "text-slate-800 max-w-max"
+        ? `${colors.textSlate800} max-w-max`
         : isCorrect === true
             ? "text-green-200 border-t-0 rounded-[20px] transition-all transition-discrete hidden"
             : "text-red-200 rounded-[20px] transition-all transition-discrete hidden";
@@ -144,15 +145,15 @@ export default function EnglishWords() {
                         </button>
                     </div>
                     <div className={`w-full p-1 mt-1 max-h-[30%] min-h-[30%] px-4`}>
-                        <div className={`bg-slate-200/50 rounded-lg p-4 shadow-md border-dashed border-2 border-slate-300 h-full overflow-y-scroll`}>
+                        <div className={`${colors.backgroundSlate200} rounded-lg p-4 shadow-md border-dashed border-2 border-slate-300 h-full overflow-y-scroll`}>
                             {wordData?.MEANINGS && wordData?.MEANINGS.map((meaning, index) => (
-                                <div key={index} className={`text-sm xl:text-lg text-slate-700 mb-3`}>
-                                    <div className={`font-bold text-slate-800`}>[{meaning[0]}]</div>
+                                <div key={index} className={`text-sm xl:text-lg ${colors.textSlate700} mb-3`}>
+                                    <div className={`font-bold ${colors.textSlate800}`}>[{meaning[0]}]</div>
                                     <div className={``}>{meaning[1]}</div>
-                                    <div className={`text-md italic mt-2 text-slate-800`}>{meaning[2].join(", ")}</div>
+                                    <div className={`text-md italic mt-2 ${colors.textSlate800}`}>{meaning[2].join(", ")}</div>
                                 </div>
                             ))}
-                            <div className={`text-sm xl:text-lg font-bold text-slate-800`}>[Synonyms]</div>
+                            <div className={`text-sm xl:text-lg font-bold ${colors.textSlate800}`}>[Synonyms]</div>
                             <div className={`text-sm xl:text-lg text-gray-700 mb-3 flex pt-1 flex flex-wrap gap-2`}>
                                 {wordData?.SYNONYMS && wordData?.SYNONYMS.map((syn, index) => (
                                     <a href={"https://www.google.com/search?q=" + syn} className={`border rounded-lg bg-slate-300/30 text-gray-800 text-sm border-slate-800/20 px-2 w-max`} key={index}>{syn}</a>

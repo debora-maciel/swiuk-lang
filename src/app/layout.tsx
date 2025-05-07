@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "./core/theme/ThemeContext";
 import "./globals.css";
-import { colors } from './core/variables/colors';
-import Link from "next/link";
-import { FaUserAstronaut } from "react-icons/fa6";
-
+import Navbar from "./core/components/NavBar";
+import Layout from "./core/components/Layout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,17 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${colors.border10} antialiased max-w-md mx-auto border-x h-full bg-black/20 dark:bg-black`}
+        className={`${geistSans.variable} ${geistMono.variable}  antialiased mx-auto border-x h-screen`}
       >
-        <div className="bg-white dark:bg-black pl-5 border-b border-black/10 dark:border-white/40 text-base py-2 montserrat-black w-full text-left flex items-center justify-between px-4">
-          <Link href={'/'} className={colors.text}>Swiuk Lang</Link>
-          <div className={`${colors.textReverse} ${colors.backgroundReverse} rounded-full border border-cyan-500 px-1 pt-2`}>
-            <FaUserAstronaut size={30} />
-          </div>
-        </div>
-        <div  className={colors.background}>
-          {children}
-        </div>
+        <ThemeProvider>
+          <Layout>
+            <Navbar />
+            {children}
+          </Layout>
+        </ThemeProvider>
         {/* <footer className="border-t mt-10 border-black/10 text-black/70 pt-2 text-sm pl-2 w-full">
           Created and designed by Debora Maciel
         </footer> */}

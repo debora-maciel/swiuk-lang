@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
 import { IoArrowBackCircle } from "react-icons/io5";
-import { colors } from "../core/variables/colors";
+import { useTheme } from "../core/theme/ThemeContext";
 
 export default function WordDragManager() {
+    const { theme, colors } = useTheme();
+
     return (
         <div className="min-h-screen">
             <div className={`pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-end justify-between px-4 mb-3`}>

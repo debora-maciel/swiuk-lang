@@ -8,7 +8,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import { useGlobalMessage } from "@/app/core/components/Message";
-import { colors } from "@/app/core/variables/colors";
+import { useTheme } from "@/app/core/theme/ThemeContext";
 
 interface INewModal {
     known: 'DEknownWords' | "knownWords";
@@ -21,6 +21,7 @@ interface INewModal {
 export default function NewWord(props: INewModal) {
     const { openMessage, contextHolder } = useGlobalMessage();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { colors } = useTheme();
     const [input, setInput] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [highlightIndex, setHighlightIndex] = useState<number>(-1);
@@ -54,7 +55,7 @@ export default function NewWord(props: INewModal) {
 
         if (!alreadyInList) {
             setSelectedWords(prev => [...prev, word]);
-        }else{
+        } else {
             openMessage('error', 'Word already known!')
         }
 

@@ -3,14 +3,16 @@ import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { MdOutlineGTranslate } from "react-icons/md";
 import { IoGameController } from "react-icons/io5";
 import { IoIosInformation } from "react-icons/io";
-import { colors } from "./core/variables/colors";
+// import { useTheme } from "./core/theme/useTheme";
 import { useEffect, useState } from "react";
 import Link from 'next/link';
+import { useTheme } from "./core/theme/ThemeContext";
 
 export default function Home() {
   const [DEknownWords, setDEKnownWords] = useState<string[]>([]);
   const [ENknownWords, setENKnownWords] = useState<string[]>([]);
   const [matches, setMatches] = useState<string[]>([]);
+  const { colors} = useTheme();
 
   useEffect(() => {
     const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
@@ -34,9 +36,9 @@ export default function Home() {
 
   return (
     <div className="w-full overflow-y-scroll pt-4 pb-10">
-      <div className="flex items-center justify-center h-full gap-10 xl:gap-20 xl:flex-row flex-col">
+      <div className="flex items-center justify-center h-full gap-10 flex-col">
         <div className="w-5/6 px-4 mx-auto">
-          <h1 className={`${colors.text90} font-bold mb-2 text-lg `}>
+          <h1 className={`${colors.text90} font-bold mb-2 text-lg`}>
             Welcome to Swiuk Lang
           </h1>
           <p className={`text-[15px] ${colors.text70}`}>

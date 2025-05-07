@@ -4,9 +4,11 @@ import data from '../../data/eng_germ_dict.json';
 import { useEffect, useState } from 'react';
 import { utils } from '@/utils/utils';
 import Link from 'next/link';
+import { useTheme } from '@/app/core/theme/ThemeContext';
 
 export default function ConnectWordsPage() {
   const [pairs, setPairs] = useState<[string, string][]>([]);
+  const { colors } = useTheme();
   const [germanWords, setGermanWords] = useState<string[]>([]);
   const [englishWords, setEnglishWords] = useState<string[]>([]);
   const [selected, setSelected] = useState<{ german: string | null; english: string | null }>({ german: null, english: null });
@@ -60,7 +62,7 @@ export default function ConnectWordsPage() {
   return (
     <div className="text-center bg-white py-6 min-h-screen">
       <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-        <Link href={'/'} className="text-black text-4xl">
+        <Link href={'/'} className={`${colors.text} text-4xl`}>
           <IoArrowBackCircle />
         </Link>
         <div>
