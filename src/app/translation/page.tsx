@@ -148,7 +148,7 @@ export default function Translator() {
                     <span>{direction === 'de-en' ? (<div className="flex items-center gap-3">Deutsch <IoIosArrowRoundForward /> English</div>) : <div className="flex items-center gap-3"> English<IoIosArrowRoundForward />Deutsch</div>}</span>
                     <button
                         onClick={handleSwitch}
-                        className={`${colors.textReverse} bg-gray-200 px-3 py-1 rounded text-sm flex items-center gap-1`}
+                        className={`${colors.text70} border ${colors.border10} cursor-pointer px-3 py-1 rounded text-sm flex items-center gap-1`}
                     >
                         <GoArrowSwitch /> Switch
                     </button>
@@ -179,7 +179,7 @@ export default function Translator() {
                             {suggestions.map((sug, index) => (
                                 <li
                                     key={sug}
-                                    className={`px-3 py-2 cursor-pointer ${index === highlightIndex ? 'bg-gray-100 font-bold' : 'hover:bg-gray-50'
+                                    className={`px-3 py-2 cursor-pointer ${index === highlightIndex ? `bg-gray-100 font-bold ${colors.text}`: `${colors.backgroundHover} hover:${colors.text}`
                                         }`}
                                     onMouseDown={() => handleSelectSuggestion(sug)}
                                 >

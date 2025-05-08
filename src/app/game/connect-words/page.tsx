@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { utils } from '@/utils/utils';
 import Link from 'next/link';
 import { useTheme } from '@/app/core/theme/ThemeContext';
+import HeaderBack from '@/app/core/components/HeaderBack';
 
 export default function ConnectWordsPage() {
   const [pairs, setPairs] = useState<[string, string][]>([]);
@@ -61,14 +62,7 @@ export default function ConnectWordsPage() {
 
   return (
     <div className={`text-center ${colors.background} ${colors.text} py-6 min-h-screen`}>
-      <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-        <Link href={'/'} className={`${colors.text} text-4xl`}>
-          <IoArrowBackCircle />
-        </Link>
-        <div>
-          Connect Words
-        </div>
-      </div>
+      <HeaderBack link='/' title='Connect Words'/>
       <div className='flex justify-end px-6 pb-2'>
         <div className={`border ${colors.text80} ${colors.border10} w-min flex flex-col rounded-lg px-2 py-1`}>
           <div className='text-xs'>Matches</div>

@@ -2,20 +2,14 @@
 import Link from "next/link";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { useTheme } from "../core/theme/ThemeContext";
+import HeaderBack from "../core/components/HeaderBack";
 
 export default function WordDragManager() {
     const { theme, colors } = useTheme();
 
     return (
         <div className="min-h-screen">
-            <div className={`pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-end justify-between px-4 mb-3`}>
-                <Link href={'/'} className={`${colors.text} text-4xl`}>
-                    <IoArrowBackCircle />
-                </Link>
-                <div className={`pr-28 ${colors.text}`}>
-                    Chose language
-                </div>
-            </div>
+            <HeaderBack link="/" title="Chose language"/>
             <div className={`flex flex-col justify-center items-center w-full`}>
                 <p className={`mb-10 text-lg font-bold text-left w-3/5`}>
                 </p>
