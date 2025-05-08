@@ -148,7 +148,8 @@ export default function EnglishWords() {
                             <div className={`text-sm xl:text-lg font-bold ${colors.textSlate800}`}>[Synonyms]</div>
                             <div className={`text-sm xl:text-lg text-gray-700 mb-3 flex pt-1 flex flex-wrap gap-2`}>
                                 {wordData?.SYNONYMS && wordData?.SYNONYMS.map((syn, index) => (
-                                    <a href={"https://www.google.com/search?q=" + syn} className={`border rounded-lg bg-slate-300/30 text-gray-800 text-sm border-slate-800/20 px-2 w-max`} key={index}>{syn}</a>
+                                    <a href={"https://www.google.com/search?q=" + syn}
+                                        className={`border rounded-lg ${colors.backgroundSlate300} ${colors.borderSlate800} ${colors.text70} text-sm px-2 w-max`} key={index}>{syn}</a>
                                 ))}
                             </div>
                         </div>
