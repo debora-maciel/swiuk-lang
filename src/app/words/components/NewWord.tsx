@@ -4,7 +4,7 @@ import debounce from "lodash.debounce";
 import { useEffect, useRef, useState } from "react";
 import dataDE from '../../data/eng_germ_dict.json';
 import dataEN from "./../../data/words.json";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoClose, IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import { useGlobalMessage } from "@/app/core/components/Message";
@@ -148,9 +148,12 @@ export default function NewWord(props: INewModal) {
                         {modal}
                     </div>
                 )}
-                title={<div className={`leading-4 border-b pb-4 ${colors.border10} ${colors.background}`}>Add new known word</div>}
+                closeIcon={
+                    <IoClose className={`${colors.text} text-xl hover:text-red-500 transition duration-200`} />
+                }
+                title={<div className={`leading-4 border-b pb-4 ${colors.border10} ${colors.background} ${colors.text}`}>Add new known word</div>}
                 footer={[
-                    <div key={'footer-new-word'} className={`flex items-center justify-between border-t ${colors.border10} pt-4 ${colors.background}`}>
+                    <div key={'footer-new-word'} className={`flex items-center justify-between border-t ${colors.border10} ${colors.text}  pt-4 ${colors.background}`}>
                         <button
                             key={'button-cancel'}
                             className={`${colors.border20} ${colors.text80} border rounded-full px-6 py-2`}
