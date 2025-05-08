@@ -35,7 +35,7 @@ export default function Home() {
   // }
 
   return (
-    <div className="w-full overflow-y-scroll pt-4 pb-10">
+    <div className={`w-full overflow-y-scroll pt-4 pb-10 ${colors.background}`}>
       <div className="flex items-center justify-center h-full gap-10 flex-col">
         <div className="w-5/6 px-4 mx-auto">
           <h1 className={`${colors.text90} font-bold mb-2 text-lg`}>
@@ -97,9 +97,9 @@ export default function Home() {
             </p>
           </div>
           <div className={`${colors.border10} ${colors.text50} flex items-center gap-2 justify-end pr-5 pt-4 border-t mt-1 rounded-r-xl`}>
-            <div className="w-full flex items-start gap-4 pl-10">
+            <div className={"w-full flex items-start gap-4 pl-10"}>
               <div className={`${colors.border20} ${colors.text} flex font-normal text-sm font-black gap-1 border px-2 rounded-full`}>
-                Matches: <b className="text-black/60 dark:text-white/80">
+                Matches: <b className={colors.text60}>
                   {matches.length}
                 </b>
               </div>
