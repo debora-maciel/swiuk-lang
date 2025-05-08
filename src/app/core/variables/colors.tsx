@@ -1,11 +1,13 @@
 export const systemColors: IColors = {
     border: "border-black dark:border-white",
+    borderReverse: "border-white dark:border-black",
     border10: "border-black/10 dark:border-white/40",
     border20: "border-black/20 dark:border-white/40",
     border30: "border-black/30 dark:border-white/50",
 
     text: "text-black dark:text-white",
     textReverse: "text-white dark:text-black",
+    text10: "text-black/10 dark:text-white/30",
     text50: "text-black/50 dark:text-white/80",
     text60: "text-black/60 dark:text-white/70",
     text70: "text-black/70 dark:text-white/80",
@@ -24,12 +26,14 @@ export const systemColors: IColors = {
 
 export const lightColors: IColors = {
     border: "border-black",
+    borderReverse: "border-white",
     border10: "border-black/10",
     border20: "border-black/20",
     border30: "border-black/30",
 
     text: "text-black",
     textReverse: "text-white",
+    text10: "text-black/10",
     text50: "text-black/50",
     text60: "text-black/60",
     text70: "text-black/70",
@@ -47,12 +51,14 @@ export const lightColors: IColors = {
 
 export const darkColors: IColors = {
     border: "border-white",
+    borderReverse: "border-black",
     border10: "border-white/40",
     border20: "border-white/40",
     border30: "border-white/50",
 
     text: "text-white",
     textReverse: "text-black",
+    text10: "text-white/30",
     text50: "text-white/80",
     text60: "text-white/70",
     text70: "text-white/80",
@@ -71,11 +77,13 @@ export const darkColors: IColors = {
 
 export interface IColors {
     border: string;
+    borderReverse: string;
     border10: string;
     border20: string;
     border30: string;
     text: string;
     textReverse: string;
+    text10: string;
     text50: string;
     text60: string;
     text70: string;

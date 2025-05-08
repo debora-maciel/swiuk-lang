@@ -1,5 +1,5 @@
 "use client"
-import { Modal } from "antd"
+import { Modal, ConfigProvider } from "antd"
 import debounce from "lodash.debounce";
 import { useEffect, useRef, useState } from "react";
 import dataDE from '../../data/eng_germ_dict.json';
@@ -134,15 +134,26 @@ export default function NewWord(props: INewModal) {
                     <BsPlus size={25} />
                 </button>
             )}
+
             <Modal
                 open={isModalOpen}
                 onCancel={handleCancel}
-                title={<div className={`leading-4 border-b pb-4 border-black/10`}>Add new known word</div>}
+                styles={{
+                    content: {
+                        background: 'transparent'
+                    }
+                }}
+                modalRender={(modal) => (
+                    <div className={`rounded-xl p-4 border ${colors.border10} ${colors.background} ${colors.text}`}>
+                        {modal}
+                    </div>
+                )}
+                title={<div className={`leading-4 border-b pb-4 ${colors.border10} ${colors.background}`}>Add new known word</div>}
                 footer={[
-                    <div key={'footer-new-word'} className={`flex items-center justify-between border-t border-black/10 pt-4`}>
+                    <div key={'footer-new-word'} className={`flex items-center justify-between border-t ${colors.border10} pt-4 ${colors.background}`}>
                         <button
                             key={'button-cancel'}
-                            className={`border border-black/20 text-black/80 rounded-full px-6 py-2`}
+                            className={`${colors.border20} ${colors.text80} border rounded-full px-6 py-2`}
                             onClick={handleOk}
                         >
                             Cancel
@@ -152,14 +163,14 @@ export default function NewWord(props: INewModal) {
                             key={'button-submit'}
                             onClick={onAddWord}
                             style={{ opacity: selectedWords.length > 0 ? 1 : 0.4 }}
-                            className={`bg-black px-6 py-2 border rounded-full text-white`}
+                            className={`${colors.background} ${colors.text} px-6 py-2 border rounded-full`}
                         >
                             Confirm
                         </button>
                     </div>
                 ]}
             >
-                <div className={`border border-black/20 rounded-lg flex items-center pl-2 mt-4`}>
+                <div className={`border ${colors.border20} rounded-lg flex items-center pl-2 mt-4`}>
                     <IoSearchOutline />
                     <input
                         value={input}
@@ -172,15 +183,15 @@ export default function NewWord(props: INewModal) {
                 </div>
 
                 {selectedWords.length > 0 && (
-                    <div className={`bg-slate-100 rounded-lg my-4 flex flex-col h-min border border-slate-200`}>
-                        <div className={`flex items-center justify-between pl-4 pr-2 pt-2`}>
+                    <div className={`${colors.backgroundSlate200} rounded-lg my-4 flex flex-col h-min border border-slate-200`}>
+                        <div className={`flex items-center justify-between pl-4 pr-2 pt-2 ${colors.text}`}>
                             Add these words into the Known Words?
                             <div
                                 onClick={() => {
                                     setInput('');
                                     setSelectedWords([]);
                                 }}
-                                className={`cursor-pointer border rounded-full border-black/50 ${colors.text60} p-1`}
+                                className={`cursor-pointer border rounded-full ${colors.border} ${colors.text} p-1`}
                             >
                                 <HiMiniXMark size={15} />
                             </div>
@@ -189,7 +200,7 @@ export default function NewWord(props: INewModal) {
                             {selectedWords.map((w, idx) => (
                                 <div
                                     key={idx}
-                                    className={`bg-white border border-gray-300 rounded-full px-3 py-1 text-sm flex items-center gap-2`}
+                                    className={`${colors.background} border border-gray-300 rounded-full px-3 py-1 text-sm flex items-center gap-2`}
                                 >
                                     <span className={props.lang === 'EN' ? 'lowercase' : ''}>{w}</span>
                                     <button
@@ -209,7 +220,7 @@ export default function NewWord(props: INewModal) {
                         <ul
                             ref={suggestionsRef}
                             style={{ top: selectedWords.length > 0 ? "37%" : "54%" }}
-                            className={`absolute z-10 bg-white border-0 w-5/6 text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[37%]`}
+                            className={`absolute z-10 ${colors.background} border-0 w-5/6 text-left max-h-40 overflow-y-auto rounded-x rounded-b shadow-md top-[37%]`}
                         >
                             {suggestions.map((sug, index) => (
                                 <li

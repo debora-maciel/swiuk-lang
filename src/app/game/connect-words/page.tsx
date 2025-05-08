@@ -60,7 +60,7 @@ export default function ConnectWordsPage() {
   };
 
   return (
-    <div className="text-center bg-white py-6 min-h-screen">
+    <div className={`text-center ${colors.background} ${colors.text} py-6 min-h-screen`}>
       <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
         <Link href={'/'} className={`${colors.text} text-4xl`}>
           <IoArrowBackCircle />
@@ -70,15 +70,15 @@ export default function ConnectWordsPage() {
         </div>
       </div>
       <div className='flex justify-end px-6 pb-2'>
-        <div className='border text-black/80 border-black/10 w-min flex flex-col rounded-lg px-2 py-1'>
+        <div className={`border ${colors.text80} ${colors.border10} w-min flex flex-col rounded-lg px-2 py-1`}>
           <div className='text-xs'>Matches</div>
           <div className='font-bold text-lg'>
             {matches.length}
           </div>
         </div>
       </div>
-      <hr className="text-black/10" />
-      <div className="flex items-start justify-center gap-5 px-4 bg-white">
+      <hr className={colors.text10} />
+      <div className={`flex items-start justify-center gap-5 px-4 ${colors.background}`}>
         <div>
           {germanWords.map((word, i) => {
             const matchedColor = matchColors[word];
@@ -86,10 +86,10 @@ export default function ConnectWordsPage() {
               <div
                 key={i}
                 onClick={() => handleSelect(word, 'german')}
-                className={`cursor-pointer py-2 px-3 my-4 border text-black/80 border-black/10 rounded-full shadow-md text-base font-medium transform transition duration-300 hover:scale-80 
+                className={`cursor-pointer py-2 px-3 my-4 border ${colors.border10} rounded-full shadow-md text-base font-medium transform transition duration-300 hover:scale-80 
                   ${matchedColor
                     ? `pointer-events-none`
-                    : selected.german === word ? 'bg-slate-200 scale-80 border-dashed' : ' font-bold'
+                    : selected.german === word ? 'bg-slate-200 text-black scale-80 border-dashed' : ' font-bold'
                   }
                 `}
                 style={{
@@ -109,10 +109,10 @@ export default function ConnectWordsPage() {
               <div
                 key={i}
                 onClick={() => handleSelect(word, 'english')}
-                className={`cursor-pointer py-2 px-3 font-light border border-black/10 my-4 rounded-full shadow-md text-base font-medium transform transition duration-300 hover:scale-80 
+                className={`cursor-pointer py-2 px-3 font-light border my-4 ${colors.border30} rounded-full shadow-md text-base font-medium transform transition duration-300 hover:scale-80 
                   ${matchedColor
                     ? 'pointer-events-none opacity-85'
-                    : selected.english === word ? 'bg-gray-200 scale-80 border-dashed' : '  font-bold'
+                    : selected.english === word ? 'bg-gray-200 text-black scale-80 border-dashed' : '  font-bold'
                   }
                   `}
                 style={{
@@ -126,11 +126,11 @@ export default function ConnectWordsPage() {
           })}
         </div>
       </div>
-      <hr className='my-4 text-black/10' />
+      <hr className={`my-4 ${colors.text10}`} />
       <button onClick={setup}
         // disabled={matches.length != pairs.length}
         // style={{ opacity: matches.length != pairs.length ? 0.5 : 1 }}
-        className='bg-black text-white px-10 mt-2 rounded-full py-2'>Next</button>
+        className={`${colors.backgroundReverse} ${colors.textReverse} px-10 mt-2 rounded-full py-2`}>Next</button>
     </div>
   );
 }
