@@ -1,18 +1,16 @@
 "use client";
-import Link from "next/link";
+
 import { useState, useEffect } from "react";
-import { IoIosAdd } from "react-icons/io";
-import { IoArrowBackCircle } from "react-icons/io5";
-import { IoIosSearch } from "react-icons/io";
-import { IoIosRemove } from "react-icons/io";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import NewWord from "../../components/NewWord";
 import ListWordTable from "../../components/ListWord";
+import HeaderBack from "@/app/core/components/HeaderBack";
+import { useTheme } from "@/app/core/theme/ThemeContext";
 
 export default function ListWords() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
     const [unknownWords, setUnknownWords] = useState<string[]>([]);
     const [searchUnknown, setSearchUnknown] = useState('');
+    const { colors } = useTheme();
     const [searchKnown, setSearchKnown] = useState('');
     const [viewKnown, setViewKnown] = useState(true);
 
@@ -38,7 +36,6 @@ export default function ListWords() {
         onLoad();
     }
 
-
     function onAddKnownWord(word: string) {
         let known = JSON.parse(localStorage.getItem("knownWords") || "[]");
         if (!Array.isArray(known)) known = [];
@@ -49,30 +46,20 @@ export default function ListWords() {
         onLoad();
     }
 
-    function onAddNewWord(word: string) {
-
-    }
-
     return (
         <div className="w-full py-2 flex flex-col">
-            <div className="pl-5 text-xl pt-1 montserrat-black w-full text-left flex items-center justify-between px-4 mb-3">
-                <Link href={'/words/english'} className="text-black text-4xl">
-                    <IoArrowBackCircle />
-                </Link>
-                <div>
-                    English
-                </div>
-            </div>
+            <HeaderBack link="/words/english" title="English" />
             <div className="contents w-4/6">
-                <div onClick={() => setViewKnown(!viewKnown)} className="flex items-center pb-1 justify-end px-4 text-sm">
-                    <span className="bg-black flex items-center rounded-full text-white px-2 py-[2px] text-sm">
+                <div onClick={() => setViewKnown(!viewKnown)} className="flex items-center pb-1 justify-end px-4 text-sm mb-2">
+                    <span className={`${colors.textReverse} ${colors.backgroundReverse} flex items-center rounded-full px-2 py-[2px] text-sm`}>
                         {viewKnown ? 'Uknown' : 'Known'}
-                        <span className="bg-white rounded-full text-black px-1 py-[2px] text-[10px] ml-2">
+                        <span className={`${colors.text} ${colors.background} rounded-full text-black px-1 py-[2px] text-[10px] ml-2`}>
                             {viewKnown ? unknownWords.length : knownWords.length}
                         </span>
                     </span>
-
-                    <IoIosArrowRoundForward size={15} />
+                    <div className={`${colors.text} `}>
+                        <IoIosArrowRoundForward size={15} />
+                    </div>
                 </div>
                 {
                     viewKnown ? (
