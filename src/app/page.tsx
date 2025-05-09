@@ -61,8 +61,8 @@ export default function Home() {
   );
 
   return (
-    <div className={`w-full flex overflow-y-scroll pt-4 items-center pr-4 gap-4 ${colors.backgroundLight} pb-20`}>
-      <div className={`flex flex-col flex h-min items-start justify-center`}>
+    <div className={`w-full flex overflow-y-scroll pt-4 items-center px-4 gap-4 ${colors.backgroundLight} pb-20`}>
+      {/* <div className={`flex flex-col flex h-min items-start justify-center`}>
         <Link href={"/dashboard"} className={`${colors.background} pt-4 pr-4 pb-4 border-b-0 flex items-end justify-center rounded-tr-4xl`}>
           <GrAnalytics size={30} className={`${colors.text70}`} />
         </Link>
@@ -72,7 +72,7 @@ export default function Home() {
         <div className={`${colors.background} pt-4 pr-4 pb-4 border-t-0 flex items-end justify-center rounded-br-4xl`}>
           <GrAnalytics size={30} className={`${colors.text70}`} />
         </div>
-      </div>
+      </div> */}
 
       <div className={`${colors.background} flex items-center justify-center h-full p-3 gap-10 rounded-4xl flex-col`}>
         <div className="w-5/6 px-2 mx-auto">
