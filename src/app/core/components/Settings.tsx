@@ -5,7 +5,7 @@ import { Dropdown } from 'antd';
 import { useTheme } from '../theme/ThemeContext';
 
 export default function Settings() {
-    const { onChangeTheme, colors } = useTheme();
+    const { onChangeTheme, colors, theme } = useTheme();
 
     const items: MenuProps['items'] = [
         {
@@ -38,11 +38,13 @@ export default function Settings() {
         <Dropdown
             menu={{
                 items,
+                selectable: true,
+                selectedKeys: [theme],
                 onClick: handleClick,
             }}
             trigger={['click']}
         >
-            <FiSettings className={colors.text} size={20}/>
+            <FiSettings className={colors.text} size={20} />
         </Dropdown>
     );
 }

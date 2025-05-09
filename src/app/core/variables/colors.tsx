@@ -22,6 +22,7 @@ export const systemColors: IColors = {
     background: "bg-white dark:bg-black",
     backgroundHover: "hover:bg-gray-50 dark:hover:bg-red-600",
     backgroundReverse: "bg-black dark:bg-white",
+    backgroundLight: "bg-gray-200 dark:bg-",
     backgroundSecondary: "bg-white dark:bg-red-600",
     backgroundSlate200: "bg-slate-200/50 dark:bg-gray-700/20",
     backgroundSlate300: "bg-slate-300/30"
@@ -51,6 +52,8 @@ export const lightColors: IColors = {
     
     background: "bg-white",
     backgroundReverse: "bg-black",
+
+    backgroundLight: "bg-gray-200",
     backgroundHover: "hover:bg-gray-50",
     backgroundSecondary: "bg-white",
     backgroundSlate200: "bg-slate-200/50",
@@ -58,9 +61,9 @@ export const lightColors: IColors = {
 }
 
 export const darkColors: IColors = {
-    border: "border-white",
+    border: "border-[#484a5e]",
     borderReverse: "border-black",
-    border10: "border-white/40",
+    border10: "border-black/20",
     border20: "border-white/40",
     border30: "border-white/50",
     borderSlate800: "border-slate-300/20",
@@ -78,7 +81,8 @@ export const darkColors: IColors = {
     textSlate700: "text-slate-300",
     textSlate800: "text-slate-200",
 
-    background: "bg-black",
+    background: "bg-[#484a5e]",
+    backgroundLight: "bg-[#58596d]",
     backgroundHover: "hover:bg-white/50",
     backgroundReverse: "bg-white",
     backgroundSecondary: "bg-gray-600",
@@ -110,6 +114,7 @@ export interface IColors {
     textSlate800: string;
     
     background: string;
+    backgroundLight: string;
     backgroundHover: string;
     backgroundReverse: string;
     backgroundSecondary: string;

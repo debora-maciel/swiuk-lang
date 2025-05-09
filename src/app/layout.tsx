@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased mx-auto border-x h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable}  antialiased mx-auto border-x min-h-screen`}
       >
         <ThemeProvider>
           <Layout>

@@ -19,7 +19,7 @@ interface IListWordTable {
 export default function ListWordTable(props: IListWordTable) {
     const { colors } = useTheme();
 
-    const { isKnown, data, searchString, title, setSearchString, onRemoveKnownWord, onAddKnownWord, lang, onLoad }
+    const { isKnown, data, searchString, title, known, unknown, setSearchString, onRemoveKnownWord, onAddKnownWord, lang, onLoad }
         = props;
 
 
@@ -33,7 +33,7 @@ export default function ListWordTable(props: IListWordTable) {
                     {title}
                 </div>
                 <div className="flex w-2/4 flex justify-end pr-1 text-sm">
-                    <NewWord key={'knwn'} icon="small" lang={lang} known="DEknownWords" unknown="DEunknownWords" onOk={onLoad} />
+                    <NewWord key={'knwn'} icon="small" lang={lang} known={known} unknown={unknown} onOk={onLoad} />
                 </div>
             </div>
             <div className={`border ${colors.border20} ${colors.text} rounded-full flex items-center justify-start gap-2 py-2 mt-2 shadow-md mb-2 px-2 mx-4`}>

@@ -65,3 +65,7 @@ select {
     font-family: "Montserrat", sans-serif;
     font-weight: 900;
 }
+
+.recharts-sector:focus {
+    outline: none;
+  }

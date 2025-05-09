@@ -85,7 +85,7 @@ export default function ListWords() {
                                 setSearchString={setSearchUnknown}
                                 onAddKnownWord={onAddKnownWord}
                                 searchString={searchUnknown}
-                                key={'unknown deutsch'}
+                                key={'unknown english'}
                                 unknown="unknownWords"
                                 title="Unknown Words"
                                 data={unknownWords}
