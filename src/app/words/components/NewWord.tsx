@@ -1,5 +1,5 @@
 "use client"
-import { Modal, ConfigProvider } from "antd"
+import { Modal } from "antd"
 import debounce from "lodash.debounce";
 import { useEffect, useRef, useState } from "react";
 import dataDE from '../../data/eng_germ_dict.json';
@@ -117,7 +117,7 @@ export default function NewWord(props: INewModal) {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    }, []);
+    }, [null]);
 
     return (
         <div>
