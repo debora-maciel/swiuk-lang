@@ -5,7 +5,7 @@ import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false }); 
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function DriverPieChart() {
     const { colors } = useTheme();
@@ -20,7 +20,7 @@ export default function DriverPieChart() {
         const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
 
         const DEUnknown = JSON.parse(localStorage.getItem("DEunknownWords") || "[]");
-        const ENUnknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
+        const ENUnknown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
 
         setENKnownWords(ENknown);
         setENUknownWords(ENUnknown);
@@ -37,8 +37,8 @@ export default function DriverPieChart() {
         chart: {
             type: "pie",
         },
-        labels: ["Known", "Unknown"],
-        colors: ["#10B981", "#EF4444"],
+        labels: ["Unknown", "Known"],
+        colors: ["#657483", "#6aa4da"],
         legend: {
             position: "bottom",
         },
