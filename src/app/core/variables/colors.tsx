@@ -61,7 +61,7 @@ export const lightColors: IColors = {
 }
 
 export const darkColors: IColors = {
-    border: "border-[#484a5e]",
+    border: "border-[#ffffff]",
     borderReverse: "border-black",
     border10: "border-black/20",
     border20: "border-white/40",

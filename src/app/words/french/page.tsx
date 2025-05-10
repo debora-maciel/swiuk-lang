@@ -82,13 +82,13 @@ export default function French() {
     if (words.length === 0) return null;
 
     return (
-        <div className={`min-h-screen flex flex-col items-center w-full`}>
+        <div className={`min-h-screen flex flex-col items-center w-full ${colors.backgroundLight}`}>
             <HeaderBack link="/words/" title="French" />
             <div className={`w-full h-full xl:rounded-lg flex items-center justify-center`}>
                 <div className={`flex flex-col justify-start items-start w-full h-full`}>
                     <div className={`flex items-center justify-end w-full px-4`}>
                         <Link href={'/words/deutsch/list'} className={`w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4`}>
-                            <div className={`flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2`}>
+                            <div className={`${colors.background}  flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2`}>
                             <div className={`${colors.text60} text-xs`}>
                                     Unknown
                                 </div>
@@ -96,7 +96,7 @@ export default function French() {
                                     {unknownWords.length}
                                 </div>
                             </div>
-                            <div className={`flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2`}>
+                            <div className={`${colors.background}  flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2`}>
                                 <div className={`text-xs ${colors.text80}`}>
                                     Known
                                 </div>
@@ -104,7 +104,7 @@ export default function French() {
                                     {knownWords.length}
                                 </div>
                             </div>
-                            <div className={`flex flex-col items-center justify-center border  ${colors.border10} rounded-r-lg py-1 px-2`}>
+                            <div className={`${colors.background}  flex flex-col items-center justify-center border  ${colors.border10} rounded-r-lg py-1 px-2`}>
                                 <div className={`text-xs ${colors.text60}`}>All</div>
                                 <div className={`${colors.text60} text-xl`}>
                                     {utils.formatNumberAbbreviated(words.length)}

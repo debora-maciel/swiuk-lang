@@ -24,7 +24,7 @@ export default function ListWordTable(props: IListWordTable) {
 
 
     return (
-        <div className={`border-separate rounded-l-lg border-spacing-2 border ${colors.border10}`}>
+        <div className={`${colors.background} border-separate rounded-l-lg border-spacing-2 border ${colors.border10}`}>
             <div className="w-full flex items-center px-4 pt-2">
                 <div className={`ml-2 px-2 p-[2px] font-bold border-[1px] ${colors.border} ${colors.text} rounded-full`}>
                     {data.length}
@@ -48,10 +48,10 @@ export default function ListWordTable(props: IListWordTable) {
                     No known words was found
                 </div>
             )}
-            <div className={`w-full flex flex-col gap-3 overflow-y-scroll max-h-[400px] border-y py-2 ${colors.border10} px-6`}>
+            <div className={`w-full ${colors.backgroundLight} flex flex-col gap-3 overflow-y-scroll max-h-[400px] border-y py-2 ${colors.border10} px-6`}>
                 {data.sort((a, b) => a.localeCompare(b)).filter((w) => w.toLowerCase().includes(searchString.toLowerCase()))
                     .map((w, i) => (
-                        <div key={w + i} className={`border ${colors.text50} ${colors.border20} flex items-center justify-between rounded-full py-1 px-3 lowercase`}>
+                        <div key={w + i} className={`${colors.background} border ${colors.text50} ${colors.border20} flex items-center justify-between rounded-full py-1 px-3 lowercase`}>
                             {w}
                             <div className="flex gap-2">
                                 <a href={`https://www.google.com/search?q=${w.toLowerCase()}+meaning`} className={`border rounded-full ${colors.border10} ${colors.text60} p-1`}>

@@ -86,7 +86,7 @@ export default function EnglishWords() {
     if (words.length === 0) return null;
 
     return (
-        <>
+        <div className={`min-h-screen flex flex-col items-center w-full ${colors.backgroundLight}`}>
             <HeaderBack link="/words/" title="English" />
             <div className={`w-full h-full xl:rounded-lg flex items-center justify-center`}>
                 <div className={`flex flex-col justify-start items-start w-full h-full`}>
@@ -157,6 +157,6 @@ export default function EnglishWords() {
                     <LearnMore key={'learn-more-component'} currentWord={currentWord} words={words} />
                 </div>
             </div>
-        </>
+        </div>
     );
 }

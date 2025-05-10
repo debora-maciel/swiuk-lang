@@ -124,13 +124,13 @@ export default function NewWord(props: INewModal) {
             {props.icon === 'default' ? (
                 <button
                     onClick={showModal}
-                    className={`cursor-pointer border ${colors.border30} ${colors.text60} font-normal rounded-full px-2 py-1`}>
+                    className={` ${colors.background} cursor-pointer border ${colors.border30} ${colors.text60} font-normal rounded-full px-2 py-1`}>
                     + New word
                 </button>
             ) : (
                 <button
                     onClick={showModal}
-                    className={`cursor-pointer flex items-center border rounded-full ${colors.border30} ${colors.text80} p-2`}>
+                    className={`${colors.background}  cursor-pointer flex items-center border rounded-full ${colors.border30} ${colors.text80} p-2`}>
                     <BsPlus size={25} />
                 </button>
             )}

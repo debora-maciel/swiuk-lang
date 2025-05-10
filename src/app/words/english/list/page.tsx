@@ -47,7 +47,7 @@ export default function ListWords() {
     }
 
     return (
-        <div className="w-full py-2 flex flex-col">
+        <div className={`${colors.backgroundLight} w-full py-2 flex flex-col min-h-screen`}>
             <HeaderBack link="/words/english" title="English" />
             <div className="contents w-4/6">
                 <div onClick={() => setViewKnown(!viewKnown)} className="flex items-center pb-1 justify-end px-4 text-sm mb-2">

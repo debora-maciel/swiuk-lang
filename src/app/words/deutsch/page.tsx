@@ -82,21 +82,21 @@ export default function Deutsch() {
     if (words.length === 0) return null;
 
     return (
-        <>
+        <div className={`min-h-screen flex flex-col items-center w-full ${colors.backgroundLight}`}>
             <HeaderBack link="/words/" title="Deutsch" />
             <div className={`w-full h-full xl:rounded-lg flex items-center justify-center`}>
                 <div className={`flex flex-col justify-start items-start w-full h-full`}>
                     <div className={`flex items-center justify-end w-full px-4`}>
-                        <Link href={'/words/deutsch/list'} className={`w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4`}>
-                            <div className={`flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2`}>
-                            <div className={`${colors.text60} text-xs`}>
+                        <Link href={'/words/deutsch/list'} className={` w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4`}>
+                            <div className={`flex flex-col items-center justify-center border ${colors.border10} ${colors.background} rounded-l-lg py-1 px-2`}>
+                                <div className={`${colors.text60} text-xs`}>
                                     Unknown
                                 </div>
                                 <div className={`${colors.text60} text-xl`}>
                                     {unknownWords.length}
                                 </div>
                             </div>
-                            <div className={`flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2`}>
+                            <div className={`${colors.background} flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2`}>
                                 <div className={`text-xs ${colors.text80}`}>
                                     Known
                                 </div>
@@ -104,7 +104,7 @@ export default function Deutsch() {
                                     {knownWords.length}
                                 </div>
                             </div>
-                            <div className={`flex flex-col items-center justify-center border  ${colors.border10} rounded-r-lg py-1 px-2`}>
+                            <div className={`flex ${colors.background} flex-col items-center justify-center border  ${colors.border10} rounded-r-lg py-1 px-2`}>
                                 <div className={`text-xs ${colors.text60}`}>All</div>
                                 <div className={`${colors.text60} text-xl`}>
                                     {utils.formatNumberAbbreviated(words.length)}
@@ -122,12 +122,12 @@ export default function Deutsch() {
                     </div>
                     <div className={`flex flex-row justify-center gap-16 w-full mx-auto p-4`}>
                         <button onClick={() => handleIncorrect(words[currentWord])}
-                            className={`cursor-pointer ${colors.text60} rounded-full border ${colors.border20} py-2 flex items-center gap-2 justify-between px-6`}>
+                            className={`cursor-pointer  ${colors.text60} rounded-full border ${colors.border20} py-2 flex items-center gap-2 justify-between px-6`}>
                             <HiMiniXMark size={20} />
                             Unknown
                         </button>
                         <button onClick={() => handleCorrect(words[currentWord])}
-                            className={`cursor-pointer ${colors.text} rounded-full border ${colors.border} py-2 flex items-center gap-2 justify-between px-6`}>
+                            className={`cursor-pointer ${colors.text} rounded-full border ${colors.border20} py-2 flex items-center gap-2 justify-between px-6`}>
                             <IoCheckmark size={20} />
                             Known
                         </button>
@@ -135,6 +135,6 @@ export default function Deutsch() {
                     <LearnMore key={'learn-more-component-de'} currentWord={currentWord} words={words} />
                 </div>
             </div>
-        </>
+        </div>
     );
 }
