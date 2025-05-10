@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import mw from "../../../../../public/mw.png";
 import dc from "../../../../../public/dictionarydotcom.png";
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 
 export default function LearnMore({ words, currentWord }: { words: string[], currentWord: number }) {
     const { colors } = useTheme();

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { IoArrowBackCircle } from "react-icons/io5";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../context/theme/ThemeContext";
 
 interface IHeaderBack{
     title: string;

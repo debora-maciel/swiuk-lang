@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";

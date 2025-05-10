@@ -1,7 +1,7 @@
 "use client";
 
 import HeaderBack from "@/app/core/components/HeaderBack";
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import ListWordTable from "../../components/ListWord";
 import { useState, useEffect } from "react";

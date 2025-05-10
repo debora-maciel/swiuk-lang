@@ -2,7 +2,7 @@ import React from 'react';
 import { FiSettings } from "react-icons/fi";
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
-import { useTheme } from '../theme/ThemeContext';
+import { useTheme } from '../context/theme/ThemeContext';
 
 export default function Settings() {
     const { onChangeTheme, colors, theme } = useTheme();

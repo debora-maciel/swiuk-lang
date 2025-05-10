@@ -1,10 +1,9 @@
 'use client';
-import { IoArrowBackCircle } from 'react-icons/io5';
+
 import data from '../../data/eng_germ_dict.json';
 import { useEffect, useState } from 'react';
 import { utils } from '@/utils/utils';
-import Link from 'next/link';
-import { useTheme } from '@/app/core/theme/ThemeContext';
+import { useTheme } from '@/app/core/context/theme/ThemeContext';
 import HeaderBack from '@/app/core/components/HeaderBack';
 
 export default function ConnectWordsPage() {

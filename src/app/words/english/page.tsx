@@ -7,7 +7,7 @@ import LearnMore from "./components/LearnMore";
 import { utils } from "../../../utils/utils";
 import Link from "next/link";
 import NewWord from "../components/NewWord";
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import HeaderBack from "@/app/core/components/HeaderBack";
 
 type WordEntry = {

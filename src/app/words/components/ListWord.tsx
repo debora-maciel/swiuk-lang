@@ -1,6 +1,6 @@
 import { IoIosAdd, IoIosRemove, IoIosSearch } from "react-icons/io";
 import NewWord from "./NewWord";
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 
 interface IListWordTable {
     data: string[];

@@ -2,7 +2,7 @@
 
 import { IoIosArrowRoundForward } from "react-icons/io";
 import HeaderBack from "../core/components/HeaderBack";
-import { useTheme } from "../core/theme/ThemeContext";
+import { useTheme } from "../core/context/theme/ThemeContext";
 import { useEffect, useRef, useState } from 'react';
 import { GoArrowSwitch } from "react-icons/go";
 import dict from '../data/eng_germ_dict.json';

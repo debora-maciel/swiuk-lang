@@ -8,10 +8,10 @@ import { IoClose, IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import { useGlobalMessage } from "@/app/core/components/Message";
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 
 interface INewModal {
-    known: 'DEknownWords' | "knownWords";
+    known: 'DEknownWords' | "knownWords" | 'FRknownWords' ; 
     icon: 'small' | 'default';
     unknown: 'DEunknownWords' | "unknownWords";
     onOk?: () => void;

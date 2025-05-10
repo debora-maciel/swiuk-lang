@@ -8,7 +8,7 @@ import { IoCheckmark } from "react-icons/io5";
 import LearnMore from "./components/LearnMore";
 import NewWord from "../components/NewWord";
 import HeaderBack from "@/app/core/components/HeaderBack";
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 
 function shuffleArray<T>(array: T[]): T[] {
     const shuffled = [...array];

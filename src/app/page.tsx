@@ -1,14 +1,14 @@
 "use client"
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { MdOutlineGTranslate } from "react-icons/md";
-import { GrAnalytics } from "react-icons/gr";
 import { IoGameController } from "react-icons/io5";
 import { IoIosInformation } from "react-icons/io";
 // import { useTheme } from "./core/theme/useTheme";
 import { Popover } from 'antd';
 import { useEffect, useState } from "react";
 import Link from 'next/link';
-import { useTheme } from "./core/theme/ThemeContext";
+import { useTheme } from "./core/context/theme/ThemeContext";
+import MenuHome from "./core/components/MenuHome";
 
 export default function Home() {
   const [DEknownWords, setDEKnownWords] = useState<string[]>([]);
@@ -61,20 +61,9 @@ export default function Home() {
   );
 
   return (
-    <div className={`w-full flex overflow-y-scroll pt-4 items-center px-4 gap-4 ${colors.backgroundLight} pb-20`}>
-      {/* <div className={`flex flex-col flex h-min items-start justify-center`}>
-        <Link href={"/dashboard"} className={`${colors.background} pt-4 pr-4 pb-4 border-b-0 flex items-end justify-center rounded-tr-4xl`}>
-          <GrAnalytics size={30} className={`${colors.text70}`} />
-        </Link>
-        <div className={`${colors.background} pt-4 pr-4 pb-4 border-b-0 flex items-end justify-center`}>
-          <GrAnalytics size={30} className={`${colors.text70}`} />
-        </div>
-        <div className={`${colors.background} pt-4 pr-4 pb-4 border-t-0 flex items-end justify-center rounded-br-4xl`}>
-          <GrAnalytics size={30} className={`${colors.text70}`} />
-        </div>
-      </div> */}
-
-      <div className={`${colors.background} flex items-center justify-center h-full p-3 gap-10 rounded-4xl flex-col`}>
+    <div className={`w-full flex overflow-y-scroll pt-4 items-start gap-4 ${colors.backgroundLight} pb-20`}>
+      <MenuHome />
+      <div className={`${colors.background} w-5/6 flex items-center justify-center h-full p-3 gap-10 rounded-4xl flex-col`}>
         <div className="w-5/6 px-2 mx-auto">
           <h1 className={`${colors.text90} font-bold mb-2 text-lg`}>
             Welcome to Swiuk Lang
@@ -150,13 +139,13 @@ export default function Home() {
             </p>
           </div>
           <div className={`${colors.border10} ${colors.text50} flex items-center gap-2 justify-end pr-5 pt-4 border-t mt-1 rounded-r-xl`}>
-            <div className={`${colors.border20} ${colors.text60} ml-10 rounded-full border p-2 text-xs font-bold`}>
+            {/* <div className={`${colors.border20} ${colors.text60} ml-10 rounded-full border p-2 text-xs font-bold`}>
               DE
             </div>
             <div className={`${colors.border20} ${colors.text60} rounded-full border p-2 text-xs font-bold`}>
               EN
-            </div>
-            <div className={"w-full flex items-start gap-4"}>
+            </div> */}
+            <div className={"w-full flex items-start gap-4 pl-3"}>
               <div className={`${colors.border20} ${colors.text} flex font-normal text-sm font-black gap-1 border px-2 rounded-full`}>
                 Matches: <b className={colors.text60}>
                   {matches.length}

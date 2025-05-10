@@ -1,6 +1,6 @@
 "use client"
 import { ReactNode } from "react";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "../context/theme/ThemeContext";
 import { ConfigProvider } from 'antd';
 
 interface ILayout {

@@ -1,4 +1,4 @@
-import { useTheme } from "@/app/core/theme/ThemeContext";
+import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import { FcGoogle } from "react-icons/fc";
 
 export default function LearnMore({ words, currentWord }: { words: string[], currentWord: number }) {

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "./core/theme/ThemeContext";
+import { ThemeProvider } from "./core/context/theme/ThemeContext";
 import "./globals.css";
 import Navbar from "./core/components/NavBar";
 import Layout from "./core/components/Layout";
+import { LanguageProvider } from "./core/context/language/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,12 +31,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable}  antialiased mx-auto border-x min-h-screen`}
       >
-        <ThemeProvider>
-          <Layout>
-            <Navbar />
-            {children}
-          </Layout>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <Layout>
+              <Navbar />
+              {children}
+            </Layout>
+          </ThemeProvider>
+        </LanguageProvider>
         {/* <footer className="border-t mt-10 border-black/10 text-black/70 pt-2 text-sm pl-2 w-full">
           Created and designed by Debora Maciel
         </footer> */}
