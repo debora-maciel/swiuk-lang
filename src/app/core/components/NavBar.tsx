@@ -9,11 +9,14 @@ import { useState } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { SiGoogleanalytics } from "react-icons/si";
 import { IoMdSettings } from "react-icons/io";
-import { usePathname } from "next/navigation";
+import { IoClose } from "react-icons/io5";
+import { usePathname, useRouter } from 'next/navigation';
+
 
 export default function Navbar() {
     const { colors } = useTheme();
     const [open, setOpen] = useState(false);
+    const router = useRouter();
     const pathname = usePathname();
 
     const menu = [
@@ -51,20 +54,29 @@ export default function Navbar() {
                         width: '200px'
                     }
                 }}
+                classNames={
+                    {
+                        header: `${colors.background} ${colors.text}`,
+                        body: `${colors.background} ${colors.text}`,
+                    }
+                }
                 size="large"
                 placement={"left"}
                 title="Swiuk Lang"
                 onClose={onClose}
+                closeIcon={
+                    <IoClose className={`${colors.text}`} />
+                }
                 open={open}
             >
                 <div className="h-full w-full">
                     {menu.map((m) => (
-                        <a onClick={() => setOpen(false)} key={m.name} href={m.link}
-                            className={` ${pathname == m.link ? colors.textReverse + ' ' +
+                        <div onClick={() => { setOpen(false); router.push(m.link) }} key={m.name}
+                            className={`${pathname == m.link ? colors.textReverse + ' font-bold ' +
                                 colors.backgroundReverse : colors.text + ' ' +
-                            colors.background} pt-4 pr-4 pb-4 border-b-0 flex items-center justify-start gap-3 capitalize rounded-tr-4xl rounded-br-4xl `}>
+                            colors.background} pt-4 px-4 pb-4 border-b-0 flex items-center justify-start gap-3 capitalize rounded-4xl rounded-br-4xl `}>
                             {m.icon} {m.name}
-                        </a>
+                        </div>
                     ))}
                 </div>
             </Drawer>
