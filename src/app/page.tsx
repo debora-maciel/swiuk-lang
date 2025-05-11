@@ -76,7 +76,7 @@ export default function Home() {
         </div>
 
         {/* Game Box */}
-        <div className={`${colors.border10} ${colors.text} w-5/6 border rounded-xl py-3`}>
+        <div className={`${colors.border10} ${colors.text} w-11/12 border rounded-xl py-3`}>
           <div className={`${colors.border10} pl-19 leading-3 font-bold text-md flex items-center justify-between w-full pr-2`}>
             <div>{t.connect.title}</div>
             <Popover content={<div className="w-full pb-4">{t.connect.popover}</div>} title={t.connect.title}>
@@ -106,7 +106,7 @@ export default function Home() {
         </div>
 
         {/* Translator Box */}
-        <div className={`${colors.border10} ${colors.text} w-5/6 border rounded-xl py-2`}>
+        <div className={`${colors.border10} ${colors.text} w-11/12 border rounded-xl py-2`}>
           <div className={`${colors.border10} pl-19 leading-3 font-bold text-md flex items-center justify-between w-full pr-2`}>
             <div>{t.translator.title}</div>
             <Popover content={<div className="w-full pb-4">{t.translator.popover}</div>} title={t.translator.title}>
