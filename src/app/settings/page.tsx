@@ -6,10 +6,11 @@ import { Dropdown, MenuProps } from "antd";
 import { Modal } from 'antd';
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import Image from "next/image";
 
 export default function Settings() {
     const { onChangeTheme, colors, theme } = useTheme();
-    const { language, targetLanguage } = useLanguage();
+    const { language, onChangeLanguage } = useLanguage();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteKey, setDeleteKey] = useState<string | null>(null);
 
@@ -36,8 +37,30 @@ export default function Settings() {
         },
     ];
 
+    const languages: MenuProps['items'] = [
+        {
+            key: 'de',
+            label: 'Deutsch',
+            icon: <Image width={20} height={20} alt='de' src={'/german.png'} />,
+        },
+        {
+            key: 'en',
+            label: 'English',
+            icon: <Image width={20} height={20} alt='en' src={'/english.png'} />,
+        },
+        {
+            key: 'fr',
+            label: 'French',
+            icon: <Image width={20} height={20} alt='fr' src={'/french.png'} />,
+        },
+    ];
+
     const handleClick: MenuProps['onClick'] = (info) => {
         onChangeTheme(info.key as 'light' | 'dark' | 'system');
+    };
+
+    const handleChangeLang: MenuProps['onClick'] = (info) => {
+        onChangeLanguage(info.key as LanguageType);
     };
 
     function getLang(lang: LanguageType) {
@@ -102,10 +125,10 @@ export default function Settings() {
                         <div>
                             <Dropdown
                                 menu={{
-                                    items,
+                                    items: languages,
                                     selectable: true,
-                                    selectedKeys: [theme],
-                                    onClick: handleClick,
+                                    selectedKeys: [language],
+                                    onClick: handleChangeLang,
                                 }}
                                 trigger={['click']}
                             >
