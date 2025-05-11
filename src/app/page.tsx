@@ -7,7 +7,6 @@ import { Popover } from 'antd';
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { useTheme } from "./core/context/theme/ThemeContext";
-import MenuHome from "./core/components/MenuHome";
 import { translations } from "./core/variables/translation";
 import { useLanguage } from "./core/context/language/LanguageContext";
 
@@ -31,9 +30,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`w-full flex overflow-y-scroll pt-4 items-start gap-4 ${colors.backgroundLight} pb-20`}>
-      <MenuHome />
-      <div className={`${colors.background} w-5/6 flex items-center justify-center h-full p-3 gap-10 rounded-4xl flex-col`}>
+    <div className={`w-full flex overflow-y-scroll px-4 pt-4 items-start gap-4 ${colors.backgroundLight} pb-20`}>
+      <div className={`${colors.background} w-full flex items-center justify-center h-full pb-10 p-3 gap-10 rounded-4xl flex-col`}>
         <div className="w-5/6 px-2 mx-auto">
           <h1 className={`${colors.text90} font-bold mb-2 text-lg`}>
             {t.welcome}
@@ -43,7 +41,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Words Box */}
         <div className={`${colors.border10} ${colors.text} w-11/12 border rounded-xl py-2`}>
           <div className={`${colors.border10} pl-19 leading-3 font-bold text-md flex items-center justify-between w-full pr-2`}>
             <div>{t.words.title}</div>

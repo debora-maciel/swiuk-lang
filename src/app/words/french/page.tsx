@@ -19,6 +19,9 @@ function shuffleArray<T>(array: T[]): T[] {
     return shuffled;
 }
 
+const langKnown = "FRknownWords";
+const langUnknown = "FRunknownWords";
+
 export default function French() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
     const [unknownWords, setUnknownWords] = useState<string[]>([]);
@@ -28,8 +31,8 @@ export default function French() {
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
     useEffect(() => {
-        const known = JSON.parse(localStorage.getItem("FRknownWords") || "[]");
-        const notKnown = JSON.parse(localStorage.getItem("DEunknownWords") || "[]");
+        const known = JSON.parse(localStorage.getItem(langKnown) || "[]");
+        const notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
 
         setKnownWords(known);
         setUnknownWords(notKnown);
@@ -56,9 +59,7 @@ export default function French() {
         setIsCorrect(true);
         knownWords?.push(word);
 
-        localStorage.setItem("FRknownWords", JSON.stringify(knownWords));
-
-        console.log("FRknownWords", knownWords);
+        localStorage.setItem(langKnown, JSON.stringify(knownWords));
 
         setTimeout(() => {
             setIsCorrect(null);
@@ -71,7 +72,7 @@ export default function French() {
         setIsCorrect(false);
         unknownWords?.push(word);
 
-        localStorage.setItem("FRunknownWords", JSON.stringify(unknownWords));
+        localStorage.setItem(langUnknown, JSON.stringify(unknownWords));
 
         setTimeout(() => {
             setIsCorrect(null);
@@ -111,7 +112,7 @@ export default function French() {
                                 </div>
                             </div>
                         </Link>
-                        <NewWord icon="small" known="FRknownWords" unknown="DEunknownWords" lang="DE" key={'word-deutsch'} />
+                        <NewWord icon="small" known={langKnown} unknown={langUnknown} lang="FR" key={'word-francais'} />
                     </div>
                     <div className={`${isCorrect === null ? `${colors.background}` : isCorrect ? "bg-green-400" : "bg-red-400"}` + ` mx-auto flex items-center gap-1 w-full h-[130px] border ${colors.border} ${colors.border10}`}>
                         <div className={styleBorderCorrect + ` mx-auto py-3 p-4 rounded-xl transition-all duration-50 ease-in transform max-w-max z-100`}>

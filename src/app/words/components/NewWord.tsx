@@ -11,11 +11,11 @@ import { useGlobalMessage } from "@/app/core/components/Message";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
 
 interface INewModal {
-    known: 'DEknownWords' | "knownWords" | 'FRknownWords' ; 
+    known: 'DEknownWords' | "knownWords" | 'FRknownWords';
     icon: 'small' | 'default';
-    unknown: 'DEunknownWords' | "unknownWords";
+    unknown: 'FRunknownWords' | 'DEunknownWords' | "unknownWords";
     onOk?: () => void;
-    lang: 'DE' | 'EN';
+    lang: 'DE' | 'EN'| 'FR';
 }
 
 export default function NewWord(props: INewModal) {

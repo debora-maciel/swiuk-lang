@@ -5,7 +5,7 @@ import { useTheme } from '../context/theme/ThemeContext';
 import { useLanguage } from '../context/language/LanguageContext';
 import Image from 'next/image';
 
-export default function SwitchLanguage() {
+export default function SwitchTargetLanguage() {
     const { language, onChangeLanguage } = useLanguage();
     const { colors} = useTheme();
 

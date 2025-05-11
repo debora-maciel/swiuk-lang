@@ -3,8 +3,9 @@
 import { useTheme } from "../context/theme/ThemeContext";
 import Link from "next/link";
 import { AiFillHome } from "react-icons/ai";
-import { GrAnalytics } from "react-icons/gr";
+import { SiGoogleanalytics } from "react-icons/si";
 import { usePathname } from "next/navigation";
+import { IoMdSettings } from "react-icons/io";
 
 export default function MenuHome() {
     const { colors } = useTheme();
@@ -19,7 +20,12 @@ export default function MenuHome() {
         {
             name: "dashboard",
             link: "/dashboard",
-            icon: <GrAnalytics size={22} className={``} />
+            icon: <SiGoogleanalytics size={22} className={``} />
+        },
+        {
+            name: "settings",
+            link: "/settings",
+            icon: <IoMdSettings size={22} className={``} />
         },
     ]
 

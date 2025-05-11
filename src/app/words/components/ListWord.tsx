@@ -44,7 +44,7 @@ export default function ListWordTable(props: IListWordTable) {
                     className={`${colors.text} text-sm font-light w-full focus:outline-none focus:ring-0`} placeholder="Search for a word" />
             </div>
             {data.length === 0 && (
-                <div className="w-full text-center text-sm">
+                <div className={`w-full text-center text-sm p-4 ${colors.text}`}>
                     No known words was found
                 </div>
             )}
