@@ -12,7 +12,6 @@ import { IoMdSettings } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { usePathname, useRouter } from 'next/navigation';
 
-
 export default function Navbar() {
     const { colors } = useTheme();
     const [open, setOpen] = useState(false);
@@ -51,13 +50,19 @@ export default function Navbar() {
                 closable={{ 'aria-label': 'Close Button' }}
                 styles={{
                     content: {
-                        width: '200px'
+                        width: '200px',
+                        boxShadow: 'none'
+                    },
+                    wrapper: {
+                        boxShadow: 'none'
                     }
                 }}
                 classNames={
                     {
                         header: `${colors.background} ${colors.text}`,
                         body: `${colors.background} ${colors.text}`,
+                        content: 'bg-red-500 ',
+                        wrapper: ''
                     }
                 }
                 size="large"

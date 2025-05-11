@@ -6,10 +6,10 @@ interface IListWordTable {
     data: string[];
     title: string;
     isKnown: boolean;
-    known: "knownWords" | "DEknownWords";
-    unknown: "unknownWords" | "DEunknownWords";
+    known: "knownWords" | "DEknownWords" | "FRknownWords";
+    unknown: "unknownWords" | "DEunknownWords" | "FRunknownWords";
     searchString: string;
-    lang: "DE" | "EN"
+    lang: "DE" | "EN" | "FR"
     setSearchString: (val: string) => void;
     onLoad?: () => void;
     onRemoveKnownWord: (val: string) => void;

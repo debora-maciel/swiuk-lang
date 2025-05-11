@@ -5,6 +5,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { Dropdown, MenuProps } from "antd";
 import { Modal } from 'antd';
 import { useState } from "react";
+import { IoClose } from "react-icons/io5";
 
 export default function Settings() {
     const { onChangeTheme, colors, theme } = useTheme();
@@ -155,12 +156,42 @@ export default function Settings() {
                 </div>
             </div>
             <Modal
-                title="Do you want to delete these items?"
+                title={<div className={`leading-4 text-base border-b pb-4 ${colors.border10} ${colors.background} ${colors.text}`}>Do you want to delete these items?</div>}
                 open={isModalOpen}
-                onOk={handleOk}
-                onCancel={handleCancel}
+                styles={{
+                    content: {
+                        boxShadow: 'none',
+                        background: 'transparent'
+                    }
+                }}
+                closeIcon={
+                    <IoClose className={`${colors.text} text-xl hover:text-red-500 transition duration-200`} />
+                }
+                modalRender={(modal) => (
+                    <div className={`rounded-xl border ${colors.border10} ${colors.background} w-[340px] flex flex-col mx-auto ${colors.text}`}>
+                        {modal}
+                    </div>
+                )}
+                footer={[
+                    <div key={'footer-new-word'} className={`flex items-center justify-between border-t ${colors.border10} ${colors.text}  pt-4 ${colors.background}`}>
+                        <button
+                            key={'button-cancel'}
+                            className={`${colors.border20} ${colors.text80} border text-sm rounded-full px-6 py-2`}
+                            onClick={handleCancel}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            key={'button-submit'}
+                            onClick={() => handleOk()}
+                            className={`${colors.background} ${colors.text} px-6 py-2 text-sm border rounded-full`}
+                        >
+                            Confirm
+                        </button>
+                    </div>
+                ]}
             >
-                <p>This will remove all saved words under this category.</p>
+                <p className="text-sm">This will remove all saved words under this category.</p>
             </Modal>
         </div>
     )

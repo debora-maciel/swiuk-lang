@@ -6,6 +6,9 @@ import ListWordTable from "../../components/ListWord";
 import HeaderBack from "@/app/core/components/HeaderBack";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
 
+const langKnown = "FRknownWords";
+const langUnknown = "FRunknownWords";
+
 export default function ListWords() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
     const [unknownWords, setUnknownWords] = useState<string[]>([]);
@@ -15,8 +18,8 @@ export default function ListWords() {
     const [viewKnown, setViewKnown] = useState(true);
 
     function onLoad() {
-        const known = JSON.parse(localStorage.getItem("knownWords") || "[]");
-        const notKnown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
+        const known = JSON.parse(localStorage.getItem(langKnown) || "[]");
+        const notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
 
         setKnownWords(known);
         setUnknownWords(notKnown);
@@ -27,28 +30,28 @@ export default function ListWords() {
     }, []);
 
     function onRemoveKnownWord(word: string) {
-        let notKnown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
+        let notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
         if (!Array.isArray(notKnown)) notKnown = [];
 
-        localStorage.setItem("knownWords", JSON.stringify(knownWords.filter((w) => w !== word)));
-        localStorage.setItem("unknownWords", JSON.stringify([...notKnown, word]));
+        localStorage.setItem(langKnown, JSON.stringify(knownWords.filter((w) => w !== word)));
+        localStorage.setItem(langUnknown, JSON.stringify([...notKnown, word]));
 
         onLoad();
     }
 
     function onAddKnownWord(word: string) {
-        let known = JSON.parse(localStorage.getItem("knownWords") || "[]");
+        let known = JSON.parse(localStorage.getItem(langKnown) || "[]");
         if (!Array.isArray(known)) known = [];
 
-        localStorage.setItem("unknownWords", JSON.stringify(unknownWords.filter((w) => w !== word)));
-        localStorage.setItem("knownWords", JSON.stringify([...known, word]));
+        localStorage.setItem(langUnknown, JSON.stringify(unknownWords.filter((w) => w !== word)));
+        localStorage.setItem(langKnown, JSON.stringify([...known, word]));
 
         onLoad();
     }
 
     return (
-        <div className="w-full py-2 flex flex-col">
-            <HeaderBack link="/words/english" title="English" />
+        <div className="w-full py-2 flex flex-col min-h-screen">
+            <HeaderBack link="/words/french" title="French" />
             <div className="contents w-4/6">
                 <div onClick={() => setViewKnown(!viewKnown)} className="flex items-center pb-1 justify-end px-4 text-sm mb-2">
                     <span className={`${colors.textReverse} ${colors.backgroundReverse} flex items-center rounded-full px-2 py-[2px] text-sm`}>
@@ -68,14 +71,14 @@ export default function ListWords() {
                             setSearchString={setSearchKnown}
                             onAddKnownWord={onAddKnownWord}
                             searchString={searchKnown}
-                            unknown="unknownWords"
+                            unknown={langUnknown}
                             key={'known english'}
                             title="Known Words"
-                            known="knownWords"
+                            known={langKnown}
                             data={knownWords}
                             onLoad={onLoad}
                             isKnown={true}
-                            lang={"EN"}
+                            lang={"FR"}
                         />
                     )
                         :
@@ -86,13 +89,13 @@ export default function ListWords() {
                                 onAddKnownWord={onAddKnownWord}
                                 searchString={searchUnknown}
                                 key={'unknown english'}
-                                unknown="unknownWords"
+                                unknown={langUnknown}
                                 title="Unknown Words"
                                 data={unknownWords}
-                                known="knownWords"
+                                known={langKnown}
                                 onLoad={onLoad}
                                 isKnown={false}
-                                lang={"EN"}
+                                lang={"FR"}
                             />
                         )
                 }
