@@ -361,12 +361,18 @@ export default function TopicPage() {
 
   const currentLevel = levels.find(l => l.level === selectedLevel) || levels[0];
 
-  const speakText = (text: string) => {
+  const speakText = (text: string, speed: 'very-slow' | 'slow' | 'normal' = 'normal') => {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'fr-FR';
-      utterance.rate = 0.8;
+
+      const speedRates = {
+        'very-slow': 0.2,
+        'slow': 0.5,
+        'normal': 1.0,
+      };
+      utterance.rate = speedRates[speed];
 
       const voices = speechSynthesis.getVoices();
       const frenchVoice = voices.find(voice => voice.lang.startsWith('fr'));
@@ -376,6 +382,12 @@ export default function TopicPage() {
 
       speechSynthesis.speak(utterance);
     }
+  };
+
+  const speedLabels = {
+    en: { 'very-slow': 'Very Slow', 'slow': 'Slow', 'normal': 'Normal' },
+    de: { 'very-slow': 'Sehr Langsam', 'slow': 'Langsam', 'normal': 'Normal' },
+    fr: { 'very-slow': 'Très Lent', 'slow': 'Lent', 'normal': 'Normal' },
   };
 
   return (
@@ -468,12 +480,23 @@ export default function TopicPage() {
                   <p className={`${colors.text} text-lg font-medium mb-1`}>{phrase.original}</p>
                   <p className={`${colors.text60} text-sm`}>{phrase.translation[language === "fr" ? "en" : language]}</p>
                 </div>
-                <button
-                  onClick={() => speakText(phrase.original)}
-                  className={`${colors.text70} hover:${colors.text} p-2 rounded-lg transition-all`}
+                <Dropdown
+                  menu={{
+                    items: [
+                      { key: 'very-slow', label: speedLabels[language]['very-slow'] },
+                      { key: 'slow', label: speedLabels[language]['slow'] },
+                      { key: 'normal', label: speedLabels[language]['normal'] },
+                    ],
+                    onClick: (info) => speakText(phrase.original, info.key as 'very-slow' | 'slow' | 'normal'),
+                  }}
+                  trigger={['click']}
                 >
-                  <HiSpeakerWave size={20} />
-                </button>
+                  <button
+                    className={`${colors.text70} hover:${colors.text} p-2 rounded-lg transition-all`}
+                  >
+                    <HiSpeakerWave size={20} />
+                  </button>
+                </Dropdown>
               </div>
             ))
           )}
@@ -504,12 +527,23 @@ export default function TopicPage() {
                           <p className={`${colors.text} font-medium mb-1`}>{line.original}</p>
                           <p className={`${colors.text60} text-sm`}>{line.translation[language === "fr" ? "en" : language]}</p>
                         </div>
-                        <button
-                          onClick={() => speakText(line.original)}
-                          className={`${colors.text70} hover:${colors.text} p-1 mt-1 ${line.speaker === "B" ? "mr-2" : "ml-2"}`}
+                        <Dropdown
+                          menu={{
+                            items: [
+                              { key: 'very-slow', label: speedLabels[language]['very-slow'] },
+                              { key: 'slow', label: speedLabels[language]['slow'] },
+                              { key: 'normal', label: speedLabels[language]['normal'] },
+                            ],
+                            onClick: (info) => speakText(line.original, info.key as 'very-slow' | 'slow' | 'normal'),
+                          }}
+                          trigger={['click']}
                         >
-                          <HiSpeakerWave size={16} />
-                        </button>
+                          <button
+                            className={`${colors.text70} hover:${colors.text} p-1 mt-1 ${line.speaker === "B" ? "mr-2" : "ml-2"}`}
+                          >
+                            <HiSpeakerWave size={16} />
+                          </button>
+                        </Dropdown>
                       </div>
                     </div>
                   ))}
