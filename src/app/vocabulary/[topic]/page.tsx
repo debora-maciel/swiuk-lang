@@ -7,7 +7,9 @@ import Link from "next/link";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdSchool } from "react-icons/md";
 import { HiSpeakerWave } from "react-icons/hi2";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Dropdown } from "antd";
+import type { MenuProps } from "antd";
 
 const topicIcons: Record<string, React.ReactNode> = {
   travel: <MdFlight size={24} />,
@@ -352,11 +354,27 @@ export default function TopicPage() {
 
   const currentLevel = levels.find(l => l.level === selectedLevel) || levels[0];
 
+  // Preload voices on mount (needed for mobile)
+  useEffect(() => {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.getVoices();
+      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    }
+  }, []);
+
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'fr-FR';
-      utterance.rate = 0.7;
+      utterance.rate = 0.8;
+
+      const voices = speechSynthesis.getVoices();
+      const frenchVoice = voices.find(voice => voice.lang.startsWith('fr'));
+      if (frenchVoice) {
+        utterance.voice = frenchVoice;
+      }
+
       speechSynthesis.speak(utterance);
     }
   };
@@ -380,23 +398,34 @@ export default function TopicPage() {
       </div>
 
       {/* Level Selector */}
-      <div className="mb-6">
-        <div className="flex flex-wrap gap-2">
-          {levels.map((level) => (
-            <button
-              key={level.level}
-              onClick={() => setSelectedLevel(level.level)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                selectedLevel === level.level
-                  ? `${colors.backgroundReverse} ${colors.textReverse}`
-                  : `${colors.background} ${colors.border10} border ${colors.text70} hover:${colors.text}`
-              }`}
-            >
-              {t.level} {level.level}
-            </button>
-          ))}
-        </div>
-        <p className={`${colors.text60} text-sm mt-2`}>
+      <div className="mb-6 flex items-center gap-4">
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: 'label',
+                label: t.level,
+                disabled: true,
+              },
+              { type: 'divider' },
+              ...levels.map((level) => ({
+                key: String(level.level),
+                label: `${t.level} ${level.level}`,
+              })),
+            ],
+            selectable: true,
+            selectedKeys: [String(selectedLevel)],
+            onClick: (info) => setSelectedLevel(Number(info.key)),
+          }}
+          trigger={['click']}
+        >
+          <div className={`${colors.text} flex gap-3 font-semibold cursor-pointer`}>
+            <div className="border px-2 py-1 font-semibold rounded">
+              {t.level} {selectedLevel}
+            </div>
+          </div>
+        </Dropdown>
+        <p className={`${colors.text60} text-sm`}>
           {currentLevel.phrases.length} {t.phrases.toLowerCase()}, {currentLevel.conversations.length} {t.conversations.toLowerCase()}
         </p>
       </div>
