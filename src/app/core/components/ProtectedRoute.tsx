@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from '../context/auth/AuthContext'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { useTheme } from '../context/theme/ThemeContext'
 
@@ -12,13 +12,15 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth()
   const router = useRouter()
+  const pathname = usePathname()
   const { colors } = useTheme()
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/auth/login')
+      const loginUrl = `/auth/login?next=${encodeURIComponent(pathname)}`
+      router.replace(loginUrl)
     }
-  }, [user, loading, router])
+  }, [user, loading, router, pathname])
 
   if (loading) {
     return (
@@ -29,7 +31,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   if (!user) {
-    return null
+    // Show nothing while redirecting
+    return (
+      <div className={`flex min-h-[60vh] items-center justify-center ${colors.backgroundLight}`}>
+        <div className={`${colors.text60} text-lg`}>Redirecting to login...</div>
+      </div>
+    )
   }
 
   return <>{children}</>

@@ -9,6 +9,7 @@ import LearnMore from "./components/LearnMore";
 import NewWord from "../components/NewWord";
 import HeaderBack from "@/app/core/components/HeaderBack";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
+import { saveWord } from "@/lib/supabase/words";
 
 function shuffleArray<T>(array: T[]): T[] {
     const shuffled = [...array];
@@ -60,6 +61,7 @@ export default function French() {
         knownWords?.push(word);
 
         localStorage.setItem(langKnown, JSON.stringify(knownWords));
+        saveWord(word, 'french', 'known');
 
         setTimeout(() => {
             setIsCorrect(null);
@@ -73,6 +75,7 @@ export default function French() {
         unknownWords?.push(word);
 
         localStorage.setItem(langUnknown, JSON.stringify(unknownWords));
+        saveWord(word, 'french', 'unknown');
 
         setTimeout(() => {
             setIsCorrect(null);

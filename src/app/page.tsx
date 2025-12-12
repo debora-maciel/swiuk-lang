@@ -9,25 +9,43 @@ import Link from 'next/link';
 import { useTheme } from "./core/context/theme/ThemeContext";
 import { translations } from "./core/variables/translation";
 import { useLanguage } from "./core/context/language/LanguageContext";
+import { useUser } from "@/lib/supabase/hooks";
+import { getWordCounts, syncLocalStorageToSupabase } from "@/lib/supabase/words";
 
 export default function Home() {
-  const [DEknownWords, setDEKnownWords] = useState<string[]>([]);
-  const [ENknownWords, setENKnownWords] = useState<string[]>([]);
+  const [DEknownWords, setDEKnownWords] = useState<number>(0);
+  const [ENknownWords, setENKnownWords] = useState<number>(0);
   const [matches, setMatches] = useState<string[]>([]);
   const { language } = useLanguage();
   const { colors } = useTheme();
+  const { user } = useUser();
 
   const t = translations.home[language];
 
   useEffect(() => {
-    const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
-    const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
     const matchesData = JSON.parse(localStorage.getItem("matches") || "[]");
-
     setMatches(matchesData);
-    setDEKnownWords(DEknown);
-    setENKnownWords(ENknown);
-  }, []);
+
+    async function loadWordCounts() {
+      if (user) {
+        // Sync localStorage to Supabase first
+        await syncLocalStorageToSupabase();
+
+        // Then get counts from database
+        const counts = await getWordCounts(user.id);
+        setDEKnownWords(counts.german.known);
+        setENKnownWords(counts.english.known);
+      } else {
+        // Fallback to localStorage if not logged in
+        const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
+        const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
+        setDEKnownWords(DEknown.length);
+        setENKnownWords(ENknown.length);
+      }
+    }
+
+    loadWordCounts();
+  }, [user]);
 
   return (
     <div className={`w-full max-w-full min-h-screen ${colors.backgroundLight} px-4 py-6 md:p-12 overflow-hidden`}>
@@ -42,7 +60,7 @@ export default function Home() {
       </div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         {/* Words Card */}
         <div className={`${colors.background} ${colors.border10} ${colors.text} border rounded-xl lg:rounded-2xl p-6 lg:p-8 flex flex-col hover:shadow-lg transition-shadow`}>
           <div className="flex items-center gap-4 mb-6">
@@ -66,11 +84,11 @@ export default function Home() {
           <div className="flex items-center gap-4 mb-6">
             <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3`}>
               <div className={`${colors.text60} text-xs font-bold mb-1`}>DE</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>{DEknownWords.length}</div>
+              <div className={`text-2xl ${colors.text} font-bold`}>{DEknownWords}</div>
             </div>
             <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3`}>
               <div className={`${colors.text60} text-xs font-bold mb-1`}>EN</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>{ENknownWords.length}</div>
+              <div className={`text-2xl ${colors.text} font-bold`}>{ENknownWords}</div>
             </div>
           </div>
 

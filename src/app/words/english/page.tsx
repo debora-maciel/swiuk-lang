@@ -9,6 +9,7 @@ import Link from "next/link";
 import NewWord from "../components/NewWord";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import HeaderBack from "@/app/core/components/HeaderBack";
+import { saveWord } from "@/lib/supabase/words";
 
 type WordEntry = {
     MEANINGS: Array<[string, string, string[], any[]]>;
@@ -64,6 +65,7 @@ export default function EnglishWords() {
         knownWords?.push(word);
 
         localStorage.setItem("knownWords", JSON.stringify(knownWords));
+        saveWord(word, 'english', 'known');
 
         setTimeout(() => {
             setIsCorrect(null);
@@ -76,6 +78,7 @@ export default function EnglishWords() {
         unknownWords?.push(word);
 
         localStorage.setItem("unknownWords", JSON.stringify(unknownWords));
+        saveWord(word, 'english', 'unknown');
 
         setTimeout(() => {
             setIsCorrect(null);
