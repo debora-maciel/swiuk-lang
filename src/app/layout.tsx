@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "./core/context/theme/ThemeContext";
+import { AuthProvider } from "./core/context/auth/AuthContext";
 import "./globals.css";
 import Navbar from "./core/components/NavBar";
 import Layout from "./core/components/Layout";
@@ -32,15 +33,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
       >
-        <LanguageProvider>
-          <ThemeProvider>
-            <Sidebar />
-            <Layout>
-              <Navbar />
-              {children}
-            </Layout>
-          </ThemeProvider>
-        </LanguageProvider>
+        <AuthProvider>
+          <LanguageProvider>
+            <ThemeProvider>
+              <Sidebar />
+              <Layout>
+                <Navbar />
+                {children}
+              </Layout>
+            </ThemeProvider>
+          </LanguageProvider>
+        </AuthProvider>
         {/* <footer className="border-t mt-10 border-black/10 text-black/70 pt-2 text-sm pl-2 w-full">
           Created and designed by Debora Maciel
         </footer> */}
