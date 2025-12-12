@@ -22,6 +22,13 @@ export const translations = {
                 desc: "Instantly translate words without leaving the platform. Everything you need is right here.",
                 popover: "Instantly translate words between German, French, and English right inside the app. No need to open another tab or external service — just type a word and get its translation immediately.",
                 navBtn: "Navigate"
+            },
+            vocabulary: {
+                title: "Vocabulary",
+                desc: "Practice ready phrases and conversations organized by topics like travel, work, daily life, and more.",
+                popover: "Learn practical vocabulary through topic-based phrases and conversations. Perfect for real-world situations — from ordering food to making small talk.",
+                navBtn: "Explore",
+                topicsLabel: "Topics"
             }
         },
 
@@ -46,6 +53,13 @@ export const translations = {
                 desc: "Übersetze Wörter sofort, ohne die Plattform zu verlassen. Alles ist direkt hier verfügbar.",
                 popover: "Übersetze Wörter zwischen Deutsch, Französisch und Englisch direkt in der App. Kein neuer Tab nötig – gib einfach ein Wort ein und erhalte sofort die Übersetzung.",
                 navBtn: "Navigieren"
+            },
+            vocabulary: {
+                title: "Vokabeln",
+                desc: "Übe fertige Sätze und Gespräche, geordnet nach Themen wie Reisen, Arbeit, Alltag und mehr.",
+                popover: "Lerne praktisches Vokabular durch themenbasierte Sätze und Gespräche. Perfekt für reale Situationen – vom Essen bestellen bis zum Smalltalk.",
+                navBtn: "Erkunden",
+                topicsLabel: "Themen"
             }
         },
 
@@ -68,8 +82,15 @@ export const translations = {
             translator: {
                 title: "Traducteur",
                 desc: "Traduisez instantanément des mots sans quitter la plateforme. Tout ce dont vous avez besoin est ici.",
-                popover: "Traduisez instantanément des mots entre l’allemand, le français et l’anglais directement dans l’application. Inutile d’ouvrir un autre onglet — tapez simplement un mot et obtenez sa traduction immédiatement.",
+                popover: "Traduisez instantanément des mots entre l'allemand, le français et l'anglais directement dans l'application. Inutile d'ouvrir un autre onglet — tapez simplement un mot et obtenez sa traduction immédiatement.",
                 navBtn: "Naviguer"
+            },
+            vocabulary: {
+                title: "Vocabulaire",
+                desc: "Pratiquez des phrases et conversations prêtes à l'emploi, organisées par thèmes comme les voyages, le travail, la vie quotidienne, et plus.",
+                popover: "Apprenez du vocabulaire pratique à travers des phrases et conversations thématiques. Parfait pour les situations réelles — de la commande au restaurant à la conversation informelle.",
+                navBtn: "Explorer",
+                topicsLabel: "Thèmes"
             }
         }
     },

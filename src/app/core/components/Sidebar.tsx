@@ -9,6 +9,7 @@ import { IoMdSettings } from "react-icons/io";
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { IoGameController } from "react-icons/io5";
 import { MdOutlineGTranslate } from "react-icons/md";
+import { BiConversation } from "react-icons/bi";
 
 export default function Sidebar() {
     const { colors } = useTheme();
@@ -34,6 +35,11 @@ export default function Sidebar() {
             name: "Translator",
             link: "/translation",
             icon: <MdOutlineGTranslate size={20} />
+        },
+        {
+            name: "Vocabulary",
+            link: "/vocabulary",
+            icon: <BiConversation size={20} />
         },
         {
             name: "Dashboard",

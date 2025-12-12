@@ -40,7 +40,7 @@ export default function French() {
     }, []);
 
     useEffect(() => {
-        const shuffledWords = shuffleArray(data as string[]);
+        const shuffledWords = shuffleArray(Object.keys(data));
         setWords(shuffledWords);
     }, []);
 

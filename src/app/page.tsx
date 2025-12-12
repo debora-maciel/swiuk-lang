@@ -2,6 +2,7 @@
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { MdOutlineGTranslate } from "react-icons/md";
 import { IoGameController } from "react-icons/io5";
+import { BiConversation } from "react-icons/bi";
 import { IoIosInformation } from "react-icons/io";
 import { Popover } from 'antd';
 import { useEffect, useState } from "react";
@@ -164,6 +165,38 @@ export default function Home() {
 
           <Link href={'/translation'} className={`${colors.textReverse} ${colors.backgroundReverse} ${colors.border30} border rounded-xl text-center text-base py-3 px-6 font-semibold hover:opacity-90 transition-opacity`}>
             {t.translator.navBtn}
+          </Link>
+        </div>
+
+        {/* Vocabulary Card */}
+        <div className={`${colors.background} ${colors.border10} ${colors.text} border rounded-xl lg:rounded-2xl p-6 lg:p-8 flex flex-col hover:shadow-lg transition-shadow`}>
+          <div className="flex items-center gap-4 mb-6">
+            <div className={`${colors.textReverse} ${colors.backgroundReverse} p-4 rounded-2xl`}>
+              <BiConversation size={32} />
+            </div>
+            <div className="flex-1">
+              <h3 className={`${colors.text} text-xl lg:text-2xl font-bold mb-1`}>{t.vocabulary.title}</h3>
+            </div>
+            <Popover content={<div className="max-w-xs">{t.vocabulary.popover}</div>} title={t.vocabulary.title}>
+              <button className={`rounded-full border ${colors.border20} ${colors.text50} p-1`}>
+                <IoIosInformation size={20} />
+              </button>
+            </Popover>
+          </div>
+
+          <p className={`${colors.text70} text-sm lg:text-base mb-6 flex-1`}>
+            {t.vocabulary.desc}
+          </p>
+
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>Travel</div>
+            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>Work</div>
+            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>Daily Life</div>
+            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>+3</div>
+          </div>
+
+          <Link href={'/vocabulary'} className={`${colors.textReverse} ${colors.backgroundReverse} ${colors.border30} border rounded-xl text-center text-base py-3 px-6 font-semibold hover:opacity-90 transition-opacity`}>
+            {t.vocabulary.navBtn}
           </Link>
         </div>
       </div>

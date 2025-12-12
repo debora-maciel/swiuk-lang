@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTheme } from "../context/theme/ThemeContext";
 import { useAuth } from "../context/auth/AuthContext";
+import { useLanguage } from "../context/language/LanguageContext";
 import SwitchTargetLanguage from "./SwitchTargetLanguage";
 import { RiMenu4Fill } from "react-icons/ri";
 import { Drawer } from "antd";
@@ -19,6 +20,10 @@ import { Dropdown } from "antd";
 export default function Navbar() {
     const { colors } = useTheme();
     const { user, loading, signOut } = useAuth();
+    const { targetLanguage } = useLanguage();
+    const isFrench = targetLanguage === 'français' || targetLanguage?.toLowerCase().includes('french') || targetLanguage?.toLowerCase().includes('fran');
+    const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
+    const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
 
     // Get user display info
     const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
@@ -101,7 +106,28 @@ export default function Navbar() {
                 </div>
             </Drawer>
 
-            <div className={`md:hidden ${colors.background} ${colors.border10} pl-5 text-base py-4 montserrat-black w-full text-left flex items-center justify-between px-4`}>
+            <div className="md:hidden">
+            {isFrench && (
+                <div className="h-1 w-full flex">
+                    <div className="flex-1 bg-[#002395]"></div>
+                    <div className="flex-1 bg-white"></div>
+                    <div className="flex-1 bg-[#ED2939]"></div>
+                </div>
+            )}
+            {isGerman && (
+                <div className="h-1 w-full flex flex-col">
+                    <div className="flex-1 bg-black"></div>
+                    <div className="flex-1 bg-[#DD0000]"></div>
+                    <div className="flex-1 bg-[#FFCC00]"></div>
+                </div>
+            )}
+            {isEnglish && (
+                <div className="h-3 w-full relative bg-white">
+                    <div className="absolute top-1/2 left-0 right-0 h-[6px] bg-[#CE1124] -translate-y-1/2"></div>
+                    <div className="absolute left-1/2 top-0 bottom-0 w-[6px] bg-[#CE1124] -translate-x-1/2"></div>
+                </div>
+            )}
+            <div className={`${colors.background} ${colors.border10} pl-5 text-base py-4 montserrat-black w-full text-left flex items-center justify-between px-4`}>
                 <RiMenu4Fill onClick={showDrawer} className={`${colors.text}`} size={25} />
                 <Link href={'/'} className={colors.text}>Swiuk Lang</Link>
                 <div className="flex items-center gap-3">
@@ -148,53 +174,76 @@ export default function Navbar() {
                     )}
                 </div>
             </div>
+            </div>
 
             {/* Desktop Header with Language Switcher */}
-            <div className={`hidden md:flex ${colors.background} ${colors.border10} border-b py-4 px-8 items-center justify-between`}>
-                <div></div>
-                <div className="flex items-center gap-4">
-                    <SwitchTargetLanguage />
-                    {!loading && (
-                        user ? (
-                            <Dropdown
-                                menu={{
-                                    items: [
-                                        {
-                                            key: 'info',
-                                            label: (
-                                                <div className="py-1">
-                                                    <div className={`font-medium ${colors.text}`}>{userName}</div>
-                                                    <div className={`text-xs ${colors.text60}`}>{userEmail}</div>
-                                                </div>
-                                            ),
-                                            disabled: true,
-                                        },
-                                        { type: 'divider' },
-                                        {
-                                            key: 'logout',
-                                            label: 'Logout',
-                                            icon: <FiLogOut size={16} />,
-                                            onClick: handleSignOut,
-                                        },
-                                    ],
-                                }}
-                                trigger={['click']}
-                                placement="bottomRight"
-                            >
-                                <button className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${colors.border20} ${colors.backgroundHover}`}>
-                                    <FiUser size={18} className={colors.text60} />
-                                    <span className={`${colors.text} text-sm font-medium max-w-[120px] truncate`}>{userName}</span>
-                                </button>
-                            </Dropdown>
-                        ) : (
-                            <Link
-                                href="/auth/login"
-                                className={`${colors.textReverse} ${colors.backgroundReverse} px-4 py-1.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity`}
-                            >
-                                Login
-                            </Link>
-                        )
-                    )}
+            <div className="hidden md:block">
+                {isFrench && (
+                    <div className="h-1 w-full flex">
+                        <div className="flex-1 bg-[#002395]"></div>
+                        <div className="flex-1 bg-white"></div>
+                        <div className="flex-1 bg-[#ED2939]"></div>
+                    </div>
+                )}
+                {isGerman && (
+                    <div className="h-1 w-full flex flex-col">
+                        <div className="flex-1 bg-black"></div>
+                        <div className="flex-1 bg-[#DD0000]"></div>
+                        <div className="flex-1 bg-[#FFCC00]"></div>
+                    </div>
+                )}
+                {isEnglish && (
+                    <div className="h-3 w-full relative bg-white">
+                        <div className="absolute top-1/2 left-0 right-0 h-[6px] bg-[#CE1124] -translate-y-1/2"></div>
+                        <div className="absolute left-1/2 top-0 bottom-0 w-[6px] bg-[#CE1124] -translate-x-1/2"></div>
+                    </div>
+                )}
+                <div className={`flex ${colors.background} ${colors.border10} border-b py-4 px-8 items-center justify-between`}>
+                    <div></div>
+                    <div className="flex items-center gap-4">
+                        <SwitchTargetLanguage />
+                        {!loading && (
+                            user ? (
+                                <Dropdown
+                                    menu={{
+                                        items: [
+                                            {
+                                                key: 'info',
+                                                label: (
+                                                    <div className="py-1">
+                                                        <div className={`font-medium ${colors.text}`}>{userName}</div>
+                                                        <div className={`text-xs ${colors.text60}`}>{userEmail}</div>
+                                                    </div>
+                                                ),
+                                                disabled: true,
+                                            },
+                                            { type: 'divider' },
+                                            {
+                                                key: 'logout',
+                                                label: 'Logout',
+                                                icon: <FiLogOut size={16} />,
+                                                onClick: handleSignOut,
+                                            },
+                                        ],
+                                    }}
+                                    trigger={['click']}
+                                    placement="bottomRight"
+                                >
+                                    <button className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${colors.border20} ${colors.backgroundHover}`}>
+                                        <FiUser size={18} className={colors.text60} />
+                                        <span className={`${colors.text} text-sm font-medium max-w-[120px] truncate`}>{userName}</span>
+                                    </button>
+                                </Dropdown>
+                            ) : (
+                                <Link
+                                    href="/auth/login"
+                                    className={`${colors.textReverse} ${colors.backgroundReverse} px-4 py-1.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity`}
+                                >
+                                    Login
+                                </Link>
+                            )
+                        )}
+                    </div>
                 </div>
             </div>
         </>
