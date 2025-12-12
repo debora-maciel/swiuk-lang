@@ -1,38 +1,49 @@
 // context/ThemeContext.tsx
 'use client';
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { darkColors, lightColors, systemColors } from '../../variables/colors';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { systemColors } from '../../variables/colors';
 
 type ThemeType = 'light' | 'dark' | 'system';
 
 interface ThemeContextType {
     theme: ThemeType;
     onChangeTheme: (theme: ThemeType) => void;
-    colors: typeof lightColors;
+    colors: typeof systemColors;
 }
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<ThemeType>('system');
+    const [mounted, setMounted] = useState(false);
 
+    // Only run on client after hydration
     useEffect(() => {
+        setMounted(true);
         const saved = localStorage.getItem('theme') as ThemeType;
         if (saved) setTheme(saved);
     }, []);
 
     useEffect(() => {
-        const root = window.document.documentElement;
-        root.classList.remove('light', 'dark', 'system');
-        root.classList.add(theme);
-    }, [theme]);
+        if (!mounted) return;
 
-    const colors = useMemo(() => {
-        if (theme === 'light') return lightColors;
-        if (theme === 'dark') return darkColors;
-        return systemColors;
-    }, [theme]);
+        const root = window.document.documentElement;
+        root.classList.remove('light', 'dark');
+
+        if (theme === 'dark') {
+            root.classList.add('dark');
+        } else if (theme === 'system') {
+            // Check system preference
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (systemPrefersDark) {
+                root.classList.add('dark');
+            }
+        }
+        // For 'light', we don't add any class (default is light)
+    }, [theme, mounted]);
+
+    const colors = systemColors;
 
     const onChangeTheme = (newTheme: ThemeType) => {
         localStorage.setItem('theme', newTheme);

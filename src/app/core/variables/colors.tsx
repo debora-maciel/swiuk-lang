@@ -1,31 +1,31 @@
 export const systemColors: IColors = {
-    border: "border-black dark:border-white",
-    borderReverse: "border-white dark:border-black",
-    border10: "border-black/10 dark:border-white/40",
-    border20: "border-black/20 dark:border-white/40",
-    border30: "border-black/30 dark:border-white/50",
-    borderSlate800: "border-slate-800/20 dark:border-slate-800/20",
-    
-    text: "text-black dark:text-white",
-    textReverse: "text-white dark:text-black",
-    text10: "text-black/10 dark:text-white/30",
-    text50: "text-black/50 dark:text-white/80",
-    text60: "text-black/60 dark:text-white/70",
-    text70: "text-black/70 dark:text-white/80",
-    text80: "text-black/80 dark:text-white/90",
-    text90: "text-black/90 dark:text-white/90",
-    
-    textSlate300: "text-slate-300 dark:text-slate-700",
+    border: "border-gray-800 dark:border-gray-200",
+    borderReverse: "border-gray-200 dark:border-gray-800",
+    border10: "border-gray-800/10 dark:border-gray-200/20",
+    border20: "border-gray-800/20 dark:border-gray-200/30",
+    border30: "border-gray-800/30 dark:border-gray-200/40",
+    borderSlate800: "border-slate-800/20 dark:border-slate-300/20",
+
+    text: "text-gray-900 dark:text-gray-100",
+    textReverse: "text-gray-100 dark:text-gray-900",
+    text10: "text-gray-900/10 dark:text-gray-100/30",
+    text50: "text-gray-900/50 dark:text-gray-100/80",
+    text60: "text-gray-900/60 dark:text-gray-100/70",
+    text70: "text-gray-900/70 dark:text-gray-100/80",
+    text80: "text-gray-900/80 dark:text-gray-100/90",
+    text90: "text-gray-900/90 dark:text-gray-100/90",
+
+    textSlate300: "text-slate-300 dark:text-slate-400",
     textSlate700: "text-slate-700 dark:text-slate-300",
     textSlate800: "text-slate-800 dark:text-slate-200",
-    
-    background: "bg-white dark:bg-black",
-    backgroundHover: "hover:bg-gray-50 dark:hover:bg-red-600",
-    backgroundReverse: "bg-black dark:bg-white",
-    backgroundLight: "bg-gray-200 dark:bg-",
-    backgroundSecondary: "bg-white dark:bg-red-600",
-    backgroundSlate200: "bg-slate-200/50 dark:bg-gray-700/20",
-    backgroundSlate300: "bg-slate-300/30"
+
+    background: "bg-white dark:bg-gray-900",
+    backgroundHover: "hover:bg-gray-50 dark:hover:bg-gray-700",
+    backgroundReverse: "bg-gray-900 dark:bg-gray-100",
+    backgroundLight: "bg-gray-100 dark:bg-gray-800",
+    backgroundSecondary: "bg-gray-50 dark:bg-gray-700",
+    backgroundSlate200: "bg-slate-200/50 dark:bg-gray-700/30",
+    backgroundSlate300: "bg-slate-300/30 dark:bg-gray-600/30"
 }
 
 

@@ -4,6 +4,7 @@ import { ThemeProvider } from "./core/context/theme/ThemeContext";
 import "./globals.css";
 import Navbar from "./core/components/NavBar";
 import Layout from "./core/components/Layout";
+import Sidebar from "./core/components/Sidebar";
 import { LanguageProvider } from "./core/context/language/LanguageContext";
 
 const geistSans = Geist({
@@ -29,10 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased mx-auto border-x min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
       >
         <LanguageProvider>
           <ThemeProvider>
+            <Sidebar />
             <Layout>
               <Navbar />
               {children}

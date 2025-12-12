@@ -86,9 +86,17 @@ export default function Navbar() {
                 </div>
             </Drawer>
 
-            <div className={`${colors.background} ${colors.border10} pl-5 text-base py-4 montserrat-black w-full text-left flex items-center justify-between px-4`}>
+            <div className={`md:hidden ${colors.background} ${colors.border10} pl-5 text-base py-4 montserrat-black w-full text-left flex items-center justify-between px-4`}>
                 <RiMenu4Fill onClick={showDrawer} className={`${colors.text}`} size={25} />
                 <Link href={'/'} className={colors.text}>Swiuk Lang</Link>
+                <div className="flex items-center gap-4">
+                    <SwitchTargetLanguage />
+                </div>
+            </div>
+
+            {/* Desktop Header with Language Switcher */}
+            <div className={`hidden md:flex ${colors.background} ${colors.border10} border-b py-4 px-8 items-center justify-between`}>
+                <div></div>
                 <div className="flex items-center gap-4">
                     <SwitchTargetLanguage />
                 </div>

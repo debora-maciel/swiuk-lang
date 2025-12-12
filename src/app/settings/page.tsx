@@ -91,8 +91,8 @@ export default function Settings() {
     }
 
     return (
-        <div className={`w-full min-h-screen flex overflow-y-scroll px-4 pt-4 items-start gap-4 ${colors.backgroundLight} pb-20`}>
-            <div className={`${colors.background} ${colors.text} pb-10 w-full rounded-4xl flex flex-col flex items-center justify-center`}>
+        <div className={`w-full min-h-screen flex overflow-y-scroll px-4 pt-4 items-start justify-center gap-4 ${colors.backgroundLight} pb-20`}>
+            <div className={`${colors.background} ${colors.text} pb-10 w-full max-w-4xl rounded-4xl flex flex-col flex items-center justify-center`}>
                 <div className={`font-bold text-xl pt-4`}>
                     Settings
                 </div>

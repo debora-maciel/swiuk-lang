@@ -11,17 +11,16 @@ export default function Layout({ children }: ILayout) {
     const { colors } = useTheme();
 
     return (
-
         <ConfigProvider
             theme={{
                 token: {
                     colorPrimary: '#62748e',
-
                 },
             }}
         >
-            <div className={`${colors.background} h-full`}>
-                <div className={`max-w-md mx-auto border-x h-full ${colors.border10}`}>
+            <div className={`${colors.background} min-h-screen`}>
+                {/* Mobile: full width, Desktop: left margin for sidebar */}
+                <div className={`md:ml-64 overflow-x-hidden`}>
                     {children}
                 </div>
             </div>
