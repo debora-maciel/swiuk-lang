@@ -14,7 +14,9 @@ export default function Layout({ children }: ILayout) {
         <ConfigProvider
             theme={{
                 token: {
-                    colorPrimary: '#62748e',
+                    colorPrimary: '#1f2937',
+                    colorLink: '#374151',
+                    colorLinkHover: '#1f2937',
                 },
             }}
         >

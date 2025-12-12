@@ -11,7 +11,10 @@ import { useState } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { SiGoogleanalytics } from "react-icons/si";
 import { IoMdSettings } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoGameController } from "react-icons/io5";
+import { TiSortAlphabeticallyOutline } from "react-icons/ti";
+import { MdOutlineGTranslate } from "react-icons/md";
+import { BiConversation } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import { usePathname, useRouter } from 'next/navigation';
@@ -40,19 +43,39 @@ export default function Navbar() {
 
     const menu = [
         {
-            name: "home",
+            name: "Home",
             link: "/",
-            icon: <AiFillHome size={22} className={``} />
+            icon: <AiFillHome size={22} />
         },
         {
-            name: "dashboard",
+            name: "Words",
+            link: "/words",
+            icon: <TiSortAlphabeticallyOutline size={22} />
+        },
+        {
+            name: "Connect Game",
+            link: "/game/connect-words",
+            icon: <IoGameController size={22} />
+        },
+        {
+            name: "Translator",
+            link: "/translation",
+            icon: <MdOutlineGTranslate size={22} />
+        },
+        {
+            name: "Vocabulary",
+            link: "/vocabulary",
+            icon: <BiConversation size={22} />
+        },
+        {
+            name: "Dashboard",
             link: "/dashboard",
-            icon: <SiGoogleanalytics size={22} className={``} />
+            icon: <SiGoogleanalytics size={22} />
         },
         {
-            name: "settings",
+            name: "Settings",
             link: "/settings",
-            icon: <IoMdSettings size={22} className={``} />
+            icon: <IoMdSettings size={22} />
         },
     ]
 
@@ -70,21 +93,19 @@ export default function Navbar() {
                 closable={{ 'aria-label': 'Close Button' }}
                 styles={{
                     content: {
-                        width: '200px',
+                        width: '280px',
                         boxShadow: 'none'
                     },
                     wrapper: {
                         boxShadow: 'none'
                     }
                 }}
-                classNames={
-                    {
-                        header: `${colors.background} ${colors.text}`,
-                        body: `${colors.background} ${colors.text}`,
-                        content: 'bg-red-500 ',
-                        wrapper: ''
-                    }
-                }
+                classNames={{
+                    header: `${colors.background} ${colors.text} border-b ${colors.border10}`,
+                    body: `${colors.background} ${colors.text}`,
+                    content: `${colors.background}`,
+                    wrapper: ''
+                }}
                 size="large"
                 placement={"left"}
                 title="Swiuk Lang"
@@ -94,16 +115,21 @@ export default function Navbar() {
                 }
                 open={open}
             >
-                <div className="h-full w-full">
+                <nav className="h-full w-full">
                     {menu.map((m) => (
-                        <div onClick={() => { setOpen(false); router.push(m.link) }} key={m.name}
-                            className={`${pathname == m.link ? colors.textReverse + ' font-bold ' +
-                                colors.backgroundReverse : colors.text + ' ' +
-                            colors.background} pt-4 px-4 pb-4 border-b-0 flex items-center justify-start gap-3 capitalize rounded-4xl rounded-br-4xl `}>
-                            {m.icon} {m.name}
-                        </div>
+                        <Link
+                            href={m.link}
+                            onClick={() => setOpen(false)}
+                            key={m.name}
+                            className={`${pathname === m.link
+                                ? `${colors.textReverse} font-semibold ${colors.backgroundReverse}`
+                                : 'text-gray-600 hover:text-gray-900'
+                            } py-3 px-4 flex items-center gap-3 rounded-lg mb-1 transition-all no-underline`}>
+                            {m.icon}
+                            <span>{m.name}</span>
+                        </Link>
                     ))}
-                </div>
+                </nav>
             </Drawer>
 
             <div className="md:hidden">

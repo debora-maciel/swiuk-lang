@@ -6,6 +6,7 @@ import { AiFillHome } from "react-icons/ai";
 import { SiGoogleanalytics } from "react-icons/si";
 import { usePathname } from "next/navigation";
 import { IoMdSettings } from "react-icons/io";
+import { BiConversation } from "react-icons/bi";
 
 export default function MenuHome() {
     const { colors } = useTheme();
@@ -23,6 +24,11 @@ export default function MenuHome() {
             icon: <SiGoogleanalytics size={22} className={``} />
         },
         {
+            name: "Vocabulary",
+            link: "/vocabulary",
+            icon: <BiConversation size={20} />
+        },
+        {
             name: "settings",
             link: "/settings",
             icon: <IoMdSettings size={22} className={``} />
@@ -34,7 +40,7 @@ export default function MenuHome() {
             {menu.map((m) => (
                 <Link key={m.name} href={m.link}
                     className={`${pathname == m.link ? colors.textReverse + ' ' + colors.backgroundReverse : colors.text + ' ' + colors.background} pt-4 pr-4 pb-4 border-b-0 flex items-end justify-center rounded-tr-4xl rounded-br-4xl `}>
-                        {m.icon}
+                    {m.icon}
                 </Link>
             ))}
 

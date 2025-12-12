@@ -5,7 +5,7 @@ import { useLanguage } from "@/app/core/context/language/LanguageContext";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { IoArrowBackCircle } from "react-icons/io5";
-import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdSchool } from "react-icons/md";
+import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdSchool, MdNumbers } from "react-icons/md";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { useState, useEffect } from "react";
 import { Dropdown } from "antd";
@@ -17,6 +17,7 @@ const topicIcons: Record<string, React.ReactNode> = {
   shopping: <MdShoppingCart size={24} />,
   health: <MdLocalHospital size={24} />,
   education: <MdSchool size={24} />,
+  numbers: <MdNumbers size={24} />,
 };
 
 interface Phrase {
@@ -286,6 +287,139 @@ const topicData: Record<string, Level[]> = {
     { level: 4, phrases: [], conversations: [] },
     { level: 5, phrases: [], conversations: [] },
   ],
+  numbers: [
+    {
+      level: 1,
+      phrases: [
+        { id: 1, original: "zéro", translation: { en: "zero", de: "null", fr: "zéro" } },
+        { id: 2, original: "un", translation: { en: "one", de: "eins", fr: "un" } },
+        { id: 3, original: "deux", translation: { en: "two", de: "zwei", fr: "deux" } },
+        { id: 4, original: "trois", translation: { en: "three", de: "drei", fr: "trois" } },
+        { id: 5, original: "quatre", translation: { en: "four", de: "vier", fr: "quatre" } },
+        { id: 6, original: "cinq", translation: { en: "five", de: "fünf", fr: "cinq" } },
+        { id: 7, original: "six", translation: { en: "six", de: "sechs", fr: "six" } },
+        { id: 8, original: "sept", translation: { en: "seven", de: "sieben", fr: "sept" } },
+        { id: 9, original: "huit", translation: { en: "eight", de: "acht", fr: "huit" } },
+        { id: 10, original: "neuf", translation: { en: "nine", de: "neun", fr: "neuf" } },
+        { id: 11, original: "dix", translation: { en: "ten", de: "zehn", fr: "dix" } },
+        { id: 12, original: "onze", translation: { en: "eleven", de: "elf", fr: "onze" } },
+        { id: 13, original: "douze", translation: { en: "twelve", de: "zwölf", fr: "douze" } },
+        { id: 14, original: "treize", translation: { en: "thirteen", de: "dreizehn", fr: "treize" } },
+        { id: 15, original: "quatorze", translation: { en: "fourteen", de: "vierzehn", fr: "quatorze" } },
+        { id: 16, original: "quinze", translation: { en: "fifteen", de: "fünfzehn", fr: "quinze" } },
+        { id: 17, original: "seize", translation: { en: "sixteen", de: "sechzehn", fr: "seize" } },
+        { id: 18, original: "dix-sept", translation: { en: "seventeen", de: "siebzehn", fr: "dix-sept" } },
+        { id: 19, original: "dix-huit", translation: { en: "eighteen", de: "achtzehn", fr: "dix-huit" } },
+        { id: 20, original: "dix-neuf", translation: { en: "nineteen", de: "neunzehn", fr: "dix-neuf" } },
+        { id: 21, original: "vingt", translation: { en: "twenty", de: "zwanzig", fr: "vingt" } },
+      ],
+      conversations: [],
+    },
+    {
+      level: 2,
+      phrases: [
+        { id: 1, original: "vingt et un", translation: { en: "twenty-one", de: "einundzwanzig", fr: "vingt et un" } },
+        { id: 2, original: "vingt-deux", translation: { en: "twenty-two", de: "zweiundzwanzig", fr: "vingt-deux" } },
+        { id: 3, original: "vingt-trois", translation: { en: "twenty-three", de: "dreiundzwanzig", fr: "vingt-trois" } },
+        { id: 4, original: "vingt-quatre", translation: { en: "twenty-four", de: "vierundzwanzig", fr: "vingt-quatre" } },
+        { id: 5, original: "vingt-cinq", translation: { en: "twenty-five", de: "fünfundzwanzig", fr: "vingt-cinq" } },
+        { id: 6, original: "vingt-six", translation: { en: "twenty-six", de: "sechsundzwanzig", fr: "vingt-six" } },
+        { id: 7, original: "vingt-sept", translation: { en: "twenty-seven", de: "siebenundzwanzig", fr: "vingt-sept" } },
+        { id: 8, original: "vingt-huit", translation: { en: "twenty-eight", de: "achtundzwanzig", fr: "vingt-huit" } },
+        { id: 9, original: "vingt-neuf", translation: { en: "twenty-nine", de: "neunundzwanzig", fr: "vingt-neuf" } },
+        { id: 10, original: "trente", translation: { en: "thirty", de: "dreißig", fr: "trente" } },
+        { id: 11, original: "trente et un", translation: { en: "thirty-one", de: "einunddreißig", fr: "trente et un" } },
+        { id: 12, original: "trente-deux", translation: { en: "thirty-two", de: "zweiunddreißig", fr: "trente-deux" } },
+        { id: 13, original: "trente-trois", translation: { en: "thirty-three", de: "dreiunddreißig", fr: "trente-trois" } },
+        { id: 14, original: "trente-quatre", translation: { en: "thirty-four", de: "vierunddreißig", fr: "trente-quatre" } },
+        { id: 15, original: "trente-cinq", translation: { en: "thirty-five", de: "fünfunddreißig", fr: "trente-cinq" } },
+        { id: 16, original: "trente-six", translation: { en: "thirty-six", de: "sechsunddreißig", fr: "trente-six" } },
+        { id: 17, original: "trente-sept", translation: { en: "thirty-seven", de: "siebenunddreißig", fr: "trente-sept" } },
+        { id: 18, original: "trente-huit", translation: { en: "thirty-eight", de: "achtunddreißig", fr: "trente-huit" } },
+        { id: 19, original: "trente-neuf", translation: { en: "thirty-nine", de: "neununddreißig", fr: "trente-neuf" } },
+        { id: 20, original: "quarante", translation: { en: "forty", de: "vierzig", fr: "quarante" } },
+      ],
+      conversations: [],
+    },
+    {
+      level: 3,
+      phrases: [
+        { id: 1, original: "quarante et un", translation: { en: "forty-one", de: "einundvierzig", fr: "quarante et un" } },
+        { id: 2, original: "quarante-deux", translation: { en: "forty-two", de: "zweiundvierzig", fr: "quarante-deux" } },
+        { id: 3, original: "quarante-trois", translation: { en: "forty-three", de: "dreiundvierzig", fr: "quarante-trois" } },
+        { id: 4, original: "quarante-quatre", translation: { en: "forty-four", de: "vierundvierzig", fr: "quarante-quatre" } },
+        { id: 5, original: "quarante-cinq", translation: { en: "forty-five", de: "fünfundvierzig", fr: "quarante-cinq" } },
+        { id: 6, original: "quarante-six", translation: { en: "forty-six", de: "sechsundvierzig", fr: "quarante-six" } },
+        { id: 7, original: "quarante-sept", translation: { en: "forty-seven", de: "siebenundvierzig", fr: "quarante-sept" } },
+        { id: 8, original: "quarante-huit", translation: { en: "forty-eight", de: "achtundvierzig", fr: "quarante-huit" } },
+        { id: 9, original: "quarante-neuf", translation: { en: "forty-nine", de: "neunundvierzig", fr: "quarante-neuf" } },
+        { id: 10, original: "cinquante", translation: { en: "fifty", de: "fünfzig", fr: "cinquante" } },
+        { id: 11, original: "cinquante et un", translation: { en: "fifty-one", de: "einundfünfzig", fr: "cinquante et un" } },
+        { id: 12, original: "cinquante-deux", translation: { en: "fifty-two", de: "zweiundfünfzig", fr: "cinquante-deux" } },
+        { id: 13, original: "cinquante-trois", translation: { en: "fifty-three", de: "dreiundfünfzig", fr: "cinquante-trois" } },
+        { id: 14, original: "cinquante-quatre", translation: { en: "fifty-four", de: "vierundfünfzig", fr: "cinquante-quatre" } },
+        { id: 15, original: "cinquante-cinq", translation: { en: "fifty-five", de: "fünfundfünfzig", fr: "cinquante-cinq" } },
+        { id: 16, original: "cinquante-six", translation: { en: "fifty-six", de: "sechsundfünfzig", fr: "cinquante-six" } },
+        { id: 17, original: "cinquante-sept", translation: { en: "fifty-seven", de: "siebenundfünfzig", fr: "cinquante-sept" } },
+        { id: 18, original: "cinquante-huit", translation: { en: "fifty-eight", de: "achtundfünfzig", fr: "cinquante-huit" } },
+        { id: 19, original: "cinquante-neuf", translation: { en: "fifty-nine", de: "neunundfünfzig", fr: "cinquante-neuf" } },
+        { id: 20, original: "soixante", translation: { en: "sixty", de: "sechzig", fr: "soixante" } },
+      ],
+      conversations: [],
+    },
+    {
+      level: 4,
+      phrases: [
+        { id: 1, original: "soixante et un", translation: { en: "sixty-one", de: "einundsechzig", fr: "soixante et un" } },
+        { id: 2, original: "soixante-deux", translation: { en: "sixty-two", de: "zweiundsechzig", fr: "soixante-deux" } },
+        { id: 3, original: "soixante-trois", translation: { en: "sixty-three", de: "dreiundsechzig", fr: "soixante-trois" } },
+        { id: 4, original: "soixante-quatre", translation: { en: "sixty-four", de: "vierundsechzig", fr: "soixante-quatre" } },
+        { id: 5, original: "soixante-cinq", translation: { en: "sixty-five", de: "fünfundsechzig", fr: "soixante-cinq" } },
+        { id: 6, original: "soixante-six", translation: { en: "sixty-six", de: "sechsundsechzig", fr: "soixante-six" } },
+        { id: 7, original: "soixante-sept", translation: { en: "sixty-seven", de: "siebenundsechzig", fr: "soixante-sept" } },
+        { id: 8, original: "soixante-huit", translation: { en: "sixty-eight", de: "achtundsechzig", fr: "soixante-huit" } },
+        { id: 9, original: "soixante-neuf", translation: { en: "sixty-nine", de: "neunundsechzig", fr: "soixante-neuf" } },
+        { id: 10, original: "soixante-dix", translation: { en: "seventy", de: "siebzig", fr: "soixante-dix" } },
+        { id: 11, original: "soixante et onze", translation: { en: "seventy-one", de: "einundsiebzig", fr: "soixante et onze" } },
+        { id: 12, original: "soixante-douze", translation: { en: "seventy-two", de: "zweiundsiebzig", fr: "soixante-douze" } },
+        { id: 13, original: "soixante-treize", translation: { en: "seventy-three", de: "dreiundsiebzig", fr: "soixante-treize" } },
+        { id: 14, original: "soixante-quatorze", translation: { en: "seventy-four", de: "vierundsiebzig", fr: "soixante-quatorze" } },
+        { id: 15, original: "soixante-quinze", translation: { en: "seventy-five", de: "fünfundsiebzig", fr: "soixante-quinze" } },
+        { id: 16, original: "soixante-seize", translation: { en: "seventy-six", de: "sechsundsiebzig", fr: "soixante-seize" } },
+        { id: 17, original: "soixante-dix-sept", translation: { en: "seventy-seven", de: "siebenundsiebzig", fr: "soixante-dix-sept" } },
+        { id: 18, original: "soixante-dix-huit", translation: { en: "seventy-eight", de: "achtundsiebzig", fr: "soixante-dix-huit" } },
+        { id: 19, original: "soixante-dix-neuf", translation: { en: "seventy-nine", de: "neunundsiebzig", fr: "soixante-dix-neuf" } },
+        { id: 20, original: "quatre-vingts", translation: { en: "eighty", de: "achtzig", fr: "quatre-vingts" } },
+      ],
+      conversations: [],
+    },
+    {
+      level: 5,
+      phrases: [
+        { id: 1, original: "quatre-vingt-un", translation: { en: "eighty-one", de: "einundachtzig", fr: "quatre-vingt-un" } },
+        { id: 2, original: "quatre-vingt-deux", translation: { en: "eighty-two", de: "zweiundachtzig", fr: "quatre-vingt-deux" } },
+        { id: 3, original: "quatre-vingt-trois", translation: { en: "eighty-three", de: "dreiundachtzig", fr: "quatre-vingt-trois" } },
+        { id: 4, original: "quatre-vingt-quatre", translation: { en: "eighty-four", de: "vierundachtzig", fr: "quatre-vingt-quatre" } },
+        { id: 5, original: "quatre-vingt-cinq", translation: { en: "eighty-five", de: "fünfundachtzig", fr: "quatre-vingt-cinq" } },
+        { id: 6, original: "quatre-vingt-six", translation: { en: "eighty-six", de: "sechsundachtzig", fr: "quatre-vingt-six" } },
+        { id: 7, original: "quatre-vingt-sept", translation: { en: "eighty-seven", de: "siebenundachtzig", fr: "quatre-vingt-sept" } },
+        { id: 8, original: "quatre-vingt-huit", translation: { en: "eighty-eight", de: "achtundachtzig", fr: "quatre-vingt-huit" } },
+        { id: 9, original: "quatre-vingt-neuf", translation: { en: "eighty-nine", de: "neunundachtzig", fr: "quatre-vingt-neuf" } },
+        { id: 10, original: "quatre-vingt-dix", translation: { en: "ninety", de: "neunzig", fr: "quatre-vingt-dix" } },
+        { id: 11, original: "quatre-vingt-onze", translation: { en: "ninety-one", de: "einundneunzig", fr: "quatre-vingt-onze" } },
+        { id: 12, original: "quatre-vingt-douze", translation: { en: "ninety-two", de: "zweiundneunzig", fr: "quatre-vingt-douze" } },
+        { id: 13, original: "quatre-vingt-treize", translation: { en: "ninety-three", de: "dreiundneunzig", fr: "quatre-vingt-treize" } },
+        { id: 14, original: "quatre-vingt-quatorze", translation: { en: "ninety-four", de: "vierundneunzig", fr: "quatre-vingt-quatorze" } },
+        { id: 15, original: "quatre-vingt-quinze", translation: { en: "ninety-five", de: "fünfundneunzig", fr: "quatre-vingt-quinze" } },
+        { id: 16, original: "quatre-vingt-seize", translation: { en: "ninety-six", de: "sechsundneunzig", fr: "quatre-vingt-seize" } },
+        { id: 17, original: "quatre-vingt-dix-sept", translation: { en: "ninety-seven", de: "siebenundneunzig", fr: "quatre-vingt-dix-sept" } },
+        { id: 18, original: "quatre-vingt-dix-huit", translation: { en: "ninety-eight", de: "achtundneunzig", fr: "quatre-vingt-dix-huit" } },
+        { id: 19, original: "quatre-vingt-dix-neuf", translation: { en: "ninety-nine", de: "neunundneunzig", fr: "quatre-vingt-dix-neuf" } },
+        { id: 20, original: "cent", translation: { en: "one hundred", de: "hundert", fr: "cent" } },
+      ],
+      conversations: [],
+    },
+  ],
 };
 
 const translations = {
@@ -301,6 +435,7 @@ const translations = {
       shopping: "Shopping",
       health: "Health & Emergency",
       education: "Education",
+      numbers: "Numbers",
     },
   },
   de: {
@@ -315,6 +450,7 @@ const translations = {
       shopping: "Einkaufen",
       health: "Gesundheit & Notfall",
       education: "Bildung",
+      numbers: "Zahlen",
     },
   },
   fr: {
@@ -329,19 +465,25 @@ const translations = {
       shopping: "Shopping",
       health: "Santé & Urgences",
       education: "Éducation",
+      numbers: "Chiffres",
     },
   },
 };
 
 export default function TopicPage() {
   const { colors } = useTheme();
-  const { language } = useLanguage();
+  const { language, targetLanguage } = useLanguage();
   const params = useParams();
   const topic = params.topic as string;
   const t = translations[language];
   const levels = topicData[topic];
   const [activeTab, setActiveTab] = useState<"phrases" | "conversations">("phrases");
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
+
+  // Determine target language key for translations
+  const isFrench = targetLanguage === 'français' || targetLanguage?.toLowerCase().includes('french') || targetLanguage?.toLowerCase().includes('fran');
+  const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
+  const targetLangKey: 'en' | 'de' | 'fr' = isFrench ? 'fr' : isGerman ? 'de' : 'en';
 
   // Preload voices on mount (needed for mobile)
   useEffect(() => {
@@ -365,7 +507,10 @@ export default function TopicPage() {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'fr-FR';
+
+      // Set language based on target language
+      const langCode = isFrench ? 'fr-FR' : isGerman ? 'de-DE' : 'en-US';
+      utterance.lang = langCode;
 
       const speedRates = {
         'very-slow': 0.2,
@@ -375,9 +520,9 @@ export default function TopicPage() {
       utterance.rate = speedRates[speed];
 
       const voices = speechSynthesis.getVoices();
-      const frenchVoice = voices.find(voice => voice.lang.startsWith('fr'));
-      if (frenchVoice) {
-        utterance.voice = frenchVoice;
+      const targetVoice = voices.find(voice => voice.lang.startsWith(langCode.split('-')[0]));
+      if (targetVoice) {
+        utterance.voice = targetVoice;
       }
 
       speechSynthesis.speak(utterance);
@@ -471,34 +616,43 @@ export default function TopicPage() {
           {currentLevel.phrases.length === 0 ? (
             <p className={`${colors.text60} text-center py-8`}>No phrases for this level yet</p>
           ) : (
-            currentLevel.phrases.map((phrase) => (
-              <div
-                key={phrase.id}
-                className={`${colors.background} ${colors.border10} border rounded-xl p-4 flex items-start justify-between gap-4`}
-              >
-                <div className="flex-1">
-                  <p className={`${colors.text} text-lg font-medium mb-1`}>{phrase.original}</p>
-                  <p className={`${colors.text60} text-sm`}>{phrase.translation[language === "fr" ? "en" : language]}</p>
-                </div>
-                <Dropdown
-                  menu={{
-                    items: [
-                      { key: 'very-slow', label: speedLabels[language]['very-slow'] },
-                      { key: 'slow', label: speedLabels[language]['slow'] },
-                      { key: 'normal', label: speedLabels[language]['normal'] },
-                    ],
-                    onClick: (info) => speakText(phrase.original, info.key as 'very-slow' | 'slow' | 'normal'),
-                  }}
-                  trigger={['click']}
+            currentLevel.phrases.map((phrase) => {
+              // Get the word in target language (what user is learning)
+              const targetWord = phrase.translation[targetLangKey];
+              // Get translation in UI language (for understanding)
+              const uiTranslation = language === targetLangKey
+                ? phrase.translation[language === 'en' ? 'de' : 'en']
+                : phrase.translation[language];
+
+              return (
+                <div
+                  key={phrase.id}
+                  className={`${colors.background} ${colors.border10} border rounded-xl p-4 flex items-start justify-between gap-4`}
                 >
-                  <button
-                    className={`${colors.text70} hover:${colors.text} p-2 rounded-lg transition-all`}
+                  <div className="flex-1">
+                    <p className={`${colors.text} text-lg font-medium mb-1`}>{targetWord}</p>
+                    <p className={`${colors.text60} text-sm`}>{uiTranslation}</p>
+                  </div>
+                  <Dropdown
+                    menu={{
+                      items: [
+                        { key: 'very-slow', label: speedLabels[language]['very-slow'] },
+                        { key: 'slow', label: speedLabels[language]['slow'] },
+                        { key: 'normal', label: speedLabels[language]['normal'] },
+                      ],
+                      onClick: (info) => speakText(targetWord, info.key as 'very-slow' | 'slow' | 'normal'),
+                    }}
+                    trigger={['click']}
                   >
-                    <HiSpeakerWave size={20} />
-                  </button>
-                </Dropdown>
-              </div>
-            ))
+                    <button
+                      className={`${colors.text70} hover:${colors.text} p-2 rounded-lg transition-all`}
+                    >
+                      <HiSpeakerWave size={20} />
+                    </button>
+                  </Dropdown>
+                </div>
+              );
+            })
           )}
         </div>
       )}
@@ -517,36 +671,45 @@ export default function TopicPage() {
                   {conversation.title[language]}
                 </div>
                 <div className="p-4 space-y-4">
-                  {conversation.lines.map((line, idx) => (
-                    <div key={idx} className={`flex gap-3 ${line.speaker === "B" ? "flex-row-reverse" : ""}`}>
-                      <div className={`${colors.background} ${colors.border20} border ${colors.text70} w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0`}>
-                        {line.speaker}
-                      </div>
-                      <div className={`flex-1 ${line.speaker === "B" ? "text-right" : ""}`}>
-                        <div className={`${colors.border10} border rounded-lg p-3 inline-block ${line.speaker === "B" ? "text-left" : ""} ${colors.background} `}>
-                          <p className={`${colors.text} font-medium mb-1`}>{line.original}</p>
-                          <p className={`${colors.text60} text-sm`}>{line.translation[language === "fr" ? "en" : language]}</p>
+                  {conversation.lines.map((line, idx) => {
+                    // Get the line in target language (what user is learning)
+                    const targetLine = line.translation[targetLangKey];
+                    // Get translation in UI language (for understanding)
+                    const uiTranslation = language === targetLangKey
+                      ? line.translation[language === 'en' ? 'de' : 'en']
+                      : line.translation[language];
+
+                    return (
+                      <div key={idx} className={`flex gap-3 ${line.speaker === "B" ? "flex-row-reverse" : ""}`}>
+                        <div className={`${colors.background} ${colors.border20} border ${colors.text70} w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0`}>
+                          {line.speaker}
                         </div>
-                        <Dropdown
-                          menu={{
-                            items: [
-                              { key: 'very-slow', label: speedLabels[language]['very-slow'] },
-                              { key: 'slow', label: speedLabels[language]['slow'] },
-                              { key: 'normal', label: speedLabels[language]['normal'] },
-                            ],
-                            onClick: (info) => speakText(line.original, info.key as 'very-slow' | 'slow' | 'normal'),
-                          }}
-                          trigger={['click']}
-                        >
-                          <button
-                            className={`${colors.text70} hover:${colors.text} p-1 mt-1 ${line.speaker === "B" ? "mr-2" : "ml-2"}`}
+                        <div className={`flex-1 ${line.speaker === "B" ? "text-right" : ""}`}>
+                          <div className={`${colors.border10} border rounded-lg p-3 inline-block ${line.speaker === "B" ? "text-left" : ""} ${colors.background} `}>
+                            <p className={`${colors.text} font-medium mb-1`}>{targetLine}</p>
+                            <p className={`${colors.text60} text-sm`}>{uiTranslation}</p>
+                          </div>
+                          <Dropdown
+                            menu={{
+                              items: [
+                                { key: 'very-slow', label: speedLabels[language]['very-slow'] },
+                                { key: 'slow', label: speedLabels[language]['slow'] },
+                                { key: 'normal', label: speedLabels[language]['normal'] },
+                              ],
+                              onClick: (info) => speakText(targetLine, info.key as 'very-slow' | 'slow' | 'normal'),
+                            }}
+                            trigger={['click']}
                           >
-                            <HiSpeakerWave size={16} />
-                          </button>
-                        </Dropdown>
+                            <button
+                              className={`${colors.text70} hover:${colors.text} p-1 mt-1 ${line.speaker === "B" ? "mr-2" : "ml-2"}`}
+                            >
+                              <HiSpeakerWave size={16} />
+                            </button>
+                          </Dropdown>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))

@@ -3,7 +3,7 @@
 import { useTheme } from "../core/context/theme/ThemeContext";
 import { useLanguage } from "../core/context/language/LanguageContext";
 import Link from "next/link";
-import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdSchool } from "react-icons/md";
+import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdSchool, MdNumbers } from "react-icons/md";
 import { BiConversation } from "react-icons/bi";
 
 const topics = [
@@ -37,6 +37,11 @@ const topics = [
     icon: <MdSchool size={28} />,
     levels: 5,
   },
+  {
+    id: "numbers",
+    icon: <MdNumbers size={28} />,
+    levels: 5,
+  },
 ];
 
 const translations = {
@@ -51,6 +56,7 @@ const translations = {
       shopping: "Shopping",
       health: "Health & Emergency",
       education: "Education",
+      numbers: "Numbers",
     },
   },
   de: {
@@ -64,6 +70,7 @@ const translations = {
       shopping: "Einkaufen",
       health: "Gesundheit & Notfall",
       education: "Bildung",
+      numbers: "Zahlen",
     },
   },
   fr: {
@@ -77,6 +84,7 @@ const translations = {
       shopping: "Shopping",
       health: "Santé & Urgences",
       education: "Éducation",
+      numbers: "Chiffres",
     },
   },
 };
