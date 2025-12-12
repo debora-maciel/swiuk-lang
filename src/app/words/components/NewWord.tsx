@@ -117,7 +117,8 @@ export default function NewWord(props: INewModal) {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    }, [null]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div>

@@ -116,7 +116,8 @@ export default function Translator() {
         return () => {
             debouncedUpdateSuggestions.cancel();
         };
-    }, [null]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const boldMatch = (suggestion: string) => {
         const i = suggestion.toLowerCase().indexOf(input.toLowerCase());

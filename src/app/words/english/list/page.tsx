@@ -32,6 +32,7 @@ export default function ListWords() {
 
     useEffect(() => {
         onLoad();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     function onRemoveKnownWord(word: string) {

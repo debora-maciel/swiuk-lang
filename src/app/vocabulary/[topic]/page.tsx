@@ -343,6 +343,14 @@ export default function TopicPage() {
   const [activeTab, setActiveTab] = useState<"phrases" | "conversations">("phrases");
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
 
+  // Preload voices on mount (needed for mobile)
+  useEffect(() => {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.getVoices();
+      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    }
+  }, []);
+
   if (!levels) {
     return (
       <div className={`min-h-screen ${colors.backgroundLight} flex items-center justify-center`}>
@@ -352,14 +360,6 @@ export default function TopicPage() {
   }
 
   const currentLevel = levels.find(l => l.level === selectedLevel) || levels[0];
-
-  // Preload voices on mount (needed for mobile)
-  useEffect(() => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.getVoices();
-      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-    }
-  }, []);
 
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
