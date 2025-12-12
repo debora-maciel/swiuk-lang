@@ -58,7 +58,7 @@ export async function getWordCounts(userId: string) {
     french: { known: 0, unknown: 0 },
   }
 
-  data.forEach((row) => {
+  data.forEach((row: { language: string; status: string }) => {
     const lang = row.language as WordLanguage
     const status = row.status as WordStatus
     if (counts[lang]) {
