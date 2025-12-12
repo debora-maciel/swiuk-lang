@@ -9,7 +9,6 @@ import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdScho
 import { HiSpeakerWave } from "react-icons/hi2";
 import { useState, useEffect } from "react";
 import { Dropdown } from "antd";
-import type { MenuProps } from "antd";
 
 const topicIcons: Record<string, React.ReactNode> = {
   travel: <MdFlight size={24} />,
@@ -497,11 +496,11 @@ export default function TopicPage() {
                 <div className="p-4 space-y-4">
                   {conversation.lines.map((line, idx) => (
                     <div key={idx} className={`flex gap-3 ${line.speaker === "B" ? "flex-row-reverse" : ""}`}>
-                      <div className={`${colors.border20} border ${colors.text70} w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0`}>
+                      <div className={`${colors.background} ${colors.border20} border ${colors.text70} w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0`}>
                         {line.speaker}
                       </div>
                       <div className={`flex-1 ${line.speaker === "B" ? "text-right" : ""}`}>
-                        <div className={`${colors.border10} border rounded-lg p-3 inline-block ${line.speaker === "B" ? "text-left" : ""}`}>
+                        <div className={`${colors.border10} border rounded-lg p-3 inline-block ${line.speaker === "B" ? "text-left" : ""} ${colors.background} `}>
                           <p className={`${colors.text} font-medium mb-1`}>{line.original}</p>
                           <p className={`${colors.text60} text-sm`}>{line.translation[language === "fr" ? "en" : language]}</p>
                         </div>
