@@ -5,6 +5,8 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import ListWordTable from "../../components/ListWord";
 import HeaderBack from "@/app/core/components/HeaderBack";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
+import { useUser } from "@/lib/supabase/hooks";
+import { getWordsByLanguage, saveWord } from "@/lib/supabase/words";
 
 const langKnown = "FRknownWords";
 const langUnknown = "FRunknownWords";
@@ -16,18 +18,24 @@ export default function ListWords() {
     const { colors } = useTheme();
     const [searchKnown, setSearchKnown] = useState('');
     const [viewKnown, setViewKnown] = useState(true);
+    const { user } = useUser();
 
-    function onLoad() {
-        const known = JSON.parse(localStorage.getItem(langKnown) || "[]");
-        const notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
-
-        setKnownWords(known);
-        setUnknownWords(notKnown);
+    async function onLoad() {
+        if (user) {
+            const { known, unknown } = await getWordsByLanguage('french');
+            setKnownWords(known);
+            setUnknownWords(unknown);
+        } else {
+            const known = JSON.parse(localStorage.getItem(langKnown) || "[]");
+            const notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
+            setKnownWords(known);
+            setUnknownWords(notKnown);
+        }
     }
 
     useEffect(() => {
         onLoad();
-    }, []);
+    }, [user]);
 
     function onRemoveKnownWord(word: string) {
         let notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
@@ -35,6 +43,7 @@ export default function ListWords() {
 
         localStorage.setItem(langKnown, JSON.stringify(knownWords.filter((w) => w !== word)));
         localStorage.setItem(langUnknown, JSON.stringify([...notKnown, word]));
+        saveWord(word, 'french', 'unknown');
 
         onLoad();
     }
@@ -45,6 +54,7 @@ export default function ListWords() {
 
         localStorage.setItem(langUnknown, JSON.stringify(unknownWords.filter((w) => w !== word)));
         localStorage.setItem(langKnown, JSON.stringify([...known, word]));
+        saveWord(word, 'french', 'known');
 
         onLoad();
     }

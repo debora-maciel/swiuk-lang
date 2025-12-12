@@ -15,6 +15,7 @@ import { getWordCounts, syncLocalStorageToSupabase } from "@/lib/supabase/words"
 export default function Home() {
   const [DEknownWords, setDEKnownWords] = useState<number>(0);
   const [ENknownWords, setENKnownWords] = useState<number>(0);
+  const [FRknownWords, setFRKnownWords] = useState<number>(0);
   const [matches, setMatches] = useState<string[]>([]);
   const { language } = useLanguage();
   const { colors } = useTheme();
@@ -35,12 +36,15 @@ export default function Home() {
         const counts = await getWordCounts(user.id);
         setDEKnownWords(counts.german.known);
         setENKnownWords(counts.english.known);
+        setFRKnownWords(counts.french.known);
       } else {
         // Fallback to localStorage if not logged in
         const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
         const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
+        const FRknown = JSON.parse(localStorage.getItem("FRknownWords") || "[]");
         setDEKnownWords(DEknown.length);
         setENKnownWords(ENknown.length);
+        setFRKnownWords(FRknown.length);
       }
     }
 
@@ -89,6 +93,10 @@ export default function Home() {
             <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3`}>
               <div className={`${colors.text60} text-xs font-bold mb-1`}>EN</div>
               <div className={`text-2xl ${colors.text} font-bold`}>{ENknownWords}</div>
+            </div>
+            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3`}>
+              <div className={`${colors.text60} text-xs font-bold mb-1`}>FR</div>
+              <div className={`text-2xl ${colors.text} font-bold`}>{FRknownWords}</div>
             </div>
           </div>
 
