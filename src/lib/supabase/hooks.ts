@@ -16,14 +16,14 @@ export function useUser() {
 
   useEffect(() => {
     // Get initial user
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user)
+    supabase.auth.getUser().then((result: { data: { user: User | null } }) => {
+      setUser(result.data?.user ?? null)
       setLoading(false)
     })
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (_event: string, session: Session | null) => {
         setUser(session?.user ?? null)
         setLoading(false)
       }
@@ -42,15 +42,15 @@ export function useSession() {
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
+    supabase.auth.getSession().then((result: { data: { session: Session | null } }) => {
+      setSession(result.data?.session ?? null)
       setLoading(false)
     })
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session)
+      (_event: string, newSession: Session | null) => {
+        setSession(newSession)
         setLoading(false)
       }
     )

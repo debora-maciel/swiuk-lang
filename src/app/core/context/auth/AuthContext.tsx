@@ -21,17 +21,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setUser(session?.user ?? null)
+    supabase.auth.getSession().then((result: { data: { session: Session | null } }) => {
+      const sessionData = result.data?.session
+      setSession(sessionData)
+      setUser(sessionData?.user ?? null)
       setLoading(false)
     })
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session)
-        setUser(session?.user ?? null)
+      (_event: string, newSession: Session | null) => {
+        setSession(newSession)
+        setUser(newSession?.user ?? null)
         setLoading(false)
       }
     )
