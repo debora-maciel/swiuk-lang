@@ -9,6 +9,54 @@ import { HiMiniXMark } from "react-icons/hi2";
 import { BsPlus } from "react-icons/bs";
 import { useGlobalMessage } from "@/app/core/components/Message";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
+import { useLanguage } from "@/app/core/context/language/LanguageContext";
+
+const translations = {
+    en: {
+        addNewKnownWord: "Add new known word",
+        searchForWord: "Search for word",
+        cancel: "Cancel",
+        confirm: "Confirm",
+        addTheseWords: "Add these words into the Known Words?",
+        wordAlreadyKnown: "Word already known!",
+        wordAdded: "Word added successfully!",
+        wordsAdded: "Words added successfully!",
+        newWord: "+ New word",
+    },
+    de: {
+        addNewKnownWord: "Neues bekanntes Wort hinzufügen",
+        searchForWord: "Nach Wort suchen",
+        cancel: "Abbrechen",
+        confirm: "Bestätigen",
+        addTheseWords: "Diese Wörter zu den bekannten Wörtern hinzufügen?",
+        wordAlreadyKnown: "Wort bereits bekannt!",
+        wordAdded: "Wort erfolgreich hinzugefügt!",
+        wordsAdded: "Wörter erfolgreich hinzugefügt!",
+        newWord: "+ Neues Wort",
+    },
+    fr: {
+        addNewKnownWord: "Ajouter un mot connu",
+        searchForWord: "Rechercher un mot",
+        cancel: "Annuler",
+        confirm: "Confirmer",
+        addTheseWords: "Ajouter ces mots aux mots connus?",
+        wordAlreadyKnown: "Mot déjà connu!",
+        wordAdded: "Mot ajouté avec succès!",
+        wordsAdded: "Mots ajoutés avec succès!",
+        newWord: "+ Nouveau mot",
+    },
+    pt: {
+        addNewKnownWord: "Adicionar palavra conhecida",
+        searchForWord: "Pesquisar palavra",
+        cancel: "Cancelar",
+        confirm: "Confirmar",
+        addTheseWords: "Adicionar estas palavras às palavras conhecidas?",
+        wordAlreadyKnown: "Palavra já conhecida!",
+        wordAdded: "Palavra adicionada com sucesso!",
+        wordsAdded: "Palavras adicionadas com sucesso!",
+        newWord: "+ Nova palavra",
+    },
+};
 
 interface INewModal {
     known: 'DEknownWords' | "knownWords" | 'FRknownWords';
@@ -22,6 +70,8 @@ export default function NewWord(props: INewModal) {
     const { openMessage, contextHolder } = useGlobalMessage();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { colors } = useTheme();
+    const { language } = useLanguage();
+    const t = translations[language];
     const [input, setInput] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [highlightIndex, setHighlightIndex] = useState<number>(-1);
@@ -56,7 +106,7 @@ export default function NewWord(props: INewModal) {
         if (!alreadyInList) {
             setSelectedWords(prev => [...prev, word]);
         } else {
-            openMessage('error', 'Word already known!')
+            openMessage('error', t.wordAlreadyKnown)
         }
 
         setInput('');
@@ -107,7 +157,7 @@ export default function NewWord(props: INewModal) {
         if (props.onOk) props.onOk();
 
 
-        openMessage('success', `Word${newWords.length > 1 ? 's' : ''} added succesfully!`)
+        openMessage('success', newWords.length > 1 ? t.wordsAdded : t.wordAdded)
         handleOk();
         setSelectedWords([]);
         setInput('');
@@ -126,7 +176,7 @@ export default function NewWord(props: INewModal) {
                 <button
                     onClick={showModal}
                     className={` ${colors.background} cursor-pointer border ${colors.border30} ${colors.text60} font-normal rounded-full px-2 py-1`}>
-                    + New word
+                    {t.newWord}
                 </button>
             ) : (
                 <button
@@ -152,7 +202,7 @@ export default function NewWord(props: INewModal) {
                 closeIcon={
                     <IoClose className={`${colors.text} text-xl hover:text-red-500 transition duration-200`} />
                 }
-                title={<div className={`leading-4 border-b pb-4 ${colors.border10} ${colors.background} ${colors.text}`}>Add new known word</div>}
+                title={<div className={`leading-4 border-b pb-4 ${colors.border10} ${colors.background} ${colors.text}`}>{t.addNewKnownWord}</div>}
                 footer={[
                     <div key={'footer-new-word'} className={`flex items-center justify-between border-t ${colors.border10} ${colors.text}  pt-4 ${colors.background}`}>
                         <button
@@ -160,7 +210,7 @@ export default function NewWord(props: INewModal) {
                             className={`${colors.border20} ${colors.text80} border rounded-full px-6 py-2`}
                             onClick={handleOk}
                         >
-                            Cancel
+                            {t.cancel}
                         </button>
                         <button
                             disabled={selectedWords.length === 0}
@@ -169,7 +219,7 @@ export default function NewWord(props: INewModal) {
                             style={{ opacity: selectedWords.length > 0 ? 1 : 0.4 }}
                             className={`${colors.background} ${colors.text} px-6 py-2 border rounded-full`}
                         >
-                            Confirm
+                            {t.confirm}
                         </button>
                     </div>
                 ]}
@@ -182,14 +232,14 @@ export default function NewWord(props: INewModal) {
                         onBlur={() => setTimeout(() => setSuggestions([]), 100)}
                         onKeyDown={handleKeyDown}
                         className={`w-full px-2 py-2 focus:outline-none focus:ring-0 ${props.lang === 'EN' ? 'lowercase' : ''}`}
-                        placeholder="Search for word"
+                        placeholder={t.searchForWord}
                     />
                 </div>
 
                 {selectedWords.length > 0 && (
                     <div className={`${colors.backgroundSlate200} rounded-lg my-4 flex flex-col h-min border border-slate-200`}>
                         <div className={`flex items-center justify-between pl-4 pr-2 pt-2 ${colors.text}`}>
-                            Add these words into the Known Words?
+                            {t.addTheseWords}
                             <div
                                 onClick={() => {
                                     setInput('');

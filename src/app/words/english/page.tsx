@@ -8,10 +8,34 @@ import { utils } from "../../../utils/utils";
 import Link from "next/link";
 import NewWord from "../components/NewWord";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
+import { useLanguage } from "@/app/core/context/language/LanguageContext";
 import HeaderBack from "@/app/core/components/HeaderBack";
 import { saveWord } from "@/lib/supabase/words";
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+
+const translations = {
+    en: {
+        unknown: "Unknown",
+        known: "Known",
+        all: "All",
+    },
+    de: {
+        unknown: "Unbekannt",
+        known: "Bekannt",
+        all: "Alle",
+    },
+    fr: {
+        unknown: "Inconnu",
+        known: "Connu",
+        all: "Tout",
+    },
+    pt: {
+        unknown: "Desconhecido",
+        known: "Conhecido",
+        all: "Todos",
+    },
+};
 
 type WordEntry = {
     MEANINGS: Array<[string, string, string[], any[]]>;
@@ -33,6 +57,8 @@ export default function EnglishWords() {
     const [words, setWords] = useState<string[]>([]);
     const [hasLoaded, setHasLoaded] = useState(false);
     const { colors } = useTheme();
+    const { language } = useLanguage();
+    const t = translations[language];
     const [currentWord, setCurrentWord] = useState<number>(0);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
@@ -101,7 +127,7 @@ export default function EnglishWords() {
                         <Link href={'/words/english/list'} className={`w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4`}>
                             <div className={`flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2 min-w-[60px]`}>
                                 <div className={`${colors.text60} text-xs`}>
-                                    Unknown
+                                    {t.unknown}
                                 </div>
                                 <div className={`${colors.text60} text-xl`}>
                                     {!hasLoaded ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : unknownWords.length}
@@ -109,14 +135,14 @@ export default function EnglishWords() {
                             </div>
                             <div className={`flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2 min-w-[60px]`}>
                                 <div className={`text-xs ${colors.text80}`}>
-                                    Known
+                                    {t.known}
                                 </div>
                                 <div className={`font-bold ${colors.text80} text-xl`}>
                                     {!hasLoaded ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : knownWords.length}
                                 </div>
                             </div>
                             <div className={`flex flex-col items-center justify-center border  ${colors.border10} rounded-r-lg py-1 px-2`}>
-                                <div className={`text-xs ${colors.text60}`}>All</div>
+                                <div className={`text-xs ${colors.text60}`}>{t.all}</div>
                                 <div className={`${colors.text60} text-xl`}>
                                     {utils.formatNumberAbbreviated(words.length)}
                                 </div>
@@ -135,12 +161,12 @@ export default function EnglishWords() {
                         <button onClick={() => handleIncorrect(words[currentWord])}
                             className={`cursor-pointer ${colors.text60} rounded-full border ${colors.border20} py-2 flex items-center gap-2 justify-between px-6`}>
                             <HiMiniXMark size={20} />
-                            Unknown
+                            {t.unknown}
                         </button>
                         <button onClick={() => handleCorrect(words[currentWord])}
                             className={`cursor-pointer ${colors.text} rounded-full border ${colors.border} py-2 flex items-center gap-2 justify-between px-6`}>
                             <IoCheckmark size={20} />
-                            Known
+                            {t.known}
                         </button>
                     </div>
                     <div className={`w-full p-1 mt-1 max-h-[30%] min-h-[30%] px-4`}>
