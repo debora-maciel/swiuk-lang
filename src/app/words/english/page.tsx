@@ -10,6 +10,8 @@ import NewWord from "../components/NewWord";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import HeaderBack from "@/app/core/components/HeaderBack";
 import { saveWord } from "@/lib/supabase/words";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 type WordEntry = {
     MEANINGS: Array<[string, string, string[], any[]]>;
@@ -29,6 +31,7 @@ export default function EnglishWords() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
     const [unknownWords, setUnknownWords] = useState<string[]>([]);
     const [words, setWords] = useState<string[]>([]);
+    const [hasLoaded, setHasLoaded] = useState(false);
     const { colors } = useTheme();
     const [currentWord, setCurrentWord] = useState<number>(0);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -39,6 +42,7 @@ export default function EnglishWords() {
 
         setKnownWords(known);
         setUnknownWords(notKnown);
+        setHasLoaded(true);
     }, []);
 
     useEffect(() => {
@@ -95,20 +99,20 @@ export default function EnglishWords() {
                 <div className={`flex flex-col justify-start items-start w-full h-full`}>
                     <div className={`flex items-center justify-end w-full px-4`}>
                         <Link href={'/words/english/list'} className={`w-full h-[70px] flex items-center justify-end xl:text-5xl font-bolder px-4`}>
-                            <div className={`flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2`}>
+                            <div className={`flex flex-col items-center justify-center border ${colors.border10} rounded-l-lg py-1 px-2 min-w-[60px]`}>
                                 <div className={`${colors.text60} text-xs`}>
                                     Unknown
                                 </div>
                                 <div className={`${colors.text60} text-xl`}>
-                                    {unknownWords.length}
+                                    {!hasLoaded ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : unknownWords.length}
                                 </div>
                             </div>
-                            <div className={`flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2`}>
+                            <div className={`flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2 min-w-[60px]`}>
                                 <div className={`text-xs ${colors.text80}`}>
                                     Known
                                 </div>
                                 <div className={`font-bold ${colors.text80} text-xl`}>
-                                    {knownWords.length}
+                                    {!hasLoaded ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : knownWords.length}
                                 </div>
                             </div>
                             <div className={`flex flex-col items-center justify-center border  ${colors.border10} rounded-r-lg py-1 px-2`}>

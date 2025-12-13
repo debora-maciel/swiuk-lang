@@ -87,6 +87,20 @@ const translations = {
       numbers: "Chiffres",
     },
   },
+  pt: {
+    title: "Temas de Vocabulário",
+    subtitle: "Pratique frases e conversas prontas para situações do dia a dia",
+    levels: "níveis",
+    topics: {
+      travel: "Viagem & Transporte",
+      work: "Trabalho & Negócios",
+      restaurant: "Comida & Restaurante",
+      shopping: "Compras",
+      health: "Saúde & Emergência",
+      education: "Educação",
+      numbers: "Números",
+    },
+  },
 };
 
 export default function VocabularyPage() {

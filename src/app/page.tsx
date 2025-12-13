@@ -4,7 +4,8 @@ import { MdOutlineGTranslate } from "react-icons/md";
 import { IoGameController } from "react-icons/io5";
 import { BiConversation } from "react-icons/bi";
 import { IoIosInformation } from "react-icons/io";
-import { Popover } from 'antd';
+import { Popover, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { useTheme } from "./core/context/theme/ThemeContext";
@@ -18,39 +19,50 @@ export default function Home() {
   const [ENknownWords, setENKnownWords] = useState<number>(0);
   const [FRknownWords, setFRKnownWords] = useState<number>(0);
   const [matches, setMatches] = useState<string[]>([]);
+  const [isLoadingCounts, setIsLoadingCounts] = useState(true);
   const { language } = useLanguage();
   const { colors } = useTheme();
-  const { user } = useUser();
+  const { user, loading: authLoading } = useUser();
 
   const t = translations.home[language];
 
   useEffect(() => {
     const matchesData = JSON.parse(localStorage.getItem("matches") || "[]");
     setMatches(matchesData);
+  }, []);
+
+  useEffect(() => {
+    // Wait for auth to finish loading before fetching counts
+    if (authLoading) return;
 
     async function loadWordCounts() {
-      if (user) {
-        // Sync localStorage to Supabase first
-        await syncLocalStorageToSupabase();
+      setIsLoadingCounts(true);
+      try {
+        if (user) {
+          // Sync localStorage to Supabase first
+          await syncLocalStorageToSupabase();
 
-        // Then get counts from database
-        const counts = await getWordCounts(user.id);
-        setDEKnownWords(counts.german.known);
-        setENKnownWords(counts.english.known);
-        setFRKnownWords(counts.french.known);
-      } else {
-        // Fallback to localStorage if not logged in
-        const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
-        const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
-        const FRknown = JSON.parse(localStorage.getItem("FRknownWords") || "[]");
-        setDEKnownWords(DEknown.length);
-        setENKnownWords(ENknown.length);
-        setFRKnownWords(FRknown.length);
+          // Then get counts from database
+          const counts = await getWordCounts(user.id);
+          setDEKnownWords(counts.german.known);
+          setENKnownWords(counts.english.known);
+          setFRKnownWords(counts.french.known);
+        } else {
+          // Fallback to localStorage if not logged in
+          const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
+          const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
+          const FRknown = JSON.parse(localStorage.getItem("FRknownWords") || "[]");
+          setDEKnownWords(DEknown.length);
+          setENKnownWords(ENknown.length);
+          setFRKnownWords(FRknown.length);
+        }
+      } finally {
+        setIsLoadingCounts(false);
       }
     }
 
     loadWordCounts();
-  }, [user]);
+  }, [user, authLoading]);
 
   return (
     <div className={`w-full max-w-full min-h-screen ${colors.backgroundLight} px-4 py-6 md:p-12 overflow-hidden`}>
@@ -87,17 +99,23 @@ export default function Home() {
           </p>
 
           <div className="flex items-center gap-4 mb-6">
-            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3`}>
+            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3 min-w-[60px]`}>
               <div className={`${colors.text60} text-xs font-bold mb-1`}>DE</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>{DEknownWords}</div>
+              <div className={`text-2xl ${colors.text} font-bold`}>
+                {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> : DEknownWords}
+              </div>
             </div>
-            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3`}>
+            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3 min-w-[60px]`}>
               <div className={`${colors.text60} text-xs font-bold mb-1`}>EN</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>{ENknownWords}</div>
+              <div className={`text-2xl ${colors.text} font-bold`}>
+                {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> : ENknownWords}
+              </div>
             </div>
-            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3`}>
+            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3 min-w-[60px]`}>
               <div className={`${colors.text60} text-xs font-bold mb-1`}>FR</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>{FRknownWords}</div>
+              <div className={`text-2xl ${colors.text} font-bold`}>
+                {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> : FRknownWords}
+              </div>
             </div>
           </div>
 

@@ -7,7 +7,7 @@ import { useLanguage } from "../context/language/LanguageContext";
 import SwitchTargetLanguage from "./SwitchTargetLanguage";
 import { RiMenu4Fill } from "react-icons/ri";
 import { Drawer } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { SiGoogleanalytics } from "react-icons/si";
 import { IoMdSettings } from "react-icons/io";
@@ -19,11 +19,37 @@ import { FiLogOut } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import { usePathname, useRouter } from 'next/navigation';
 import { Dropdown } from "antd";
+import { translations } from "../variables/translation";
 
 export default function Navbar() {
-    const { colors } = useTheme();
+    const { colors, theme } = useTheme();
     const { user, loading, signOut } = useAuth();
-    const { targetLanguage } = useLanguage();
+    const { targetLanguage, language } = useLanguage();
+    const [isDark, setIsDark] = useState(theme === 'dark');
+
+    useEffect(() => {
+        const checkDark = () => {
+            if (theme === 'dark') return true;
+            if (theme === 'system' && typeof window !== 'undefined') {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+            return false;
+        };
+        setIsDark(checkDark());
+    }, [theme]);
+
+    // Also check on mount for system preference
+    useEffect(() => {
+        if (theme === 'system' && typeof window !== 'undefined') {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            setIsDark(mediaQuery.matches);
+
+            const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
+            mediaQuery.addEventListener('change', handler);
+            return () => mediaQuery.removeEventListener('change', handler);
+        }
+    }, [theme]);
+    const t = translations.menu[language];
     const isFrench = targetLanguage === 'français' || targetLanguage?.toLowerCase().includes('french') || targetLanguage?.toLowerCase().includes('fran');
     const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
     const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
@@ -43,37 +69,37 @@ export default function Navbar() {
 
     const menu = [
         {
-            name: "Home",
+            name: t.home,
             link: "/",
             icon: <AiFillHome size={22} />
         },
         {
-            name: "Words",
+            name: t.words,
             link: "/words",
             icon: <TiSortAlphabeticallyOutline size={22} />
         },
         {
-            name: "Connect Game",
+            name: t.connectGame,
             link: "/game/connect-words",
             icon: <IoGameController size={22} />
         },
         {
-            name: "Translator",
+            name: t.translator,
             link: "/translation",
             icon: <MdOutlineGTranslate size={22} />
         },
         {
-            name: "Vocabulary",
+            name: t.vocabulary,
             link: "/vocabulary",
             icon: <BiConversation size={22} />
         },
         {
-            name: "Dashboard",
+            name: t.dashboard,
             link: "/dashboard",
             icon: <SiGoogleanalytics size={22} />
         },
         {
-            name: "Settings",
+            name: t.settings,
             link: "/settings",
             icon: <IoMdSettings size={22} />
         },
@@ -123,8 +149,9 @@ export default function Navbar() {
                             key={m.name}
                             className={`${pathname === m.link
                                 ? `${colors.textReverse} font-semibold ${colors.backgroundReverse}`
-                                : 'text-gray-600 hover:text-gray-900'
-                            } py-3 px-4 flex items-center gap-3 rounded-lg mb-1 transition-all no-underline`}>
+                                : `hover:${colors.backgroundLight}`
+                            } py-3 px-4 flex items-center gap-3 rounded-lg mb-1 transition-all no-underline`}
+                            style={{ color: pathname !== m.link ? (isDark ? '#ffffff' : '#1f2937') : undefined }}>
                             {m.icon}
                             <span>{m.name}</span>
                         </Link>
@@ -167,8 +194,8 @@ export default function Navbar() {
                                             key: 'info',
                                             label: (
                                                 <div className="py-1">
-                                                    <div className={`font-medium ${colors.text}`}>{userName}</div>
-                                                    <div className={`text-xs ${colors.text60}`}>{userEmail}</div>
+                                                    <div className="font-medium" style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{userName}</div>
+                                                    <div className="text-xs" style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>{userEmail}</div>
                                                 </div>
                                             ),
                                             disabled: true,
@@ -176,11 +203,12 @@ export default function Navbar() {
                                         { type: 'divider' },
                                         {
                                             key: 'logout',
-                                            label: 'Logout',
-                                            icon: <FiLogOut size={16} />,
+                                            label: <span style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{t.logout}</span>,
+                                            icon: <FiLogOut size={16} style={{ color: isDark ? '#ffffff' : '#1f2937' }} />,
                                             onClick: handleSignOut,
                                         },
                                     ],
+                                    style: { backgroundColor: isDark ? '#1f2937' : '#ffffff' },
                                 }}
                                 trigger={['click']}
                                 placement="bottomRight"
@@ -194,7 +222,7 @@ export default function Navbar() {
                                 href="/auth/login"
                                 className={`${colors.textReverse} ${colors.backgroundReverse} px-3 py-1.5 rounded-lg text-sm font-medium`}
                             >
-                                Login
+                                {t.login}
                             </Link>
                         )
                     )}
@@ -237,8 +265,8 @@ export default function Navbar() {
                                                 key: 'info',
                                                 label: (
                                                     <div className="py-1">
-                                                        <div className={`font-medium ${colors.text}`}>{userName}</div>
-                                                        <div className={`text-xs ${colors.text60}`}>{userEmail}</div>
+                                                        <div className="font-medium" style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{userName}</div>
+                                                        <div className="text-xs" style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>{userEmail}</div>
                                                     </div>
                                                 ),
                                                 disabled: true,
@@ -246,11 +274,12 @@ export default function Navbar() {
                                             { type: 'divider' },
                                             {
                                                 key: 'logout',
-                                                label: 'Logout',
-                                                icon: <FiLogOut size={16} />,
+                                                label: <span style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{t.logout}</span>,
+                                                icon: <FiLogOut size={16} style={{ color: isDark ? '#ffffff' : '#1f2937' }} />,
                                                 onClick: handleSignOut,
                                             },
                                         ],
+                                        style: { backgroundColor: isDark ? '#1f2937' : '#ffffff' },
                                     }}
                                     trigger={['click']}
                                     placement="bottomRight"
@@ -265,7 +294,7 @@ export default function Navbar() {
                                     href="/auth/login"
                                     className={`${colors.textReverse} ${colors.backgroundReverse} px-4 py-1.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity`}
                                 >
-                                    Login
+                                    {t.login}
                                 </Link>
                             )
                         )}

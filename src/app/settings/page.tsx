@@ -7,17 +7,19 @@ import { Modal } from 'antd';
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
+import { translations } from "../core/variables/translation";
 
 export default function Settings() {
     const { onChangeTheme, colors, theme } = useTheme();
     const { language, onChangeLanguage } = useLanguage();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteKey, setDeleteKey] = useState<string | null>(null);
+    const t = translations.settings[language];
 
     const items: MenuProps['items'] = [
         {
             key: 'label',
-            label: 'Theme',
+            label: t.theme,
             disabled: true,
         },
         {
@@ -25,15 +27,15 @@ export default function Settings() {
         },
         {
             key: 'system',
-            label: 'System',
+            label: t.themeSystem,
         },
         {
             key: 'light',
-            label: 'Light',
+            label: t.themeLight,
         },
         {
             key: 'dark',
-            label: 'Dark',
+            label: t.themeDark,
         },
     ];
 
@@ -50,8 +52,13 @@ export default function Settings() {
         },
         {
             key: 'fr',
-            label: 'French',
+            label: 'Français',
             icon: <Image width={20} height={20} alt='fr' src={'/french.png'} />,
+        },
+        {
+            key: 'pt',
+            label: 'Português',
+            icon: <Image width={20} height={20} alt='pt' src={'/portuguese.svg'} />,
         },
     ];
 
@@ -69,8 +76,23 @@ export default function Settings() {
                 return 'Deutsch'
             case 'en':
                 return 'English'
+            case 'pt':
+                return 'Português'
             default:
                 return 'Français'
+        }
+    }
+
+    function getThemeLabel(themeKey: string) {
+        switch (themeKey) {
+            case 'system':
+                return t.themeSystem;
+            case 'light':
+                return t.themeLight;
+            case 'dark':
+                return t.themeDark;
+            default:
+                return themeKey;
         }
     }
 
@@ -90,17 +112,35 @@ export default function Settings() {
         setIsModalOpen(false);
     }
 
+    const wordCategories = [
+        {
+            title: t.english,
+            keyUnknown: "knownWords",
+            keyKnown: "unknownWords",
+        },
+        {
+            title: t.german,
+            keyUnknown: "DEknownWords",
+            keyKnown: "DEunknownWords",
+        },
+        {
+            title: t.french,
+            keyUnknown: "FRknownWords",
+            keyKnown: "FRunknownWords",
+        }
+    ];
+
     return (
         <div className={`w-full min-h-screen flex overflow-y-scroll px-4 pt-4 items-start justify-center gap-4 ${colors.backgroundLight} pb-20`}>
             <div className={`${colors.background} ${colors.text} pb-10 w-full max-w-4xl rounded-4xl flex flex-col flex items-center justify-center`}>
                 <div className={`font-bold text-xl pt-4`}>
-                    Settings
+                    {t.title}
                 </div>
                 <div className={`mt-4 w-full px-3 gap-2 border-t text-sm ${colors.border10} flex flex-col items-center `}>
-                    <div className={`${colors.border10} w-full text-center py-2`}>General</div>
+                    <div className={`${colors.border10} w-full text-center py-2`}>{t.general}</div>
                     <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
                         <div className="">
-                            Theme
+                            {t.theme}
                         </div>
                         <div>
                             <Dropdown
@@ -113,14 +153,14 @@ export default function Settings() {
                                 trigger={['click']}
                             >
                                 <div className={`flex items-center justify-between gap-2 pr-1 pl-3 capitalize rounded py-1`}>
-                                    {theme} <MdKeyboardArrowDown />
+                                    {getThemeLabel(theme)} <MdKeyboardArrowDown />
                                 </div>
                             </Dropdown>
                         </div>
                     </div>
                     <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
                         <div>
-                            Language
+                            {t.language}
                         </div>
                         <div>
                             <Dropdown
@@ -138,40 +178,23 @@ export default function Settings() {
                             </Dropdown>
                         </div>
                     </div>
-                    {[
-                        {
-                            title: "English",
-                            keyUnknown: "knownWords",
-                            keyKnown: "unknownWords",
-                        },
-                        {
-                            title: "German",
-                            keyUnknown: "DEknownWords",
-                            keyKnown: "DEunknownWords",
-                        },
-                        {
-                            title: "French",
-                            keyUnknown: "FRknownWords",
-                            keyKnown: "FRunknownWords",
-                        }
-                    ]
-                        .map((d) => (
+                    {wordCategories.map((d) => (
                             <div key={d.title} className={`p-2 flex flex-col items-center w-full`}>
                                 <div className={`${colors.border10} w-full text-center py-2`}>{d.title}</div>
                                 <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
                                     <div>
-                                        Delete all known words
+                                        {t.deleteKnownWords}
                                     </div>
                                     <div>
-                                        <button onClick={() => openDeleteConfirm(d.keyKnown)} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>Delete all</button>
+                                        <button onClick={() => openDeleteConfirm(d.keyKnown)} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>{t.deleteAll}</button>
                                     </div>
                                 </div>
                                 <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
                                     <div>
-                                        Delete all unknown words
+                                        {t.deleteUnknownWords}
                                     </div>
                                     <div>
-                                        <button onClick={() => openDeleteConfirm(d.keyUnknown)} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>Delete all</button>
+                                        <button onClick={() => openDeleteConfirm(d.keyUnknown)} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>{t.deleteAll}</button>
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +202,7 @@ export default function Settings() {
                 </div>
             </div>
             <Modal
-                title={<div className={`leading-4 text-base border-b pb-4 ${colors.border10} ${colors.background} ${colors.text}`}>Do you want to delete these items?</div>}
+                title={<div className={`leading-4 text-base border-b pb-4 ${colors.border10} ${colors.background} ${colors.text}`}>{t.deleteConfirmTitle}</div>}
                 open={isModalOpen}
                 styles={{
                     content: {
@@ -202,19 +225,19 @@ export default function Settings() {
                             className={`${colors.border20} ${colors.text80} border text-sm rounded-full px-6 py-2`}
                             onClick={handleCancel}
                         >
-                            Cancel
+                            {t.cancel}
                         </button>
                         <button
                             key={'button-submit'}
                             onClick={() => handleOk()}
                             className={`${colors.background} ${colors.text} px-6 py-2 text-sm border rounded-full`}
                         >
-                            Confirm
+                            {t.confirm}
                         </button>
                     </div>
                 ]}
             >
-                <p className="text-sm">This will remove all saved words under this category.</p>
+                <p className="text-sm">{t.deleteConfirmMessage}</p>
             </Modal>
         </div>
     )

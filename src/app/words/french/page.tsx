@@ -4,6 +4,8 @@ import data from "../../data/french.json";
 import Link from "next/link";
 import { utils } from "../../../utils/utils";
 import { HiMiniXMark } from "react-icons/hi2";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { IoCheckmark } from "react-icons/io5";
 import LearnMore from "./components/LearnMore";
 import NewWord from "../components/NewWord";
@@ -30,6 +32,7 @@ export default function French() {
     const { colors } = useTheme();
     const [currentWord, setCurrentWord] = useState<number>(0);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+    const [hasLoaded, setHasLoaded] = useState(false);
 
     useEffect(() => {
         const known = JSON.parse(localStorage.getItem(langKnown) || "[]");
@@ -37,6 +40,7 @@ export default function French() {
 
         setKnownWords(known);
         setUnknownWords(notKnown);
+        setHasLoaded(true);
     }, []);
 
     useEffect(() => {
@@ -97,7 +101,7 @@ export default function French() {
                                     Unknown
                                 </div>
                                 <div className={`${colors.text60} text-xl`}>
-                                    {unknownWords.length}
+                                    {!hasLoaded ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : unknownWords.length}
                                 </div>
                             </div>
                             <div className={`${colors.background}  flex flex-col items-center justify-center border ${colors.border10} border-x-0 py-1 px-2`}>
@@ -105,7 +109,7 @@ export default function French() {
                                     Known
                                 </div>
                                 <div className={`font-bold ${colors.text80} text-xl`}>
-                                    {knownWords.length}
+                                    {!hasLoaded ? <Spin indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />} /> : knownWords.length}
                                 </div>
                             </div>
                             <div className={`${colors.background}  flex flex-col items-center justify-center border  ${colors.border10} rounded-r-lg py-1 px-2`}>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useTheme } from "../context/theme/ThemeContext";
+import { useLanguage } from "../context/language/LanguageContext";
 import { usePathname } from 'next/navigation';
 import { AiFillHome } from "react-icons/ai";
 import { SiGoogleanalytics } from "react-icons/si";
@@ -10,44 +11,47 @@ import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { IoGameController } from "react-icons/io5";
 import { MdOutlineGTranslate } from "react-icons/md";
 import { BiConversation } from "react-icons/bi";
+import { translations } from "../variables/translation";
 
 export default function Sidebar() {
     const { colors } = useTheme();
+    const { language } = useLanguage();
     const pathname = usePathname();
+    const t = translations.menu[language];
 
     const menu = [
         {
-            name: "Home",
+            name: t.home,
             link: "/",
             icon: <AiFillHome size={20} />
         },
         {
-            name: "Words",
+            name: t.words,
             link: "/words",
             icon: <TiSortAlphabeticallyOutline size={20} />
         },
         {
-            name: "Connect Game",
+            name: t.connectGame,
             link: "/game/connect-words",
             icon: <IoGameController size={20} />
         },
         {
-            name: "Translator",
+            name: t.translator,
             link: "/translation",
             icon: <MdOutlineGTranslate size={20} />
         },
         {
-            name: "Vocabulary",
+            name: t.vocabulary,
             link: "/vocabulary",
             icon: <BiConversation size={20} />
         },
         {
-            name: "Dashboard",
+            name: t.dashboard,
             link: "/dashboard",
             icon: <SiGoogleanalytics size={20} />
         },
         {
-            name: "Settings",
+            name: t.settings,
             link: "/settings",
             icon: <IoMdSettings size={20} />
         },
@@ -67,7 +71,7 @@ export default function Sidebar() {
                         className={`flex items-center gap-3 px-4 py-3 rounded-lg mb-2 transition-all ${
                             pathname === item.link
                                 ? `${colors.backgroundReverse} ${colors.textReverse} font-semibold`
-                                : `${colors.text70} hover:${colors.background} hover:${colors.text}`
+                                : `${colors.text} hover:${colors.backgroundLight}`
                         }`}
                     >
                         {item.icon}
