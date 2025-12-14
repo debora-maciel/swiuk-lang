@@ -275,7 +275,7 @@ export default function Home() {
             <div className={`${colors.backgroundReverse} ${colors.textReverse} p-3 rounded-xl`}>
               <TiSortAlphabeticallyOutline size={24} />
             </div>
-            <IoArrowForward className={`${colors.text30} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
+            <IoArrowForward className={`${colors.text40} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
           </div>
           <h3 className={`${colors.text} text-lg font-bold mb-2`}>{t.words.title}</h3>
           <p className={`${colors.text50} text-sm leading-relaxed`}>
@@ -292,7 +292,7 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2">
                 <span className={`${colors.text50} text-xs`}>{matches.length} {t.connect.matchesLabel.replace(':', '')}</span>
-                <IoArrowForward className={`${colors.text30} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
+                <IoArrowForward className={`${colors.text40} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
               </div>
             </div>
             <h3 className={`${colors.text} text-lg font-bold mb-2`}>{t.connect.title}</h3>
@@ -308,7 +308,7 @@ export default function Home() {
             <div className={`${colors.backgroundReverse} ${colors.textReverse} p-3 rounded-xl`}>
               <BiConversation size={24} />
             </div>
-            <IoArrowForward className={`${colors.text30} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
+            <IoArrowForward className={`${colors.text40} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
           </div>
           <h3 className={`${colors.text} text-lg font-bold mb-2`}>{t.vocabulary.title}</h3>
           <p className={`${colors.text50} text-sm leading-relaxed mb-4`}>

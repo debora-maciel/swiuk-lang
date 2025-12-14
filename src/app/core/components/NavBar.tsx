@@ -14,9 +14,8 @@ import { IoMdSettings } from "react-icons/io";
 import { IoClose, IoGameController } from "react-icons/io5";
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { BiConversation } from "react-icons/bi";
-import { FiLogOut } from "react-icons/fi";
+import UserAvatar from "./UserAvatar";
 import { usePathname, useRouter } from 'next/navigation';
-import { Dropdown } from "antd";
 import { translations } from "../variables/translation";
 
 export default function Navbar() {
@@ -183,36 +182,12 @@ export default function Navbar() {
                     <SwitchTargetLanguage />
                     {!loading && (
                         user ? (
-                            <Dropdown
-                                menu={{
-                                    items: [
-                                        {
-                                            key: 'info',
-                                            label: (
-                                                <div className="py-1">
-                                                    <div className="font-medium" style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{userName}</div>
-                                                    <div className="text-xs" style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>{userEmail}</div>
-                                                </div>
-                                            ),
-                                            disabled: true,
-                                        },
-                                        { type: 'divider' },
-                                        {
-                                            key: 'logout',
-                                            label: <span style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{t.logout}</span>,
-                                            icon: <FiLogOut size={16} style={{ color: isDark ? '#ffffff' : '#1f2937' }} />,
-                                            onClick: handleSignOut,
-                                        },
-                                    ],
-                                    style: { backgroundColor: isDark ? '#1f2937' : '#ffffff' },
-                                }}
-                                trigger={['click']}
-                                placement="bottomRight"
-                            >
-                                <button className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-sm hover:opacity-90 transition-opacity">
-                                    {userName.charAt(0).toUpperCase()}
-                                </button>
-                            </Dropdown>
+                            <UserAvatar
+                                userName={userName}
+                                userEmail={userEmail}
+                                onSignOut={handleSignOut}
+                                logoutText={t.logout}
+                            />
                         ) : (
                             <Link
                                 href="/auth/login"
@@ -254,36 +229,12 @@ export default function Navbar() {
                         <SwitchTargetLanguage />
                         {!loading && (
                             user ? (
-                                <Dropdown
-                                    menu={{
-                                        items: [
-                                            {
-                                                key: 'info',
-                                                label: (
-                                                    <div className="py-1">
-                                                        <div className="font-medium" style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{userName}</div>
-                                                        <div className="text-xs" style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>{userEmail}</div>
-                                                    </div>
-                                                ),
-                                                disabled: true,
-                                            },
-                                            { type: 'divider' },
-                                            {
-                                                key: 'logout',
-                                                label: <span style={{ color: isDark ? '#ffffff' : '#1f2937' }}>{t.logout}</span>,
-                                                icon: <FiLogOut size={16} style={{ color: isDark ? '#ffffff' : '#1f2937' }} />,
-                                                onClick: handleSignOut,
-                                            },
-                                        ],
-                                        style: { backgroundColor: isDark ? '#1f2937' : '#ffffff' },
-                                    }}
-                                    trigger={['click']}
-                                    placement="bottomRight"
-                                >
-                                    <button className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-sm hover:opacity-90 transition-opacity">
-                                        {userName.charAt(0).toUpperCase()}
-                                    </button>
-                                </Dropdown>
+                                <UserAvatar
+                                    userName={userName}
+                                    userEmail={userEmail}
+                                    onSignOut={handleSignOut}
+                                    logoutText={t.logout}
+                                />
                             ) : (
                                 <Link
                                     href="/auth/login"
