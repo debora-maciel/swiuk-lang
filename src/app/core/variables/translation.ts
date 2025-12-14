@@ -360,7 +360,18 @@ export const translations = {
             cancel: "Cancel",
             confirm: "Confirm",
             deleteSuccess: "Words deleted successfully",
-            deleteError: "Error deleting words"
+            deleteError: "Error deleting words",
+            profile: "Profile",
+            username: "Username",
+            usernamePlaceholder: "Enter your username",
+            usernameHint: "Only letters, numbers, and underscores",
+            saveUsername: "Save",
+            shareProfile: "Share Profile",
+            copyLink: "Copy Link",
+            linkCopied: "Link copied!",
+            usernameSaved: "Username saved successfully",
+            usernameError: "Error saving username",
+            usernameExists: "This username is already taken"
         },
         de: {
             title: "Einstellungen",
@@ -381,7 +392,18 @@ export const translations = {
             cancel: "Abbrechen",
             confirm: "Bestätigen",
             deleteSuccess: "Wörter erfolgreich gelöscht",
-            deleteError: "Fehler beim Löschen der Wörter"
+            deleteError: "Fehler beim Löschen der Wörter",
+            profile: "Profil",
+            username: "Benutzername",
+            usernamePlaceholder: "Benutzernamen eingeben",
+            usernameHint: "Nur Buchstaben, Zahlen und Unterstriche",
+            saveUsername: "Speichern",
+            shareProfile: "Profil teilen",
+            copyLink: "Link kopieren",
+            linkCopied: "Link kopiert!",
+            usernameSaved: "Benutzername erfolgreich gespeichert",
+            usernameError: "Fehler beim Speichern des Benutzernamens",
+            usernameExists: "Dieser Benutzername ist bereits vergeben"
         },
         fr: {
             title: "Paramètres",
@@ -402,7 +424,18 @@ export const translations = {
             cancel: "Annuler",
             confirm: "Confirmer",
             deleteSuccess: "Mots supprimés avec succès",
-            deleteError: "Erreur lors de la suppression des mots"
+            deleteError: "Erreur lors de la suppression des mots",
+            profile: "Profil",
+            username: "Nom d'utilisateur",
+            usernamePlaceholder: "Entrez votre nom d'utilisateur",
+            usernameHint: "Lettres, chiffres et tirets bas uniquement",
+            saveUsername: "Enregistrer",
+            shareProfile: "Partager le profil",
+            copyLink: "Copier le lien",
+            linkCopied: "Lien copié !",
+            usernameSaved: "Nom d'utilisateur enregistré",
+            usernameError: "Erreur lors de l'enregistrement",
+            usernameExists: "Ce nom d'utilisateur est déjà pris"
         },
         pt: {
             title: "Configurações",
@@ -423,7 +456,18 @@ export const translations = {
             cancel: "Cancelar",
             confirm: "Confirmar",
             deleteSuccess: "Palavras excluídas com sucesso",
-            deleteError: "Erro ao excluir palavras"
+            deleteError: "Erro ao excluir palavras",
+            profile: "Perfil",
+            username: "Nome de usuário",
+            usernamePlaceholder: "Digite seu nome de usuário",
+            usernameHint: "Apenas letras, números e underscores",
+            saveUsername: "Salvar",
+            shareProfile: "Compartilhar Perfil",
+            copyLink: "Copiar Link",
+            linkCopied: "Link copiado!",
+            usernameSaved: "Nome de usuário salvo com sucesso",
+            usernameError: "Erro ao salvar nome de usuário",
+            usernameExists: "Este nome de usuário já está em uso"
         }
     }
 };

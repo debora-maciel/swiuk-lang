@@ -146,3 +146,52 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- ============================================
+-- PROFILES TABLE
+-- Stores public user profiles for sharing
+-- ============================================
+create table if not exists public.profiles (
+  id uuid references auth.users(id) on delete cascade primary key,
+  username text unique,
+  display_name text,
+  avatar_url text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Index for faster username lookups
+create index if not exists profiles_username_idx on public.profiles(username);
+
+-- Enable RLS on profiles
+alter table public.profiles enable row level security;
+
+-- Profiles policies (public profiles are viewable by everyone)
+create policy "Public profiles are viewable by everyone"
+  on public.profiles for select
+  using (true);
+
+create policy "Users can insert their own profile"
+  on public.profiles for insert
+  with check (auth.uid() = id);
+
+create policy "Users can update their own profile"
+  on public.profiles for update
+  using (auth.uid() = id);
+
+-- Trigger for updated_at on profiles
+create trigger set_profiles_updated_at
+  before update on public.profiles
+  for each row execute function public.handle_updated_at();
+
+-- Update handle_new_user function to also create profile
+create or replace function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.user_preferences (user_id)
+  values (new.id);
+  insert into public.profiles (id)
+  values (new.id);
+  return new;
+end;
+$$ language plpgsql security definer;

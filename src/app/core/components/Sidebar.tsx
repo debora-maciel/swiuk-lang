@@ -18,6 +18,11 @@ export default function Sidebar() {
     const pathname = usePathname();
     const t = translations.menu[language];
 
+    // Hide sidebar on public profile pages
+    if (pathname?.startsWith('/u/')) {
+        return null;
+    }
+
     const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
     const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
 

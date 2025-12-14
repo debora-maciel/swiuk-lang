@@ -31,6 +31,13 @@ const cefrTranslations = {
   pt: { title: 'Nível CEFR', wordsToNext: 'palavras para o próximo nível', words: 'palavras' },
 };
 
+const statsTranslations = {
+  en: { german: 'German', english: 'English', french: 'French', totalWords: 'Total Words' },
+  de: { german: 'Deutsch', english: 'Englisch', french: 'Französisch', totalWords: 'Wörter Gesamt' },
+  fr: { german: 'Allemand', english: 'Anglais', french: 'Français', totalWords: 'Mots Total' },
+  pt: { german: 'Alemão', english: 'Inglês', french: 'Francês', totalWords: 'Palavras Totais' },
+};
+
 export default function Home() {
   const [DEknownWords, setDEKnownWords] = useState<number>(0);
   const [ENknownWords, setENKnownWords] = useState<number>(0);
@@ -53,7 +60,7 @@ export default function Home() {
 
   // Get word count for target language
   const targetLanguageWordCount = isGerman ? DEknownWords : isEnglish ? ENknownWords : isFrench ? FRknownWords : 0;
-  const targetLanguageName = isGerman ? 'German' : isEnglish ? 'English' : isFrench ? 'French' : '';
+  const targetLanguageName = isGerman ? statsTranslations[language].german : isEnglish ? statsTranslations[language].english : isFrench ? statsTranslations[language].french : '';
 
   const getCurrentLevel = (wordCount: number) => {
     for (let i = cefrLevels.length - 1; i >= 0; i--) {
@@ -73,6 +80,7 @@ export default function Home() {
   };
 
   const cefrT = cefrTranslations[language];
+  const statsT = statsTranslations[language];
 
   useEffect(() => {
     const matchesData = JSON.parse(localStorage.getItem("matches") || "[]");
@@ -118,7 +126,7 @@ export default function Home() {
                 <div className="flex-1 bg-[#FFCC00]"></div>
               </div>
               <div>
-                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>German</div>
+                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>{statsT.german}</div>
                 <div className={`${colors.text} text-xl md:text-2xl font-bold`}>
                   {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : DEknownWords}
                 </div>
@@ -130,7 +138,7 @@ export default function Home() {
                 <div className="absolute left-1/2 top-0 bottom-0 w-[3px] bg-[#CE1124] -translate-x-1/2"></div>
               </div>
               <div>
-                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>English</div>
+                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>{statsT.english}</div>
                 <div className={`${colors.text} text-xl md:text-2xl font-bold`}>
                   {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : ENknownWords}
                 </div>
@@ -143,7 +151,7 @@ export default function Home() {
                 <div className="flex-1 bg-[#ED2939]"></div>
               </div>
               <div>
-                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>French</div>
+                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>{statsT.french}</div>
                 <div className={`${colors.text} text-xl md:text-2xl font-bold`}>
                   {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : FRknownWords}
                 </div>
@@ -151,7 +159,7 @@ export default function Home() {
             </div>
           </div>
           <div className={`${colors.border10} border-l pl-6 hidden md:block`}>
-            <div className={`${colors.text50} text-xs uppercase tracking-wide`}>Total Words</div>
+            <div className={`${colors.text50} text-xs uppercase tracking-wide`}>{statsT.totalWords}</div>
             <div className={`${colors.text} text-2xl font-bold`}>
               {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : totalWords}
             </div>

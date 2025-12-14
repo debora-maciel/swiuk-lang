@@ -23,6 +23,9 @@ export default function Navbar() {
     const { user, loading, signOut } = useAuth();
     const { targetLanguage, language } = useLanguage();
     const [isDark, setIsDark] = useState(theme === 'dark');
+    const [open, setOpen] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
         const checkDark = () => {
@@ -46,6 +49,12 @@ export default function Navbar() {
             return () => mediaQuery.removeEventListener('change', handler);
         }
     }, [theme]);
+
+    // Hide navbar on public profile pages
+    if (pathname?.startsWith('/u/')) {
+        return null;
+    }
+
     const t = translations.menu[language];
     const isFrench = targetLanguage === 'français' || targetLanguage?.toLowerCase().includes('french') || targetLanguage?.toLowerCase().includes('fran');
     const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
@@ -57,9 +66,6 @@ export default function Navbar() {
     // Get user display info
     const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
     const userEmail = user?.email || '';
-    const [open, setOpen] = useState(false);
-    const router = useRouter();
-    const pathname = usePathname();
 
     const handleSignOut = async () => {
         await signOut();

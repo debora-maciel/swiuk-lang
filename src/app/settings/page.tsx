@@ -4,12 +4,16 @@ import { useTheme } from "../core/context/theme/ThemeContext";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Dropdown, MenuProps } from "antd";
 import { Modal } from 'antd';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
+import { FiShare2, FiCheck, FiExternalLink } from "react-icons/fi";
 import Image from "next/image";
 import { translations } from "../core/variables/translation";
 import { deleteWordsByStatus, WordLanguage, WordStatus } from "@/lib/supabase/words";
 import { useGlobalMessage } from "../core/components/Message";
+import { createClient } from "@/lib/supabase/client";
+import { useUser } from "@/lib/supabase/hooks";
+import Link from "next/link";
 
 export default function Settings() {
     const { onChangeTheme, colors, theme } = useTheme();
@@ -18,6 +22,84 @@ export default function Settings() {
     const [deleteInfo, setDeleteInfo] = useState<{ language: WordLanguage; status: WordStatus } | null>(null);
     const { openMessage, contextHolder } = useGlobalMessage();
     const t = translations.settings[language];
+    const { user } = useUser();
+    const [username, setUsername] = useState('');
+    const [savedUsername, setSavedUsername] = useState('');
+    const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+    const [isSavingUsername, setIsSavingUsername] = useState(false);
+    const [linkCopied, setLinkCopied] = useState(false);
+
+    useEffect(() => {
+        async function loadProfile() {
+            if (!user) {
+                setIsLoadingProfile(false);
+                return;
+            }
+            const supabase = createClient();
+            const { data } = await supabase
+                .from('profiles')
+                .select('username')
+                .eq('id', user.id)
+                .single();
+
+            if (data?.username) {
+                setUsername(data.username);
+                setSavedUsername(data.username);
+            }
+            setIsLoadingProfile(false);
+        }
+        loadProfile();
+    }, [user]);
+
+    async function handleSaveUsername() {
+        if (!user || !username.trim()) return;
+
+        // Validate username format
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+            openMessage('error', t.usernameHint);
+            return;
+        }
+
+        setIsSavingUsername(true);
+        const supabase = createClient();
+
+        // Check if username is taken
+        const { data: existing } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('username', username.toLowerCase())
+            .neq('id', user.id)
+            .single();
+
+        if (existing) {
+            openMessage('error', t.usernameExists);
+            setIsSavingUsername(false);
+            return;
+        }
+
+        const { error } = await supabase
+            .from('profiles')
+            .upsert({
+                id: user.id,
+                username: username.toLowerCase(),
+                updated_at: new Date().toISOString(),
+            });
+
+        if (error) {
+            openMessage('error', t.usernameError);
+        } else {
+            setSavedUsername(username.toLowerCase());
+            openMessage('success', t.usernameSaved);
+        }
+        setIsSavingUsername(false);
+    }
+
+    function handleCopyLink() {
+        const url = `${window.location.origin}/u/${savedUsername}`;
+        navigator.clipboard.writeText(url);
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 2000);
+    }
 
     const items: MenuProps['items'] = [
         {
@@ -142,6 +224,62 @@ export default function Settings() {
                     {t.title}
                 </div>
                 <div className={`mt-4 w-full px-3 gap-2 border-t text-sm ${colors.border10} flex flex-col items-center `}>
+                    {/* Profile Section */}
+                    {user && (
+                        <>
+                            <div className={`${colors.border10} w-full text-center py-2`}>{t.profile}</div>
+                            <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
+                                <div className="flex-1">
+                                    <div className="mb-1">{t.username}</div>
+                                    <div className={`${colors.text50} text-xs`}>{t.usernameHint}</div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))}
+                                        placeholder={t.usernamePlaceholder}
+                                        className={`${colors.backgroundLight} ${colors.text} px-3 py-2 rounded-lg text-sm w-40 border ${colors.border10}`}
+                                    />
+                                    <button
+                                        onClick={handleSaveUsername}
+                                        disabled={isSavingUsername || username === savedUsername || !username.trim()}
+                                        className={`px-4 py-2 rounded-lg text-sm ${
+                                            username !== savedUsername && username.trim()
+                                                ? 'bg-purple-600 text-white hover:bg-purple-700'
+                                                : `${colors.backgroundLight} ${colors.text50}`
+                                        } transition-colors`}
+                                    >
+                                        {isSavingUsername ? '...' : t.saveUsername}
+                                    </button>
+                                </div>
+                            </div>
+                            {savedUsername && (
+                                <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
+                                    <div>
+                                        <div>{t.shareProfile}</div>
+                                        <div className={`${colors.text50} text-xs`}>swiuk.com/u/{savedUsername}</div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Link
+                                            href={`/u/${savedUsername}`}
+                                            target="_blank"
+                                            className={`${colors.backgroundLight} px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:opacity-80`}
+                                        >
+                                            <FiExternalLink size={14} />
+                                        </Link>
+                                        <button
+                                            onClick={handleCopyLink}
+                                            className={`bg-purple-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-purple-700 transition-colors`}
+                                        >
+                                            {linkCopied ? <FiCheck size={14} /> : <FiShare2 size={14} />}
+                                            {linkCopied ? t.linkCopied : t.copyLink}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
                     <div className={`${colors.border10} w-full text-center py-2`}>{t.general}</div>
                     <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
                         <div className="">

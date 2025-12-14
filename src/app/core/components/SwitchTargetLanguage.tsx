@@ -30,8 +30,16 @@ const FrenchFlag = () => (
     </div>
 );
 
+const translations = {
+    en: { targetLanguage: 'Target Language', german: 'German', english: 'English', french: 'French' },
+    de: { targetLanguage: 'Zielsprache', german: 'Deutsch', english: 'Englisch', french: 'Französisch' },
+    fr: { targetLanguage: 'Langue cible', german: 'Allemand', english: 'Anglais', french: 'Français' },
+    pt: { targetLanguage: 'Idioma Alvo', german: 'Alemão', english: 'Inglês', french: 'Francês' },
+};
+
 export default function SwitchTargetLanguage() {
-    const { targetLanguage, onChangeTargetLanguage } = useLanguage();
+    const { targetLanguage, onChangeTargetLanguage, language } = useLanguage();
+    const t = translations[language];
     const { colors, theme } = useTheme();
     const [isDark, setIsDark] = useState(theme === 'dark');
 
@@ -81,7 +89,7 @@ export default function SwitchTargetLanguage() {
     const items: MenuProps['items'] = [
         {
             key: 'label',
-            label: <span style={{ color: textColor60 }}>Target Language</span>,
+            label: <span style={{ color: textColor60 }}>{t.targetLanguage}</span>,
             disabled: true,
         },
         {
@@ -89,17 +97,17 @@ export default function SwitchTargetLanguage() {
         },
         {
             key: 'deutsch',
-            label: <span style={{ color: textColor }}>Deutsch</span>,
+            label: <span style={{ color: textColor }}>{t.german}</span>,
             icon: <Image width={20} height={20} alt='de' src={'/german.png'}/>,
         },
         {
             key: 'english',
-            label: <span style={{ color: textColor }}>English</span>,
+            label: <span style={{ color: textColor }}>{t.english}</span>,
             icon: <Image width={20} height={20} alt='en' src={'/english.png'}/>,
         },
         {
             key: 'french',
-            label: <span style={{ color: textColor }}>Français</span>,
+            label: <span style={{ color: textColor }}>{t.french}</span>,
             icon: <Image width={20} height={20} alt='fr' src={'/french.png'}/>,
         },
     ];
