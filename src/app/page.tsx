@@ -3,7 +3,8 @@ import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { IoGameController } from "react-icons/io5";
 import { BiConversation } from "react-icons/bi";
 import { HiUserGroup } from "react-icons/hi2";
-import { IoEarth, IoArrowForward } from "react-icons/io5";
+import { IoEarth, IoArrowForward, IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { FiAward } from "react-icons/fi";
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
@@ -14,12 +15,29 @@ import { useLanguage } from "./core/context/language/LanguageContext";
 import { useUser } from "@/lib/supabase/hooks";
 import { getWordCounts, syncLocalStorageToSupabase } from "@/lib/supabase/words";
 
+const cefrLevels = [
+  { level: 'A1', min: 0, max: 500, color: '#22c55e', description: { en: 'Beginner', de: 'Anfänger', fr: 'Débutant', pt: 'Iniciante' } },
+  { level: 'A2', min: 500, max: 1000, color: '#84cc16', description: { en: 'Elementary', de: 'Grundlegend', fr: 'Élémentaire', pt: 'Elementar' } },
+  { level: 'B1', min: 1000, max: 2000, color: '#eab308', description: { en: 'Intermediate', de: 'Mittelstufe', fr: 'Intermédiaire', pt: 'Intermediário' } },
+  { level: 'B2', min: 2000, max: 4000, color: '#f97316', description: { en: 'Upper Intermediate', de: 'Obere Mittelstufe', fr: 'Intermédiaire Supérieur', pt: 'Intermediário Superior' } },
+  { level: 'C1', min: 4000, max: 8000, color: '#ef4444', description: { en: 'Advanced', de: 'Fortgeschritten', fr: 'Avancé', pt: 'Avançado' } },
+  { level: 'C2', min: 8000, max: 16000, color: '#a855f7', description: { en: 'Mastery', de: 'Meisterschaft', fr: 'Maîtrise', pt: 'Domínio' } },
+];
+
+const cefrTranslations = {
+  en: { title: 'CEFR Level', wordsToNext: 'words to next level', words: 'words' },
+  de: { title: 'CEFR-Niveau', wordsToNext: 'Wörter bis zum nächsten Level', words: 'Wörter' },
+  fr: { title: 'Niveau CECR', wordsToNext: 'mots pour le niveau suivant', words: 'mots' },
+  pt: { title: 'Nível CEFR', wordsToNext: 'palavras para o próximo nível', words: 'palavras' },
+};
+
 export default function Home() {
   const [DEknownWords, setDEKnownWords] = useState<number>(0);
   const [ENknownWords, setENKnownWords] = useState<number>(0);
   const [FRknownWords, setFRKnownWords] = useState<number>(0);
   const [matches, setMatches] = useState<string[]>([]);
   const [isLoadingCounts, setIsLoadingCounts] = useState(true);
+  const [cefrExpanded, setCefrExpanded] = useState(false);
   const { language, targetLanguage } = useLanguage();
   const { colors } = useTheme();
   const { user, loading: authLoading } = useUser();
@@ -28,9 +46,33 @@ export default function Home() {
 
   const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
   const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
+  const isFrench = targetLanguage === 'français' || targetLanguage?.toLowerCase().includes('french') || targetLanguage?.toLowerCase().includes('fran');
 
   // Show Connect Words only for German<->English combinations
   const showConnectGame = (isGerman && language === 'en') || (isEnglish && language === 'de');
+
+  // Get word count for target language
+  const targetLanguageWordCount = isGerman ? DEknownWords : isEnglish ? ENknownWords : isFrench ? FRknownWords : 0;
+  const targetLanguageName = isGerman ? 'German' : isEnglish ? 'English' : isFrench ? 'French' : '';
+
+  const getCurrentLevel = (wordCount: number) => {
+    for (let i = cefrLevels.length - 1; i >= 0; i--) {
+      if (wordCount >= cefrLevels[i].min) {
+        return cefrLevels[i];
+      }
+    }
+    return cefrLevels[0];
+  };
+
+  const getProgressToNextLevel = (wordCount: number) => {
+    const current = getCurrentLevel(wordCount);
+    if (current.level === 'C2') return 100;
+    const progressInLevel = wordCount - current.min;
+    const levelRange = current.max - current.min;
+    return Math.min(Math.round((progressInLevel / levelRange) * 100), 100);
+  };
+
+  const cefrT = cefrTranslations[language];
 
   useEffect(() => {
     const matchesData = JSON.parse(localStorage.getItem("matches") || "[]");
@@ -54,13 +96,10 @@ export default function Home() {
           setENKnownWords(counts.english.known);
           setFRKnownWords(counts.french.known);
         } else {
-          // Fallback to localStorage if not logged in
-          const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
-          const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
-          const FRknown = JSON.parse(localStorage.getItem("FRknownWords") || "[]");
-          setDEKnownWords(DEknown.length);
-          setENKnownWords(ENknown.length);
-          setFRKnownWords(FRknown.length);
+          // Not logged in - show 0 counts
+          setDEKnownWords(0);
+          setENKnownWords(0);
+          setFRKnownWords(0);
         }
       } finally {
         setIsLoadingCounts(false);
@@ -125,6 +164,108 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* CEFR Level Card */}
+      {targetLanguageName && (
+        <div className={`${colors.background} ${colors.border10} border rounded-2xl p-4 md:p-6 mb-8 md:mb-10`}>
+          <div className="flex items-center gap-2 mb-4">
+            <FiAward className={colors.text60} size={18} />
+            <span className={`${colors.text60} text-sm font-medium`}>{cefrT.title} - {targetLanguageName}</span>
+          </div>
+          <div className="flex items-center gap-4 md:gap-6">
+            <div
+              className="w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center text-white font-bold text-xl md:text-2xl shrink-0"
+              style={{ backgroundColor: getCurrentLevel(targetLanguageWordCount).color }}
+            >
+              {getCurrentLevel(targetLanguageWordCount).level}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <div className={`${colors.text} font-semibold text-base md:text-lg`}>
+                    {getCurrentLevel(targetLanguageWordCount).description[language]}
+                  </div>
+                  <div className={`${colors.text60} text-xs md:text-sm`}>
+                    {isLoadingCounts ? '...' : `${targetLanguageWordCount} ${cefrT.words}`}
+                  </div>
+                </div>
+                {getCurrentLevel(targetLanguageWordCount).level !== 'C2' && (
+                  <div className={`text-right ${colors.text60} text-xs md:text-sm hidden sm:block`}>
+                    <div>{getCurrentLevel(targetLanguageWordCount).max - targetLanguageWordCount} {cefrT.wordsToNext}</div>
+                    <div className="text-xs mt-0.5">→ {cefrLevels[cefrLevels.findIndex(l => l.level === getCurrentLevel(targetLanguageWordCount).level) + 1]?.level}</div>
+                  </div>
+                )}
+              </div>
+              <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${getProgressToNextLevel(targetLanguageWordCount)}%`,
+                    backgroundColor: getCurrentLevel(targetLanguageWordCount).color
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Expand/Collapse Button */}
+          <button
+            onClick={() => setCefrExpanded(!cefrExpanded)}
+            className={`w-full mt-4 pt-4 border-t ${colors.border10} flex items-center justify-center gap-2 ${colors.text60} hover:${colors.text} transition-colors`}
+          >
+            <span className="text-sm">
+              {cefrExpanded
+                ? (language === 'en' ? 'Hide levels' : language === 'de' ? 'Stufen ausblenden' : language === 'fr' ? 'Masquer les niveaux' : 'Ocultar níveis')
+                : (language === 'en' ? 'Show all levels' : language === 'de' ? 'Alle Stufen anzeigen' : language === 'fr' ? 'Afficher tous les niveaux' : 'Mostrar todos os níveis')
+              }
+            </span>
+            {cefrExpanded ? <IoChevronUp size={16} /> : <IoChevronDown size={16} />}
+          </button>
+
+          {/* Expandable CEFR Levels Grid */}
+          {cefrExpanded && (
+            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                {cefrLevels.map((level) => {
+                  const isCurrentLevel = getCurrentLevel(targetLanguageWordCount).level === level.level;
+                  const isPassed = targetLanguageWordCount >= level.max;
+                  return (
+                    <div
+                      key={level.level}
+                      className={`rounded-xl p-3 text-center transition-all ${
+                        isCurrentLevel
+                          ? 'ring-2 ring-offset-2'
+                          : isPassed
+                            ? 'opacity-60'
+                            : 'opacity-40'
+                      }`}
+                      style={{
+                        backgroundColor: isCurrentLevel ? level.color + '20' : 'transparent',
+                        borderColor: level.color,
+                        // @ts-expect-error ringColor is valid
+                        '--tw-ring-color': level.color,
+                      }}
+                    >
+                      <div
+                        className="font-bold text-lg mb-1"
+                        style={{ color: level.color }}
+                      >
+                        {level.level}
+                      </div>
+                      <div className={`text-xs ${colors.text60}`}>
+                        {level.min}-{level.max}
+                      </div>
+                      <div className={`text-xs ${colors.text40} mt-1`}>
+                        {level.description[language]}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Main Feature Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-16">

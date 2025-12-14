@@ -15,7 +15,6 @@ import { IoClose, IoGameController } from "react-icons/io5";
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { BiConversation } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
-import { FiUser } from "react-icons/fi";
 import { usePathname, useRouter } from 'next/navigation';
 import { Dropdown } from "antd";
 import { translations } from "../variables/translation";
@@ -180,7 +179,7 @@ export default function Navbar() {
             <div className={`${colors.background} ${colors.border10} pl-5 text-base py-4 montserrat-black w-full text-left flex items-center justify-between px-4`}>
                 <RiMenu4Fill onClick={showDrawer} className={`${colors.text}`} size={25} />
                 <Link href={'/'} className={colors.text}>Swiuk Lang</Link>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                     <SwitchTargetLanguage />
                     {!loading && (
                         user ? (
@@ -210,14 +209,14 @@ export default function Navbar() {
                                 trigger={['click']}
                                 placement="bottomRight"
                             >
-                                <button className={`${colors.text60} p-2 rounded-lg ${colors.backgroundHover}`}>
-                                    <FiUser size={20} />
+                                <button className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-sm hover:opacity-90 transition-opacity">
+                                    {userName.charAt(0).toUpperCase()}
                                 </button>
                             </Dropdown>
                         ) : (
                             <Link
                                 href="/auth/login"
-                                className={`${colors.textReverse} ${colors.backgroundReverse} px-3 py-1.5 rounded-lg text-sm font-medium`}
+                                className={`${colors.textReverse} ${colors.backgroundReverse} px-3 py-1.5 rounded-full text-sm font-medium`}
                             >
                                 {t.login}
                             </Link>
@@ -249,9 +248,9 @@ export default function Navbar() {
                         <div className="absolute left-1/2 top-0 bottom-0 w-[6px] bg-[#CE1124] -translate-x-1/2"></div>
                     </div>
                 )}
-                <div className={`flex ${colors.background} ${colors.border10} border-b py-4 px-8 items-center justify-between`}>
+                <div className={`flex ${colors.background} ${colors.border10} border-b py-3 px-8 items-center justify-between`}>
                     <div></div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                         <SwitchTargetLanguage />
                         {!loading && (
                             user ? (
@@ -281,15 +280,14 @@ export default function Navbar() {
                                     trigger={['click']}
                                     placement="bottomRight"
                                 >
-                                    <button className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${colors.border20} ${colors.backgroundHover}`}>
-                                        <FiUser size={18} className={colors.text60} />
-                                        <span className={`${colors.text} text-sm font-medium max-w-[120px] truncate`}>{userName}</span>
+                                    <button className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-sm hover:opacity-90 transition-opacity">
+                                        {userName.charAt(0).toUpperCase()}
                                     </button>
                                 </Dropdown>
                             ) : (
                                 <Link
                                     href="/auth/login"
-                                    className={`${colors.textReverse} ${colors.backgroundReverse} px-4 py-1.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity`}
+                                    className={`${colors.textReverse} ${colors.backgroundReverse} px-4 py-1.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity`}
                                 >
                                     {t.login}
                                 </Link>
