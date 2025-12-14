@@ -6,6 +6,8 @@ import { useLanguage } from "../core/context/language/LanguageContext";
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { IoGameController } from "react-icons/io5";
 import { FiTrendingUp, FiTarget, FiAward, FiBookOpen } from "react-icons/fi";
+import { getWordCounts } from "@/lib/supabase/words";
+import { createClient } from "@/lib/supabase/client";
 
 const translations = {
     en: {
@@ -102,33 +104,35 @@ export default function Dashboard() {
     const [hasLoaded, setHasLoaded] = useState(false);
 
     useEffect(() => {
-        const ENknown = JSON.parse(localStorage.getItem("knownWords") || "[]");
-        const ENunknown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
-        const DEknown = JSON.parse(localStorage.getItem("DEknownWords") || "[]");
-        const DEunknown = JSON.parse(localStorage.getItem("DEunknownWords") || "[]");
-        const FRknown = JSON.parse(localStorage.getItem("FRknownWords") || "[]");
-        const FRunknown = JSON.parse(localStorage.getItem("FRunknownWords") || "[]");
-        const matches = JSON.parse(localStorage.getItem("matches") || "[]");
+        const fetchStats = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
 
-        setStats({
-            english: {
-                known: ENknown.length,
-                unknown: ENunknown.length,
-                total: ENknown.length + ENunknown.length,
-            },
-            german: {
-                known: DEknown.length,
-                unknown: DEunknown.length,
-                total: DEknown.length + DEunknown.length,
-            },
-            french: {
-                known: FRknown.length,
-                unknown: FRunknown.length,
-                total: FRknown.length + FRunknown.length,
-            },
-            matches: matches.length,
-        });
-        setHasLoaded(true);
+            if (user) {
+                const counts = await getWordCounts(user.id);
+                setStats({
+                    english: {
+                        known: counts.english.known,
+                        unknown: counts.english.unknown,
+                        total: counts.english.known + counts.english.unknown,
+                    },
+                    german: {
+                        known: counts.german.known,
+                        unknown: counts.german.unknown,
+                        total: counts.german.known + counts.german.unknown,
+                    },
+                    french: {
+                        known: counts.french.known,
+                        unknown: counts.french.unknown,
+                        total: counts.french.known + counts.french.unknown,
+                    },
+                    matches: JSON.parse(localStorage.getItem("matches") || "[]").length,
+                });
+            }
+            setHasLoaded(true);
+        };
+
+        fetchStats();
     }, []);
 
     const totalKnown = stats.english.known + stats.german.known + stats.french.known;

@@ -67,19 +67,27 @@ export default function VocabularyPage() {
           <Link
             key={topic.id}
             href={`/vocabulary/${topic.id}`}
-            className={`${colors.background} ${colors.border10} border rounded-xl lg:rounded-2xl p-6 flex flex-col hover:shadow-lg transition-all hover:scale-[1.02]`}
+            className={`${colors.background} ${colors.border10} border rounded-xl lg:rounded-2xl p-6 flex flex-col hover:shadow-lg transition-all hover:scale-[1.02] relative overflow-hidden min-h-[140px]`}
+            style={topic.image ? {
+              backgroundImage: `url(${topic.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            } : undefined}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <div className={`${colors.textReverse} ${colors.backgroundReverse} p-3 rounded-xl`}>
+            {topic.image && (
+              <div className="absolute inset-0 bg-black/50" />
+            )}
+            <div className={`flex items-center gap-4 mb-4 ${topic.image ? 'relative z-10' : ''}`}>
+              <div className={`${topic.image ? 'bg-white/20 text-white' : `${colors.textReverse} ${colors.backgroundReverse}`} p-3 rounded-xl`}>
                 {topicIcons[topic.id]}
               </div>
-              <h3 className={`${colors.text} text-lg lg:text-xl font-bold`}>
+              <h3 className={`${topic.image ? 'text-white' : colors.text} text-lg lg:text-xl font-bold`}>
                 {t.topics[topic.id as keyof typeof t.topics]}
               </h3>
             </div>
 
-            <div className="flex items-center gap-4 mt-auto">
-              <div className={`${colors.border20} ${colors.text60} rounded-lg border px-3 py-1 text-sm`}>
+            <div className={`flex items-center gap-4 mt-auto ${topic.image ? 'relative z-10' : ''}`}>
+              <div className={`${topic.image ? 'border-white/30 text-white/90' : `${colors.border20} ${colors.text60}`} rounded-lg border px-3 py-1 text-sm`}>
                 {topic.levels} {t.levels}
               </div>
             </div>

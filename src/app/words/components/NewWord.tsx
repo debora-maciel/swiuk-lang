@@ -3,6 +3,7 @@ import { Modal } from "antd"
 import debounce from "lodash.debounce";
 import { useEffect, useRef, useState } from "react";
 import dataDE from '../../data/eng_germ_dict.json';
+import dataFR from '../../data/french.json';
 import dataEN from "./../../data/words.json";
 import { IoClose, IoSearchOutline } from "react-icons/io5";
 import { HiMiniXMark } from "react-icons/hi2";
@@ -10,6 +11,7 @@ import { BsPlus } from "react-icons/bs";
 import { useGlobalMessage } from "@/app/core/components/Message";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import { useLanguage } from "@/app/core/context/language/LanguageContext";
+import { saveWord, WordLanguage } from "@/lib/supabase/words";
 
 const translations = {
     en: {
@@ -83,7 +85,11 @@ export default function NewWord(props: INewModal) {
     const handleCancel = () => setIsModalOpen(false);
 
     const debouncedUpdateSuggestions = debounce((value: string) => {
-        const dic = props.lang === 'DE' ? Object.keys(dataDE) : Object.keys(dataEN);
+        const dic = props.lang === 'DE'
+            ? Object.keys(dataDE)
+            : props.lang === 'FR'
+                ? Object.keys(dataFR)
+                : Object.keys(dataEN);
 
         const filtered = dic
             .filter((word): word is string => typeof word === 'string')
@@ -100,8 +106,7 @@ export default function NewWord(props: INewModal) {
     };
 
     const handleSelectSuggestion = (word: string) => {
-        const known = JSON.parse(localStorage.getItem(props.known) || "[]") as string[];
-        const alreadyInList = selectedWords.includes(word) || known.includes(word);
+        const alreadyInList = selectedWords.includes(word);
 
         if (!alreadyInList) {
             setSelectedWords(prev => [...prev, word]);
@@ -141,23 +146,19 @@ export default function NewWord(props: INewModal) {
         return (<>{before}<strong>{match}</strong>{after}</>);
     };
 
-    function onAddWord() {
-        let known = JSON.parse(localStorage.getItem(props.known) || "[]") as string[];
-        const unknownWords = JSON.parse(localStorage.getItem(props.unknown) || "[]") as string[];
+    async function onAddWord() {
+        const langMap: Record<string, WordLanguage> = {
+            'EN': 'english',
+            'DE': 'german',
+            'FR': 'french'
+        };
+        const supabaseLang = langMap[props.lang];
 
-        if (!Array.isArray(known)) known = [];
-
-        const newWords = selectedWords.filter(word => !known.includes(word));
-        const updatedKnown = [...known, ...newWords];
-        const updatedUnknown = unknownWords.filter(word => !newWords.includes(word));
-
-        localStorage.setItem(props.known, JSON.stringify(updatedKnown));
-        localStorage.setItem(props.unknown, JSON.stringify(updatedUnknown));
+        await Promise.all(selectedWords.map(word => saveWord(word, supabaseLang, 'known')));
 
         if (props.onOk) props.onOk();
 
-
-        openMessage('success', newWords.length > 1 ? t.wordsAdded : t.wordAdded)
+        openMessage('success', selectedWords.length > 1 ? t.wordsAdded : t.wordAdded)
         handleOk();
         setSelectedWords([]);
         setInput('');

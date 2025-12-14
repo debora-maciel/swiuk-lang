@@ -9,7 +9,7 @@ import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdScho
 import { HiSpeakerWave } from "react-icons/hi2";
 import { useState, useEffect } from "react";
 import { Dropdown } from "antd";
-import { topicData, vocabularyTranslations, speedLabels } from "@/app/core/variables/vocabulary";
+import { topicData, vocabularyTranslations, speedLabels, topics } from "@/app/core/variables/vocabulary";
 
 const topicIcons: Record<string, React.ReactNode> = {
   travel: <MdFlight size={24} />,
@@ -29,6 +29,7 @@ export default function TopicPage() {
   const topic = params.topic as string;
   const t = vocabularyTranslations[language];
   const levels = topicData[topic];
+  const topicInfo = topics.find(tp => tp.id === topic);
   const [activeTab, setActiveTab] = useState<"phrases" | "conversations">("phrases");
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
 
@@ -82,18 +83,30 @@ export default function TopicPage() {
   };
 
   return (
-    <div className={`w-full min-h-screen ${colors.backgroundLight} px-4 py-6 md:p-12`}>
+    <div
+      className="w-full min-h-screen px-4 py-6 md:p-12 relative"
+      style={topicInfo?.image ? {
+        backgroundImage: `url(${topicInfo.image})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      } : undefined}
+    >
+      {topicInfo?.image && (
+        <div className="absolute inset-0 bg-black/60 fixed" />
+      )}
+      <div className={`${!topicInfo?.image ? colors.backgroundLight : ''} relative z-10`}>
       {/* Header */}
       <div className="mb-6 md:mb-8">
-        <Link href="/vocabulary" className={`${colors.text70} flex items-center gap-2 mb-4 hover:${colors.text}`}>
+        <Link href="/vocabulary" className={`${topicInfo?.image ? 'text-white/80 hover:text-white' : `${colors.text70} hover:${colors.text}`} flex items-center gap-2 mb-4`}>
           <IoArrowBackCircle size={24} />
           <span>{t.backTo}</span>
         </Link>
         <div className="flex items-center gap-3">
-          <div className={`${colors.textReverse} ${colors.backgroundReverse} p-3 rounded-xl`}>
+          <div className={`${topicInfo?.image ? 'bg-white/20 text-white' : `${colors.textReverse} ${colors.backgroundReverse}`} p-3 rounded-xl`}>
             {topicIcons[topic]}
           </div>
-          <h1 className={`${colors.text} font-bold text-2xl md:text-4xl`}>
+          <h1 className={`${topicInfo?.image ? 'text-white' : colors.text} font-bold text-2xl md:text-4xl`}>
             {t.topics[topic as keyof typeof t.topics]}
           </h1>
         </div>
@@ -121,25 +134,25 @@ export default function TopicPage() {
           }}
           trigger={['click']}
         >
-          <div className={`${colors.text} flex gap-3 font-semibold cursor-pointer`}>
-            <div className="border px-2 py-1 font-semibold rounded">
+          <div className={`${topicInfo?.image ? 'text-white' : colors.text} flex gap-3 font-semibold cursor-pointer`}>
+            <div className={`border px-2 py-1 font-semibold rounded ${topicInfo?.image ? 'border-white/50' : ''}`}>
               {t.level} {selectedLevel}
             </div>
           </div>
         </Dropdown>
-        <p className={`${colors.text60} text-sm`}>
+        <p className={`${topicInfo?.image ? 'text-white/70' : colors.text60} text-sm`}>
           {currentLevel.phrases.length} {t.phrases.toLowerCase()}, {currentLevel.conversations.length} {t.conversations.toLowerCase()}
         </p>
       </div>
 
       {/* Tabs */}
-      <div className={`flex gap-2 mb-6 border-b ${colors.border10} pb-4`}>
+      <div className={`flex gap-2 mb-6 border-b ${topicInfo?.image ? 'border-white/20' : colors.border10} pb-4`}>
         <button
           onClick={() => setActiveTab("phrases")}
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === "phrases"
-              ? `${colors.backgroundReverse} ${colors.textReverse}`
-              : `${colors.text70} hover:${colors.text}`
+              ? `${topicInfo?.image ? 'bg-white text-black' : `${colors.backgroundReverse} ${colors.textReverse}`}`
+              : `${topicInfo?.image ? 'text-white/70 hover:text-white' : `${colors.text70} hover:${colors.text}`}`
           }`}
         >
           {t.phrases} ({currentLevel.phrases.length})
@@ -148,8 +161,8 @@ export default function TopicPage() {
           onClick={() => setActiveTab("conversations")}
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === "conversations"
-              ? `${colors.backgroundReverse} ${colors.textReverse}`
-              : `${colors.text70} hover:${colors.text}`
+              ? `${topicInfo?.image ? 'bg-white text-black' : `${colors.backgroundReverse} ${colors.textReverse}`}`
+              : `${topicInfo?.image ? 'text-white/70 hover:text-white' : `${colors.text70} hover:${colors.text}`}`
           }`}
         >
           {t.conversations} ({currentLevel.conversations.length})
@@ -266,6 +279,7 @@ export default function TopicPage() {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 }

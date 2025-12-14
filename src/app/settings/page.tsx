@@ -9,13 +9,14 @@ import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import { translations } from "../core/variables/translation";
 import { deleteWordsByStatus, WordLanguage, WordStatus } from "@/lib/supabase/words";
+import { useGlobalMessage } from "../core/components/Message";
 
 export default function Settings() {
     const { onChangeTheme, colors, theme } = useTheme();
     const { language, onChangeLanguage } = useLanguage();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [deleteKey, setDeleteKey] = useState<string | null>(null);
     const [deleteInfo, setDeleteInfo] = useState<{ language: WordLanguage; status: WordStatus } | null>(null);
+    const { openMessage, contextHolder } = useGlobalMessage();
     const t = translations.settings[language];
 
     const items: MenuProps['items'] = [
@@ -98,18 +99,19 @@ export default function Settings() {
         }
     }
 
-    function openDeleteConfirm(key: string, lang: WordLanguage, status: WordStatus) {
-        setDeleteKey(key);
+    function openDeleteConfirm(lang: WordLanguage, status: WordStatus) {
         setDeleteInfo({ language: lang, status });
         setIsModalOpen(true);
     }
 
     async function handleOk() {
-        if (deleteKey) {
-            localStorage.removeItem(deleteKey);
-        }
         if (deleteInfo) {
-            await deleteWordsByStatus(deleteInfo.language, deleteInfo.status);
+            const { error } = await deleteWordsByStatus(deleteInfo.language, deleteInfo.status);
+            if (error) {
+                openMessage('error', t.deleteError || 'Error deleting words');
+            } else {
+                openMessage('success', t.deleteSuccess || 'Words deleted successfully');
+            }
         }
         setIsModalOpen(false);
     }
@@ -122,20 +124,14 @@ export default function Settings() {
         {
             title: t.english,
             language: 'english' as WordLanguage,
-            keyUnknown: "knownWords",
-            keyKnown: "unknownWords",
         },
         {
             title: t.german,
             language: 'german' as WordLanguage,
-            keyUnknown: "DEknownWords",
-            keyKnown: "DEunknownWords",
         },
         {
             title: t.french,
             language: 'french' as WordLanguage,
-            keyUnknown: "FRknownWords",
-            keyKnown: "FRunknownWords",
         }
     ];
 
@@ -195,7 +191,7 @@ export default function Settings() {
                                         {t.deleteKnownWords}
                                     </div>
                                     <div>
-                                        <button onClick={() => openDeleteConfirm(d.keyKnown, d.language, 'known')} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>{t.deleteAll}</button>
+                                        <button onClick={() => openDeleteConfirm(d.language, 'known')} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>{t.deleteAll}</button>
                                     </div>
                                 </div>
                                 <div className={`p-2 flex justify-between items-center w-full border-b ${colors.border10} pb-2`}>
@@ -203,7 +199,7 @@ export default function Settings() {
                                         {t.deleteUnknownWords}
                                     </div>
                                     <div>
-                                        <button onClick={() => openDeleteConfirm(d.keyUnknown, d.language, 'unknown')} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>{t.deleteAll}</button>
+                                        <button onClick={() => openDeleteConfirm(d.language, 'unknown')} className={`text-white bg-red-600 px-4 py-2 rounded-full`}>{t.deleteAll}</button>
                                     </div>
                                 </div>
                             </div>
@@ -248,6 +244,7 @@ export default function Settings() {
             >
                 <p className="text-sm">{t.deleteConfirmMessage}</p>
             </Modal>
+            {contextHolder}
         </div>
     )
 }

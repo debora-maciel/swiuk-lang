@@ -38,17 +38,18 @@ export interface Level {
 export interface Topic {
   id: string;
   levels: number;
+  image?: string;
 }
 
 export const topics: Topic[] = [
-  { id: "basics", levels: 5 },
-  { id: "travel", levels: 5 },
-  { id: "work", levels: 5 },
-  { id: "restaurant", levels: 5 },
-  { id: "shopping", levels: 5 },
-  { id: "health", levels: 5 },
-  { id: "education", levels: 5 },
-  { id: "numbers", levels: 5 },
+  { id: "basics", levels: 5, image: "/vocabulary/words.webp" },
+  { id: "numbers", levels: 5, image: "/vocabulary/numbers.webp" },
+  { id: "work", levels: 5, image: "/vocabulary/business.webp" },
+  { id: "restaurant", levels: 5, image: "/vocabulary/foods.webp" },
+  { id: "shopping", levels: 5, image: "/vocabulary/shopping.webp" },
+  { id: "health", levels: 5, image: "/vocabulary/health.webp" },
+  { id: "education", levels: 5, image: "/vocabulary/education.webp" },
+  { id: "travel", levels: 5, image: "/vocabulary/travel.webp" },
 ];
 
 export const vocabularyTranslations = {

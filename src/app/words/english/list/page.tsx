@@ -18,42 +18,24 @@ export default function ListWords() {
     const { user } = useUser();
 
     async function onLoad() {
-        if (user) {
-            const { known, unknown } = await getWordsByLanguage('english');
-            setKnownWords(known);
-            setUnknownWords(unknown);
-        } else {
-            const known = JSON.parse(localStorage.getItem("knownWords") || "[]");
-            const notKnown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
-            setKnownWords(known);
-            setUnknownWords(notKnown);
-        }
+        const { known, unknown } = await getWordsByLanguage('english');
+        setKnownWords(known);
+        setUnknownWords(unknown);
     }
 
     useEffect(() => {
-        onLoad();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (user) {
+            onLoad();
+        }
     }, [user]);
 
-    function onRemoveKnownWord(word: string) {
-        let notKnown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
-        if (!Array.isArray(notKnown)) notKnown = [];
-
-        localStorage.setItem("knownWords", JSON.stringify(knownWords.filter((w) => w !== word)));
-        localStorage.setItem("unknownWords", JSON.stringify([...notKnown, word]));
-        saveWord(word, 'english', 'unknown');
-
+    async function onRemoveKnownWord(word: string) {
+        await saveWord(word, 'english', 'unknown');
         onLoad();
     }
 
-    function onAddKnownWord(word: string) {
-        let known = JSON.parse(localStorage.getItem("knownWords") || "[]");
-        if (!Array.isArray(known)) known = [];
-
-        localStorage.setItem("unknownWords", JSON.stringify(unknownWords.filter((w) => w !== word)));
-        localStorage.setItem("knownWords", JSON.stringify([...known, word]));
-        saveWord(word, 'english', 'known');
-
+    async function onAddKnownWord(word: string) {
+        await saveWord(word, 'english', 'known');
         onLoad();
     }
 

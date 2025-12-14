@@ -8,9 +8,6 @@ import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import { useUser } from "@/lib/supabase/hooks";
 import { getWordsByLanguage, saveWord } from "@/lib/supabase/words";
 
-const langKnown = "FRknownWords";
-const langUnknown = "FRunknownWords";
-
 export default function ListWords() {
     const [knownWords, setKnownWords] = useState<string[]>([]);
     const [unknownWords, setUnknownWords] = useState<string[]>([]);
@@ -21,42 +18,24 @@ export default function ListWords() {
     const { user } = useUser();
 
     async function onLoad() {
-        if (user) {
-            const { known, unknown } = await getWordsByLanguage('french');
-            setKnownWords(known);
-            setUnknownWords(unknown);
-        } else {
-            const known = JSON.parse(localStorage.getItem(langKnown) || "[]");
-            const notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
-            setKnownWords(known);
-            setUnknownWords(notKnown);
-        }
+        const { known, unknown } = await getWordsByLanguage('french');
+        setKnownWords(known);
+        setUnknownWords(unknown);
     }
 
     useEffect(() => {
-        onLoad();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (user) {
+            onLoad();
+        }
     }, [user]);
 
-    function onRemoveKnownWord(word: string) {
-        let notKnown = JSON.parse(localStorage.getItem(langUnknown) || "[]");
-        if (!Array.isArray(notKnown)) notKnown = [];
-
-        localStorage.setItem(langKnown, JSON.stringify(knownWords.filter((w) => w !== word)));
-        localStorage.setItem(langUnknown, JSON.stringify([...notKnown, word]));
-        saveWord(word, 'french', 'unknown');
-
+    async function onRemoveKnownWord(word: string) {
+        await saveWord(word, 'french', 'unknown');
         onLoad();
     }
 
-    function onAddKnownWord(word: string) {
-        let known = JSON.parse(localStorage.getItem(langKnown) || "[]");
-        if (!Array.isArray(known)) known = [];
-
-        localStorage.setItem(langUnknown, JSON.stringify(unknownWords.filter((w) => w !== word)));
-        localStorage.setItem(langKnown, JSON.stringify([...known, word]));
-        saveWord(word, 'french', 'known');
-
+    async function onAddKnownWord(word: string) {
+        await saveWord(word, 'french', 'known');
         onLoad();
     }
 
@@ -82,10 +61,10 @@ export default function ListWords() {
                             setSearchString={setSearchKnown}
                             onAddKnownWord={onAddKnownWord}
                             searchString={searchKnown}
-                            unknown={langUnknown}
-                            key={'known english'}
+                            unknown="FRunknownWords"
+                            key={'known french'}
                             title="Known Words"
-                            known={langKnown}
+                            known="FRknownWords"
                             data={knownWords}
                             onLoad={onLoad}
                             isKnown={true}
@@ -99,11 +78,11 @@ export default function ListWords() {
                                 setSearchString={setSearchUnknown}
                                 onAddKnownWord={onAddKnownWord}
                                 searchString={searchUnknown}
-                                key={'unknown english'}
-                                unknown={langUnknown}
+                                key={'unknown french'}
+                                unknown="FRunknownWords"
                                 title="Unknown Words"
                                 data={unknownWords}
-                                known={langKnown}
+                                known="FRknownWords"
                                 onLoad={onLoad}
                                 isKnown={false}
                                 lang={"FR"}

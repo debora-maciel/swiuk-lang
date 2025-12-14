@@ -358,7 +358,9 @@ export const translations = {
             deleteConfirmTitle: "Do you want to delete these items?",
             deleteConfirmMessage: "This will remove all saved words under this category.",
             cancel: "Cancel",
-            confirm: "Confirm"
+            confirm: "Confirm",
+            deleteSuccess: "Words deleted successfully",
+            deleteError: "Error deleting words"
         },
         de: {
             title: "Einstellungen",
@@ -377,7 +379,9 @@ export const translations = {
             deleteConfirmTitle: "Möchten Sie diese Elemente löschen?",
             deleteConfirmMessage: "Dadurch werden alle gespeicherten Wörter in dieser Kategorie entfernt.",
             cancel: "Abbrechen",
-            confirm: "Bestätigen"
+            confirm: "Bestätigen",
+            deleteSuccess: "Wörter erfolgreich gelöscht",
+            deleteError: "Fehler beim Löschen der Wörter"
         },
         fr: {
             title: "Paramètres",
@@ -396,7 +400,9 @@ export const translations = {
             deleteConfirmTitle: "Voulez-vous supprimer ces éléments ?",
             deleteConfirmMessage: "Cela supprimera tous les mots enregistrés dans cette catégorie.",
             cancel: "Annuler",
-            confirm: "Confirmer"
+            confirm: "Confirmer",
+            deleteSuccess: "Mots supprimés avec succès",
+            deleteError: "Erreur lors de la suppression des mots"
         },
         pt: {
             title: "Configurações",
@@ -415,7 +421,9 @@ export const translations = {
             deleteConfirmTitle: "Deseja excluir estes itens?",
             deleteConfirmMessage: "Isso removerá todas as palavras salvas nesta categoria.",
             cancel: "Cancelar",
-            confirm: "Confirmar"
+            confirm: "Confirmar",
+            deleteSuccess: "Palavras excluídas com sucesso",
+            deleteError: "Erro ao excluir palavras"
         }
     }
 };

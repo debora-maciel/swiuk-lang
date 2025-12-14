@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import data from "./../../data/words.json";
 import { HiMiniXMark } from "react-icons/hi2";
-import { IoCheckmark } from "react-icons/io5";
+import { IoCheckmark, IoPlaySkipForward } from "react-icons/io5";
 import LearnMore from "./components/LearnMore";
 import { utils } from "../../../utils/utils";
 import Link from "next/link";
@@ -10,7 +10,8 @@ import NewWord from "../components/NewWord";
 import { useTheme } from "@/app/core/context/theme/ThemeContext";
 import { useLanguage } from "@/app/core/context/language/LanguageContext";
 import HeaderBack from "@/app/core/components/HeaderBack";
-import { saveWord } from "@/lib/supabase/words";
+import { saveWord, getWordsByLanguage } from "@/lib/supabase/words";
+import { useUser } from "@/lib/supabase/hooks";
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -19,21 +20,25 @@ const translations = {
         unknown: "Unknown",
         known: "Known",
         all: "All",
+        skip: "Skip",
     },
     de: {
         unknown: "Unbekannt",
         known: "Bekannt",
         all: "Alle",
+        skip: "Überspringen",
     },
     fr: {
         unknown: "Inconnu",
         known: "Connu",
         all: "Tout",
+        skip: "Passer",
     },
     pt: {
         unknown: "Desconhecido",
         known: "Conhecido",
         all: "Todos",
+        skip: "Pular",
     },
 };
 
@@ -58,18 +63,25 @@ export default function EnglishWords() {
     const [hasLoaded, setHasLoaded] = useState(false);
     const { colors } = useTheme();
     const { language } = useLanguage();
+    const { user, loading: authLoading } = useUser();
     const t = translations[language];
     const [currentWord, setCurrentWord] = useState<number>(0);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
     useEffect(() => {
-        const known = JSON.parse(localStorage.getItem("knownWords") || "[]");
-        const notKnown = JSON.parse(localStorage.getItem("unknownWords") || "[]");
+        if (authLoading) return;
 
-        setKnownWords(known);
-        setUnknownWords(notKnown);
-        setHasLoaded(true);
-    }, []);
+        const loadWords = async () => {
+            if (user) {
+                const { known, unknown } = await getWordsByLanguage('english');
+                setKnownWords(known);
+                setUnknownWords(unknown);
+            }
+            setHasLoaded(true);
+        };
+
+        loadWords();
+    }, [user, authLoading]);
 
     useEffect(() => {
         const shuffledWords = utils.shuffleArray(Object.keys(data));
@@ -92,9 +104,7 @@ export default function EnglishWords() {
 
     function handleCorrect(word: string) {
         setIsCorrect(true);
-        knownWords?.push(word);
-
-        localStorage.setItem("knownWords", JSON.stringify(knownWords));
+        setKnownWords(prev => [...prev, word]);
         saveWord(word, 'english', 'known');
 
         setTimeout(() => {
@@ -105,15 +115,17 @@ export default function EnglishWords() {
 
     function handleIncorrect(word: string) {
         setIsCorrect(false);
-        unknownWords?.push(word);
-
-        localStorage.setItem("unknownWords", JSON.stringify(unknownWords));
+        setUnknownWords(prev => [...prev, word]);
         saveWord(word, 'english', 'unknown');
 
         setTimeout(() => {
             setIsCorrect(null);
             setCurrentWord((prev) => (prev + 1) % words.length);
         }, 200);
+    }
+
+    function handleSkip() {
+        setCurrentWord((prev) => (prev + 1) % words.length);
     }
 
     if (words.length === 0) return null;
@@ -157,11 +169,15 @@ export default function EnglishWords() {
                             </h1>
                         </div>
                     </div>
-                    <div className={`flex flex-row justify-center gap-16 w-full mx-auto p-4`}>
+                    <div className={`flex flex-row justify-center gap-4 w-full mx-auto p-4`}>
                         <button onClick={() => handleIncorrect(words[currentWord])}
                             className={`cursor-pointer ${colors.text60} rounded-full border ${colors.border20} py-2 flex items-center gap-2 justify-between px-6`}>
                             <HiMiniXMark size={20} />
                             {t.unknown}
+                        </button>
+                        <button onClick={handleSkip}
+                            className={`cursor-pointer ${colors.text60} rounded-full border ${colors.border10} py-2 flex items-center gap-2 justify-between px-4`}>
+                            <IoPlaySkipForward size={18} />
                         </button>
                         <button onClick={() => handleCorrect(words[currentWord])}
                             className={`cursor-pointer ${colors.text} rounded-full border ${colors.border} py-2 flex items-center gap-2 justify-between px-6`}>

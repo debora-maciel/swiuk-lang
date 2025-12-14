@@ -112,57 +112,22 @@ export async function deleteWordsByStatus(
   return { error }
 }
 
-export async function syncLocalStorageToSupabase() {
+export async function deleteWord(
+  word: string,
+  language: WordLanguage
+) {
   const supabase = createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Not authenticated' }
 
-  const localStorageKeys = {
-    english: { known: 'knownWords', unknown: 'unknownWords' },
-    german: { known: 'DEknownWords', unknown: 'DEunknownWords' },
-    french: { known: 'FRknownWords', unknown: 'FRunknownWords' },
-  }
-
-  const wordsToInsert: {
-    user_id: string
-    word: string
-    language: WordLanguage
-    status: WordStatus
-  }[] = []
-
-  for (const [language, keys] of Object.entries(localStorageKeys)) {
-    const knownWords = JSON.parse(localStorage.getItem(keys.known) || '[]') as string[]
-    const unknownWords = JSON.parse(localStorage.getItem(keys.unknown) || '[]') as string[]
-
-    knownWords.forEach((word) => {
-      wordsToInsert.push({
-        user_id: user.id,
-        word,
-        language: language as WordLanguage,
-        status: 'known',
-      })
-    })
-
-    unknownWords.forEach((word) => {
-      wordsToInsert.push({
-        user_id: user.id,
-        word,
-        language: language as WordLanguage,
-        status: 'unknown',
-      })
-    })
-  }
-
-  if (wordsToInsert.length === 0) {
-    return { data: [], error: null }
-  }
-
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('words')
-    .upsert(wordsToInsert, {
-      onConflict: 'user_id,word,language',
-    })
+    .delete()
+    .eq('user_id', user.id)
+    .eq('word', word)
+    .eq('language', language)
 
-  return { data, error }
+  return { error }
 }
+

@@ -13,7 +13,7 @@ import { useTheme } from "./core/context/theme/ThemeContext";
 import { translations } from "./core/variables/translation";
 import { useLanguage } from "./core/context/language/LanguageContext";
 import { useUser } from "@/lib/supabase/hooks";
-import { getWordCounts, syncLocalStorageToSupabase } from "@/lib/supabase/words";
+import { getWordCounts } from "@/lib/supabase/words";
 
 const cefrLevels = [
   { level: 'A1', min: 0, max: 500, color: '#22c55e', description: { en: 'Beginner', de: 'Anfänger', fr: 'Débutant', pt: 'Iniciante' } },
@@ -80,23 +80,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Wait for auth to finish loading before fetching counts
     if (authLoading) return;
 
     async function loadWordCounts() {
       setIsLoadingCounts(true);
       try {
         if (user) {
-          // Sync localStorage to Supabase first
-          await syncLocalStorageToSupabase();
-
-          // Then get counts from database
           const counts = await getWordCounts(user.id);
           setDEKnownWords(counts.german.known);
           setENKnownWords(counts.english.known);
           setFRKnownWords(counts.french.known);
         } else {
-          // Not logged in - show 0 counts
           setDEKnownWords(0);
           setENKnownWords(0);
           setFRKnownWords(0);
