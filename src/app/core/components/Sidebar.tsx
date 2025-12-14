@@ -9,15 +9,20 @@ import { SiGoogleanalytics } from "react-icons/si";
 import { IoMdSettings } from "react-icons/io";
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { IoGameController } from "react-icons/io5";
-import { MdOutlineGTranslate } from "react-icons/md";
 import { BiConversation } from "react-icons/bi";
 import { translations } from "../variables/translation";
 
 export default function Sidebar() {
     const { colors } = useTheme();
-    const { language } = useLanguage();
+    const { language, targetLanguage } = useLanguage();
     const pathname = usePathname();
     const t = translations.menu[language];
+
+    const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
+    const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
+
+    // Show Connect Words only for German<->English combinations
+    const showConnectGame = (isGerman && language === 'en') || (isEnglish && language === 'de');
 
     const menu = [
         {
@@ -30,16 +35,11 @@ export default function Sidebar() {
             link: "/words",
             icon: <TiSortAlphabeticallyOutline size={20} />
         },
-        {
+        ...(showConnectGame ? [{
             name: t.connectGame,
             link: "/game/connect-words",
             icon: <IoGameController size={20} />
-        },
-        {
-            name: t.translator,
-            link: "/translation",
-            icon: <MdOutlineGTranslate size={20} />
-        },
+        }] : []),
         {
             name: t.vocabulary,
             link: "/vocabulary",

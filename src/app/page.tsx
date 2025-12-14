@@ -1,10 +1,10 @@
 "use client"
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
-import { MdOutlineGTranslate } from "react-icons/md";
 import { IoGameController } from "react-icons/io5";
 import { BiConversation } from "react-icons/bi";
-import { IoIosInformation } from "react-icons/io";
-import { Popover, Spin } from 'antd';
+import { HiUserGroup } from "react-icons/hi2";
+import { IoEarth, IoArrowForward } from "react-icons/io5";
+import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import Link from 'next/link';
@@ -20,11 +20,17 @@ export default function Home() {
   const [FRknownWords, setFRKnownWords] = useState<number>(0);
   const [matches, setMatches] = useState<string[]>([]);
   const [isLoadingCounts, setIsLoadingCounts] = useState(true);
-  const { language } = useLanguage();
+  const { language, targetLanguage } = useLanguage();
   const { colors } = useTheme();
   const { user, loading: authLoading } = useUser();
 
   const t = translations.home[language];
+
+  const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
+  const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
+
+  // Show Connect Words only for German<->English combinations
+  const showConnectGame = (isGerman && language === 'en') || (isEnglish && language === 'de');
 
   useEffect(() => {
     const matchesData = JSON.parse(localStorage.getItem("matches") || "[]");
@@ -64,158 +70,204 @@ export default function Home() {
     loadWordCounts();
   }, [user, authLoading]);
 
+  const totalWords = DEknownWords + ENknownWords + FRknownWords;
+
   return (
-    <div className={`w-full max-w-full min-h-screen ${colors.backgroundLight} px-4 py-6 md:p-12 overflow-hidden`}>
-      {/* Header Section */}
-      <div className="mb-8 md:mb-12">
-        <h1 className={`${colors.text90} font-bold mb-3 text-lg md:text-4xl`}>
-          {t.welcome}
-        </h1>
-        <p className={`text-[15px] md:text-xl ${colors.text70} max-w-3xl`}>
-          {t.description}
-        </p>
+    <div className={`w-full max-w-full min-h-screen ${colors.backgroundLight} px-4 py-6 md:px-8 md:py-10 overflow-hidden`}>
+      {/* Quick Stats Bar */}
+      <div className={`${colors.background} ${colors.border10} border rounded-2xl p-4 md:p-6 mb-8 md:mb-10`}>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-6 md:gap-10">
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 rounded-full overflow-hidden flex flex-col shadow-sm">
+                <div className="flex-1 bg-black"></div>
+                <div className="flex-1 bg-[#DD0000]"></div>
+                <div className="flex-1 bg-[#FFCC00]"></div>
+              </div>
+              <div>
+                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>German</div>
+                <div className={`${colors.text} text-xl md:text-2xl font-bold`}>
+                  {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : DEknownWords}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-white relative shadow-sm">
+                <div className="absolute top-1/2 left-0 right-0 h-[3px] bg-[#CE1124] -translate-y-1/2"></div>
+                <div className="absolute left-1/2 top-0 bottom-0 w-[3px] bg-[#CE1124] -translate-x-1/2"></div>
+              </div>
+              <div>
+                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>English</div>
+                <div className={`${colors.text} text-xl md:text-2xl font-bold`}>
+                  {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : ENknownWords}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 rounded-full overflow-hidden flex shadow-sm">
+                <div className="flex-1 bg-[#002395]"></div>
+                <div className="flex-1 bg-white"></div>
+                <div className="flex-1 bg-[#ED2939]"></div>
+              </div>
+              <div>
+                <div className={`${colors.text50} text-xs uppercase tracking-wide`}>French</div>
+                <div className={`${colors.text} text-xl md:text-2xl font-bold`}>
+                  {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : FRknownWords}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={`${colors.border10} border-l pl-6 hidden md:block`}>
+            <div className={`${colors.text50} text-xs uppercase tracking-wide`}>Total Words</div>
+            <div className={`${colors.text} text-2xl font-bold`}>
+              {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} /> : totalWords}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+      {/* Main Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-16">
         {/* Words Card */}
-        <div className={`${colors.background} ${colors.border10} ${colors.text} border rounded-xl lg:rounded-2xl p-6 lg:p-8 flex flex-col hover:shadow-lg transition-shadow`}>
-          <div className="flex items-center gap-4 mb-6">
-            <div className={`${colors.textReverse} ${colors.backgroundReverse} p-4 rounded-2xl`}>
-              <TiSortAlphabeticallyOutline size={32} />
+        <Link href="/words" className={`group ${colors.background} ${colors.border10} border rounded-2xl p-6 flex flex-col hover:shadow-xl hover:border-transparent transition-all duration-300`}>
+          <div className="flex items-start justify-between mb-5">
+            <div className={`${colors.backgroundReverse} ${colors.textReverse} p-3 rounded-xl`}>
+              <TiSortAlphabeticallyOutline size={24} />
             </div>
-            <div className="flex-1">
-              <h3 className={`${colors.text} text-xl lg:text-2xl font-bold mb-1`}>{t.words.title}</h3>
-            </div>
-            <Popover content={<div className="max-w-xs">{t.words.popover}</div>} title={t.words.title}>
-              <button className={`rounded-full border ${colors.border20} ${colors.text50} p-1`}>
-                <IoIosInformation size={20} />
-              </button>
-            </Popover>
+            <IoArrowForward className={`${colors.text30} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
           </div>
-
-          <p className={`${colors.text70} text-sm lg:text-base mb-6 flex-1`}>
+          <h3 className={`${colors.text} text-lg font-bold mb-2`}>{t.words.title}</h3>
+          <p className={`${colors.text50} text-sm leading-relaxed`}>
             {t.words.desc}
           </p>
+        </Link>
 
-          <div className="flex items-center gap-4 mb-6">
-            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3 min-w-[60px]`}>
-              <div className={`${colors.text60} text-xs font-bold mb-1`}>DE</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>
-                {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> : DEknownWords}
+        {/* Connect Game Card */}
+        {showConnectGame && (
+          <Link href="/game/connect-words" className={`group ${colors.background} ${colors.border10} border rounded-2xl p-6 flex flex-col hover:shadow-xl hover:border-transparent transition-all duration-300`}>
+            <div className="flex items-start justify-between mb-5">
+              <div className={`${colors.backgroundReverse} ${colors.textReverse} p-3 rounded-xl`}>
+                <IoGameController size={24} />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`${colors.text50} text-xs`}>{matches.length} {t.connect.matchesLabel.replace(':', '')}</span>
+                <IoArrowForward className={`${colors.text30} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
               </div>
             </div>
-            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3 min-w-[60px]`}>
-              <div className={`${colors.text60} text-xs font-bold mb-1`}>EN</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>
-                {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> : ENknownWords}
-              </div>
-            </div>
-            <div className={`${colors.border20} flex border rounded-xl flex-col items-center justify-center px-4 py-3 min-w-[60px]`}>
-              <div className={`${colors.text60} text-xs font-bold mb-1`}>FR</div>
-              <div className={`text-2xl ${colors.text} font-bold`}>
-                {isLoadingCounts ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> : FRknownWords}
-              </div>
-            </div>
-          </div>
-
-          <Link href={'/words/'} className={`${colors.textReverse} ${colors.backgroundReverse} ${colors.border30} border rounded-xl text-center text-base py-3 px-6 font-semibold hover:opacity-90 transition-opacity`}>
-            {t.words.track}
+            <h3 className={`${colors.text} text-lg font-bold mb-2`}>{t.connect.title}</h3>
+            <p className={`${colors.text50} text-sm leading-relaxed`}>
+              {t.connect.desc}
+            </p>
           </Link>
-        </div>
-
-        {/* Game Card */}
-        <div className={`${colors.background} ${colors.border10} ${colors.text} border rounded-xl lg:rounded-2xl p-6 lg:p-8 flex flex-col hover:shadow-lg transition-shadow`}>
-          <div className="flex items-center gap-4 mb-6">
-            <div className={`${colors.textReverse} ${colors.backgroundReverse} p-4 rounded-2xl`}>
-              <IoGameController size={32} />
-            </div>
-            <div className="flex-1">
-              <h3 className={`${colors.text} text-xl lg:text-2xl font-bold mb-1`}>{t.connect.title}</h3>
-            </div>
-            <Popover content={<div className="max-w-xs">{t.connect.popover}</div>} title={t.connect.title}>
-              <button className={`rounded-full border ${colors.border20} ${colors.text50} p-1`}>
-                <IoIosInformation size={20} />
-              </button>
-            </Popover>
-          </div>
-
-          <p className={`${colors.text70} text-sm lg:text-base mb-6 flex-1`}>
-            {t.connect.desc}
-          </p>
-
-          <div className="mb-6">
-            <div className={`${colors.border20} ${colors.text} flex items-center gap-2 border px-4 py-2 rounded-xl w-fit`}>
-              <span className="text-sm">{t.connect.matchesLabel}</span>
-              <span className={`${colors.text} font-bold text-lg`}>{matches.length}</span>
-            </div>
-          </div>
-
-          <Link href={'/game/connect-words'} className={`${colors.textReverse} ${colors.backgroundReverse} ${colors.border30} border rounded-xl text-center text-base py-3 px-6 font-semibold hover:opacity-90 transition-opacity`}>
-            {t.connect.play}
-          </Link>
-        </div>
-
-        {/* Translator Card */}
-        <div className={`${colors.background} ${colors.border10} ${colors.text} border rounded-xl lg:rounded-2xl p-6 lg:p-8 flex flex-col hover:shadow-lg transition-shadow`}>
-          <div className="flex items-center gap-4 mb-6">
-            <div className={`${colors.textReverse} ${colors.backgroundReverse} p-4 rounded-2xl`}>
-              <MdOutlineGTranslate size={32} />
-            </div>
-            <div className="flex-1">
-              <h3 className={`${colors.text} text-xl lg:text-2xl font-bold mb-1`}>{t.translator.title}</h3>
-            </div>
-            <Popover content={<div className="max-w-xs">{t.translator.popover}</div>} title={t.translator.title}>
-              <button className={`rounded-full border ${colors.border20} ${colors.text50} p-1`}>
-                <IoIosInformation size={20} />
-              </button>
-            </Popover>
-          </div>
-
-          <p className={`${colors.text70} text-sm lg:text-base mb-6 flex-1`}>
-            {t.translator.desc}
-          </p>
-
-          <div className="flex items-center gap-2 mb-6">
-            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-4 py-2 text-sm font-bold`}>DE</div>
-            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-4 py-2 text-sm font-bold`}>EN</div>
-          </div>
-
-          <Link href={'/translation'} className={`${colors.textReverse} ${colors.backgroundReverse} ${colors.border30} border rounded-xl text-center text-base py-3 px-6 font-semibold hover:opacity-90 transition-opacity`}>
-            {t.translator.navBtn}
-          </Link>
-        </div>
+        )}
 
         {/* Vocabulary Card */}
-        <div className={`${colors.background} ${colors.border10} ${colors.text} border rounded-xl lg:rounded-2xl p-6 lg:p-8 flex flex-col hover:shadow-lg transition-shadow`}>
-          <div className="flex items-center gap-4 mb-6">
-            <div className={`${colors.textReverse} ${colors.backgroundReverse} p-4 rounded-2xl`}>
-              <BiConversation size={32} />
+        <Link href="/vocabulary" className={`group ${colors.background} ${colors.border10} border rounded-2xl p-6 flex flex-col hover:shadow-xl hover:border-transparent transition-all duration-300`}>
+          <div className="flex items-start justify-between mb-5">
+            <div className={`${colors.backgroundReverse} ${colors.textReverse} p-3 rounded-xl`}>
+              <BiConversation size={24} />
             </div>
-            <div className="flex-1">
-              <h3 className={`${colors.text} text-xl lg:text-2xl font-bold mb-1`}>{t.vocabulary.title}</h3>
-            </div>
-            <Popover content={<div className="max-w-xs">{t.vocabulary.popover}</div>} title={t.vocabulary.title}>
-              <button className={`rounded-full border ${colors.border20} ${colors.text50} p-1`}>
-                <IoIosInformation size={20} />
-              </button>
-            </Popover>
+            <IoArrowForward className={`${colors.text30} group-hover:${colors.text} group-hover:translate-x-1 transition-all`} size={20} />
           </div>
-
-          <p className={`${colors.text70} text-sm lg:text-base mb-6 flex-1`}>
+          <h3 className={`${colors.text} text-lg font-bold mb-2`}>{t.vocabulary.title}</h3>
+          <p className={`${colors.text50} text-sm leading-relaxed mb-4`}>
             {t.vocabulary.desc}
           </p>
+          <div className="flex flex-wrap gap-2 mt-auto">
+            <span className={`${colors.backgroundLight} ${colors.text60} rounded-full px-3 py-1 text-xs`}>Travel</span>
+            <span className={`${colors.backgroundLight} ${colors.text60} rounded-full px-3 py-1 text-xs`}>Work</span>
+            <span className={`${colors.backgroundLight} ${colors.text60} rounded-full px-3 py-1 text-xs`}>+6</span>
+          </div>
+        </Link>
+      </div>
 
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>Travel</div>
-            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>Work</div>
-            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>Daily Life</div>
-            <div className={`${colors.border20} ${colors.text60} rounded-xl border px-3 py-1 text-xs font-medium`}>+3</div>
+      {/* Languages Section */}
+      <div>
+        <div className="flex items-end justify-between mb-6 md:mb-8">
+          <div>
+            <h2 className={`${colors.text} font-bold text-xl md:text-2xl mb-1`}>
+              {t.languagesSection.title}
+            </h2>
+            <p className={`${colors.text50} text-sm`}>
+              {t.languagesSection.subtitle}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+          {/* English */}
+          <div className={`${colors.background} ${colors.border10} border rounded-2xl p-5 md:p-6 hover:shadow-lg transition-all duration-300`}>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center bg-white relative shadow-sm">
+                <div className="absolute top-1/2 left-0 right-0 h-[5px] bg-[#CE1124] -translate-y-1/2"></div>
+                <div className="absolute left-1/2 top-0 bottom-0 w-[5px] bg-[#CE1124] -translate-x-1/2"></div>
+              </div>
+              <div>
+                <h3 className={`${colors.text} text-lg font-bold`}>{t.languagesSection.english.name}</h3>
+                <div className={`flex items-center gap-1.5 ${colors.text50}`}>
+                  <HiUserGroup size={14} />
+                  <span className="text-sm">{t.languagesSection.english.speakers}</span>
+                </div>
+              </div>
+            </div>
+            <p className={`${colors.text60} text-sm leading-relaxed mb-4`}>
+              {t.languagesSection.english.description}
+            </p>
+            <div className={`flex items-start gap-2 ${colors.text40} text-xs`}>
+              <IoEarth size={14} className="mt-0.5 shrink-0" />
+              <span>{t.languagesSection.english.countries}</span>
+            </div>
           </div>
 
-          <Link href={'/vocabulary'} className={`${colors.textReverse} ${colors.backgroundReverse} ${colors.border30} border rounded-xl text-center text-base py-3 px-6 font-semibold hover:opacity-90 transition-opacity`}>
-            {t.vocabulary.navBtn}
-          </Link>
+          {/* German */}
+          <div className={`${colors.background} ${colors.border10} border rounded-2xl p-5 md:p-6 hover:shadow-lg transition-all duration-300`}>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-full overflow-hidden flex flex-col shadow-sm">
+                <div className="flex-1 bg-black"></div>
+                <div className="flex-1 bg-[#DD0000]"></div>
+                <div className="flex-1 bg-[#FFCC00]"></div>
+              </div>
+              <div>
+                <h3 className={`${colors.text} text-lg font-bold`}>{t.languagesSection.german.name}</h3>
+                <div className={`flex items-center gap-1.5 ${colors.text50}`}>
+                  <HiUserGroup size={14} />
+                  <span className="text-sm">{t.languagesSection.german.speakers}</span>
+                </div>
+              </div>
+            </div>
+            <p className={`${colors.text60} text-sm leading-relaxed mb-4`}>
+              {t.languagesSection.german.description}
+            </p>
+            <div className={`flex items-start gap-2 ${colors.text40} text-xs`}>
+              <IoEarth size={14} className="mt-0.5 shrink-0" />
+              <span>{t.languagesSection.german.countries}</span>
+            </div>
+          </div>
+
+          {/* French */}
+          <div className={`${colors.background} ${colors.border10} border rounded-2xl p-5 md:p-6 hover:shadow-lg transition-all duration-300`}>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-full overflow-hidden flex shadow-sm">
+                <div className="flex-1 bg-[#002395]"></div>
+                <div className="flex-1 bg-white"></div>
+                <div className="flex-1 bg-[#ED2939]"></div>
+              </div>
+              <div>
+                <h3 className={`${colors.text} text-lg font-bold`}>{t.languagesSection.french.name}</h3>
+                <div className={`flex items-center gap-1.5 ${colors.text50}`}>
+                  <HiUserGroup size={14} />
+                  <span className="text-sm">{t.languagesSection.french.speakers}</span>
+                </div>
+              </div>
+            </div>
+            <p className={`${colors.text60} text-sm leading-relaxed mb-4`}>
+              {t.languagesSection.french.description}
+            </p>
+            <div className={`flex items-start gap-2 ${colors.text40} text-xs`}>
+              <IoEarth size={14} className="mt-0.5 shrink-0" />
+              <span>{t.languagesSection.french.countries}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -48,8 +48,30 @@ export const translations = {
     },
     home: {
         en: {
-            welcome: "Welcome to Swiuk Lang",
-            description: "An immersive environment to expand your German, French, and English vocabulary through structured learning, interactive tools, and integrated translation features.",
+            welcome: "Start learning today",
+            description: "Track your vocabulary, practice phrases, and build confidence in German, French, and English.",
+            languagesSection: {
+                title: "Languages We Teach",
+                subtitle: "Open doors to new cultures and connections",
+                english: {
+                    name: "English",
+                    speakers: "1.5 billion",
+                    description: "The global lingua franca. Speak with people across every continent, access international business, science, entertainment, and travel with ease.",
+                    countries: "UK, Canada, Australia, and 50+ countries"
+                },
+                german: {
+                    name: "German",
+                    speakers: "130 million",
+                    description: "The most spoken native language in Europe. Connect with people in the heart of Europe and access opportunities in engineering, philosophy, and music.",
+                    countries: "Germany, Austria, Switzerland, Luxembourg, Liechtenstein"
+                },
+                french: {
+                    name: "French",
+                    speakers: "320 million",
+                    description: "A language of diplomacy, culture, and cuisine. Spoken across five continents, French opens doors to art, fashion, gastronomy, and international organizations.",
+                    countries: "France, Canada, Belgium, Switzerland, and 25+ African countries"
+                }
+            },
             words: {
                 title: "Words",
                 desc: "Register words you already know and discover new ones to grow your vocabulary in all three languages.",
@@ -79,8 +101,30 @@ export const translations = {
         },
 
         de: {
-            welcome: "Willkommen bei Swiuk Lang",
-            description: "Eine interaktive Umgebung zum Ausbau deines Wortschatzes in Deutsch, Französisch und Englisch – mit strukturiertem Lernen, Tools und integrierter Übersetzung.",
+            welcome: "Heute mit dem Lernen beginnen",
+            description: "Verfolge deinen Wortschatz, übe Redewendungen und gewinne Sicherheit in Deutsch, Französisch und Englisch.",
+            languagesSection: {
+                title: "Sprachen, die wir unterrichten",
+                subtitle: "Öffne Türen zu neuen Kulturen und Verbindungen",
+                english: {
+                    name: "Englisch",
+                    speakers: "1,5 Milliarden",
+                    description: "Die globale Verkehrssprache. Kommuniziere mit Menschen auf allen Kontinenten, erhalte Zugang zu internationalem Geschäft, Wissenschaft, Unterhaltung und Reisen.",
+                    countries: "UK, Kanada, Australien und 50+ Länder"
+                },
+                german: {
+                    name: "Deutsch",
+                    speakers: "130 Millionen",
+                    description: "Die meistgesprochene Muttersprache in Europa. Verbinde dich mit Menschen im Herzen Europas und erhalte Zugang zu Möglichkeiten in Technik, Philosophie und Musik.",
+                    countries: "Deutschland, Österreich, Schweiz, Luxemburg, Liechtenstein"
+                },
+                french: {
+                    name: "Französisch",
+                    speakers: "320 Millionen",
+                    description: "Eine Sprache der Diplomatie, Kultur und Küche. Auf fünf Kontinenten gesprochen, öffnet Französisch Türen zu Kunst, Mode, Gastronomie und internationalen Organisationen.",
+                    countries: "Frankreich, Kanada, Belgien, Schweiz und 25+ afrikanische Länder"
+                }
+            },
             words: {
                 title: "Wörter",
                 desc: "Registriere bekannte Wörter und entdecke neue, um deinen Wortschatz in allen drei Sprachen zu erweitern.",
@@ -110,8 +154,30 @@ export const translations = {
         },
 
         fr: {
-            welcome: "Bienvenue sur Swiuk Lang",
-            description: "Un environnement immersif pour développer votre vocabulaire en allemand, français et anglais grâce à un apprentissage structuré, des outils interactifs et des traductions intégrées.",
+            welcome: "Commencez à apprendre aujourd'hui",
+            description: "Suivez votre vocabulaire, pratiquez des phrases et gagnez en confiance en allemand, français et anglais.",
+            languagesSection: {
+                title: "Langues que nous enseignons",
+                subtitle: "Ouvrez les portes vers de nouvelles cultures et connexions",
+                english: {
+                    name: "Anglais",
+                    speakers: "1,5 milliard",
+                    description: "La lingua franca mondiale. Communiquez avec des personnes sur tous les continents, accédez aux affaires internationales, à la science, au divertissement et aux voyages.",
+                    countries: "Royaume-Uni, Canada, Australie et 50+ pays"
+                },
+                german: {
+                    name: "Allemand",
+                    speakers: "130 millions",
+                    description: "La langue maternelle la plus parlée en Europe. Connectez-vous avec les gens au cœur de l'Europe et accédez à des opportunités en ingénierie, philosophie et musique.",
+                    countries: "Allemagne, Autriche, Suisse, Luxembourg, Liechtenstein"
+                },
+                french: {
+                    name: "Français",
+                    speakers: "320 millions",
+                    description: "Une langue de diplomatie, de culture et de cuisine. Parlé sur cinq continents, le français ouvre les portes de l'art, de la mode, de la gastronomie et des organisations internationales.",
+                    countries: "France, Canada, Belgique, Suisse et 25+ pays africains"
+                }
+            },
             words: {
                 title: "Mots",
                 desc: "Enregistrez les mots que vous connaissez déjà et découvrez-en de nouveaux pour élargir votre vocabulaire dans les trois langues.",
@@ -141,8 +207,30 @@ export const translations = {
         },
 
         pt: {
-            welcome: "Bem-vindo ao Swiuk Lang",
-            description: "Um ambiente imersivo para expandir seu vocabulário em alemão, francês e inglês através de aprendizado estruturado, ferramentas interativas e recursos de tradução integrados.",
+            welcome: "Comece a aprender hoje",
+            description: "Acompanhe seu vocabulário, pratique frases e ganhe confiança em alemão, francês e inglês.",
+            languagesSection: {
+                title: "Idiomas que Ensinamos",
+                subtitle: "Abra portas para novas culturas e conexões",
+                english: {
+                    name: "Inglês",
+                    speakers: "1,5 bilhão",
+                    description: "A língua franca global. Comunique-se com pessoas em todos os continentes, acesse negócios internacionais, ciência, entretenimento e viagens com facilidade.",
+                    countries: "Reino Unido, Canadá, Austrália e 50+ países"
+                },
+                german: {
+                    name: "Alemão",
+                    speakers: "130 milhões",
+                    description: "A língua nativa mais falada na Europa. Conecte-se com pessoas no coração da Europa e acesse oportunidades em engenharia, filosofia e música.",
+                    countries: "Alemanha, Áustria, Suíça, Luxemburgo, Liechtenstein"
+                },
+                french: {
+                    name: "Francês",
+                    speakers: "320 milhões",
+                    description: "Uma língua de diplomacia, cultura e culinária. Falado em cinco continentes, o francês abre portas para arte, moda, gastronomia e organizações internacionais.",
+                    countries: "França, Canadá, Bélgica, Suíça e 25+ países africanos"
+                }
+            },
             words: {
                 title: "Palavras",
                 desc: "Registre palavras que você já conhece e descubra novas para expandir seu vocabulário nos três idiomas.",

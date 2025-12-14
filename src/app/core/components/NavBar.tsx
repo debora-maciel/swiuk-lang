@@ -13,7 +13,6 @@ import { SiGoogleanalytics } from "react-icons/si";
 import { IoMdSettings } from "react-icons/io";
 import { IoClose, IoGameController } from "react-icons/io5";
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
-import { MdOutlineGTranslate } from "react-icons/md";
 import { BiConversation } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
@@ -54,6 +53,9 @@ export default function Navbar() {
     const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
     const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
 
+    // Show Connect Words only for German<->English combinations
+    const showConnectGame = (isGerman && language === 'en') || (isEnglish && language === 'de');
+
     // Get user display info
     const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
     const userEmail = user?.email || '';
@@ -78,16 +80,11 @@ export default function Navbar() {
             link: "/words",
             icon: <TiSortAlphabeticallyOutline size={22} />
         },
-        {
+        ...(showConnectGame ? [{
             name: t.connectGame,
             link: "/game/connect-words",
             icon: <IoGameController size={22} />
-        },
-        {
-            name: t.translator,
-            link: "/translation",
-            icon: <MdOutlineGTranslate size={22} />
-        },
+        }] : []),
         {
             name: t.vocabulary,
             link: "/vocabulary",

@@ -3,110 +3,25 @@
 import { useTheme } from "../core/context/theme/ThemeContext";
 import { useLanguage } from "../core/context/language/LanguageContext";
 import Link from "next/link";
-import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdSchool, MdNumbers } from "react-icons/md";
+import { MdFlight, MdWork, MdRestaurant, MdShoppingCart, MdLocalHospital, MdSchool, MdNumbers, MdQuestionMark } from "react-icons/md";
 import { BiConversation } from "react-icons/bi";
+import { topics, vocabularyTranslations } from "../core/variables/vocabulary";
 
-const topics = [
-  {
-    id: "travel",
-    icon: <MdFlight size={28} />,
-    levels: 5,
-  },
-  {
-    id: "work",
-    icon: <MdWork size={28} />,
-    levels: 5,
-  },
-  {
-    id: "restaurant",
-    icon: <MdRestaurant size={28} />,
-    levels: 5,
-  },
-  {
-    id: "shopping",
-    icon: <MdShoppingCart size={28} />,
-    levels: 5,
-  },
-  {
-    id: "health",
-    icon: <MdLocalHospital size={28} />,
-    levels: 5,
-  },
-  {
-    id: "education",
-    icon: <MdSchool size={28} />,
-    levels: 5,
-  },
-  {
-    id: "numbers",
-    icon: <MdNumbers size={28} />,
-    levels: 5,
-  },
-];
-
-const translations = {
-  en: {
-    title: "Vocabulary Topics",
-    subtitle: "Practice ready phrases and conversations for real-world situations",
-    levels: "levels",
-    topics: {
-      travel: "Travel & Transport",
-      work: "Work & Business",
-      restaurant: "Food & Dining",
-      shopping: "Shopping",
-      health: "Health & Emergency",
-      education: "Education",
-      numbers: "Numbers",
-    },
-  },
-  de: {
-    title: "Vokabel-Themen",
-    subtitle: "Übe fertige Sätze und Gespräche für reale Situationen",
-    levels: "Stufen",
-    topics: {
-      travel: "Reisen & Transport",
-      work: "Arbeit & Geschäft",
-      restaurant: "Essen & Restaurant",
-      shopping: "Einkaufen",
-      health: "Gesundheit & Notfall",
-      education: "Bildung",
-      numbers: "Zahlen",
-    },
-  },
-  fr: {
-    title: "Thèmes de vocabulaire",
-    subtitle: "Pratiquez des phrases et conversations pour des situations réelles",
-    levels: "niveaux",
-    topics: {
-      travel: "Voyage & Transport",
-      work: "Travail & Affaires",
-      restaurant: "Cuisine & Restaurant",
-      shopping: "Shopping",
-      health: "Santé & Urgences",
-      education: "Éducation",
-      numbers: "Chiffres",
-    },
-  },
-  pt: {
-    title: "Temas de Vocabulário",
-    subtitle: "Pratique frases e conversas prontas para situações do dia a dia",
-    levels: "níveis",
-    topics: {
-      travel: "Viagem & Transporte",
-      work: "Trabalho & Negócios",
-      restaurant: "Comida & Restaurante",
-      shopping: "Compras",
-      health: "Saúde & Emergência",
-      education: "Educação",
-      numbers: "Números",
-    },
-  },
+const topicIcons: Record<string, React.ReactNode> = {
+  basics: <MdQuestionMark size={28} />,
+  travel: <MdFlight size={28} />,
+  work: <MdWork size={28} />,
+  restaurant: <MdRestaurant size={28} />,
+  shopping: <MdShoppingCart size={28} />,
+  health: <MdLocalHospital size={28} />,
+  education: <MdSchool size={28} />,
+  numbers: <MdNumbers size={28} />,
 };
 
 export default function VocabularyPage() {
   const { colors } = useTheme();
   const { language, targetLanguage } = useLanguage();
-  const t = translations[language];
+  const t = vocabularyTranslations[language];
   const isFrench = targetLanguage === 'français' || targetLanguage?.toLowerCase().includes('french') || targetLanguage?.toLowerCase().includes('fran');
   const isGerman = targetLanguage === 'deutsch' || targetLanguage?.toLowerCase().includes('german') || targetLanguage?.toLowerCase().includes('deutsch');
   const isEnglish = targetLanguage === 'english' || targetLanguage?.toLowerCase().includes('english') || targetLanguage?.toLowerCase().includes('eng');
@@ -156,7 +71,7 @@ export default function VocabularyPage() {
           >
             <div className="flex items-center gap-4 mb-4">
               <div className={`${colors.textReverse} ${colors.backgroundReverse} p-3 rounded-xl`}>
-                {topic.icon}
+                {topicIcons[topic.id]}
               </div>
               <h3 className={`${colors.text} text-lg lg:text-xl font-bold`}>
                 {t.topics[topic.id as keyof typeof t.topics]}

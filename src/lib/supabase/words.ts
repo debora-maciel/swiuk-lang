@@ -93,6 +93,25 @@ export async function getWordsByLanguage(language: WordLanguage) {
   return { known, unknown, error: null }
 }
 
+export async function deleteWordsByStatus(
+  language: WordLanguage,
+  status: WordStatus
+) {
+  const supabase = createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated' }
+
+  const { error } = await supabase
+    .from('words')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('language', language)
+    .eq('status', status)
+
+  return { error }
+}
+
 export async function syncLocalStorageToSupabase() {
   const supabase = createClient()
 
