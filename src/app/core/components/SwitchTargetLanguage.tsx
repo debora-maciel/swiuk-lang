@@ -122,7 +122,7 @@ export default function SwitchTargetLanguage() {
             <button className={`flex items-center gap-2 px-2.5 py-1.5 rounded-full ${colors.backgroundLight} hover:opacity-80 transition-opacity cursor-pointer`}>
                 {getCurrentFlag()}
                 <span className={`${colors.text} text-sm font-medium`}>{getDisplayName()}</span>
-                <IoChevronDown className={colors.text40} size={14} />
+                <IoChevronDown className={colors.text50} size={14} />
             </button>
         </Dropdown>
     );
