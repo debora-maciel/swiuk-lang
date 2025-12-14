@@ -11,7 +11,7 @@ interface ILayout {
 export default function Layout({ children }: ILayout) {
     const { colors } = useTheme();
     const pathname = usePathname();
-    const isPublicProfile = pathname?.startsWith('/u/');
+    const isPublicRoute = pathname?.startsWith('/u/') || pathname?.startsWith('/auth');
 
     return (
         <ConfigProvider
@@ -23,9 +23,9 @@ export default function Layout({ children }: ILayout) {
                 },
             }}
         >
-            <div className={`${isPublicProfile ? '' : colors.background} min-h-screen`}>
+            <div className={`${isPublicRoute ? '' : colors.background} min-h-screen`}>
                 {/* Mobile: full width, Desktop: left margin for sidebar (unless on public profile) */}
-                <div className={`${isPublicProfile ? '' : 'md:ml-64'} overflow-x-hidden`}>
+                <div className={`${isPublicRoute ? '' : 'md:ml-64'} overflow-x-hidden`}>
                     {children}
                 </div>
             </div>

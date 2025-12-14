@@ -50,8 +50,8 @@ export default function Navbar() {
         }
     }, [theme]);
 
-    // Hide navbar on public profile pages
-    if (pathname?.startsWith('/u/')) {
+    // Hide navbar on public routes (profile pages and auth pages)
+    if (pathname?.startsWith('/u/') || pathname?.startsWith('/auth')) {
         return null;
     }
 

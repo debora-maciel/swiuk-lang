@@ -18,8 +18,8 @@ export default function Sidebar() {
     const pathname = usePathname();
     const t = translations.menu[language];
 
-    // Hide sidebar on public profile pages
-    if (pathname?.startsWith('/u/')) {
+    // Hide sidebar on public routes (profile pages and auth pages)
+    if (pathname?.startsWith('/u/') || pathname?.startsWith('/auth')) {
         return null;
     }
 

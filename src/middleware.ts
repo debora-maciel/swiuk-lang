@@ -1,13 +1,10 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
-// Routes that require authentication
-const protectedRoutes = [
-  '/words',
-  '/game',
-  '/translation',
-  '/dashboard',
-  '/settings',
+// Public routes that don't require authentication
+const publicRoutes = [
+  '/auth',      // All auth routes (login, signup, callback, error)
+  '/u/',        // Public profile sharing routes (/u/[username])
 ]
 
 export async function middleware(request: NextRequest) {
@@ -46,10 +43,11 @@ export async function middleware(request: NextRequest) {
   // Refresh session
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Check if route needs protection
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
+  // Check if route is public (doesn't need authentication)
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
 
-  if (isProtectedRoute && !user) {
+  // Protect all routes except public ones
+  if (!isPublicRoute && !user) {
     // Redirect to login if not authenticated
     const loginUrl = new URL('/auth/login', request.url)
     loginUrl.searchParams.set('next', pathname)
