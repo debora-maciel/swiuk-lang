@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import data from "./../../data/words.json";
 import { HiMiniXMark } from "react-icons/hi2";
-import { IoCheckmark, IoPlaySkipForward } from "react-icons/io5";
+import { IoCheckmark, IoPlaySkipForward, IoPlaySkipBack } from "react-icons/io5";
 import LearnMore from "./components/LearnMore";
 import { utils } from "../../../utils/utils";
 import Link from "next/link";
@@ -67,6 +67,7 @@ export default function EnglishWords() {
     const t = translations[language];
     const [currentWord, setCurrentWord] = useState<number>(0);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+    const [history, setHistory] = useState<number[]>([]);
 
     useEffect(() => {
         if (authLoading) return;
@@ -106,6 +107,7 @@ export default function EnglishWords() {
         setIsCorrect(true);
         setKnownWords(prev => [...prev, word]);
         saveWord(word, 'english', 'known');
+        setHistory(prev => [...prev, currentWord]);
 
         setTimeout(() => {
             setIsCorrect(null);
@@ -117,6 +119,7 @@ export default function EnglishWords() {
         setIsCorrect(false);
         setUnknownWords(prev => [...prev, word]);
         saveWord(word, 'english', 'unknown');
+        setHistory(prev => [...prev, currentWord]);
 
         setTimeout(() => {
             setIsCorrect(null);
@@ -125,7 +128,15 @@ export default function EnglishWords() {
     }
 
     function handleSkip() {
+        setHistory(prev => [...prev, currentWord]);
         setCurrentWord((prev) => (prev + 1) % words.length);
+    }
+
+    function handleBack() {
+        if (history.length === 0) return;
+        const lastWord = history[history.length - 1];
+        setHistory(prev => prev.slice(0, -1));
+        setCurrentWord(lastWord);
     }
 
     if (words.length === 0) return null;
@@ -174,6 +185,11 @@ export default function EnglishWords() {
                             className={`cursor-pointer ${colors.text60} rounded-full border ${colors.border20} py-2 flex items-center gap-2 justify-between px-6`}>
                             <HiMiniXMark size={20} />
                             {t.unknown}
+                        </button>
+                        <button onClick={handleBack}
+                            disabled={history.length === 0}
+                            className={`cursor-pointer ${colors.text60} rounded-full border ${colors.border10} py-2 flex items-center gap-2 justify-between px-4 ${history.length === 0 ? 'opacity-30' : ''}`}>
+                            <IoPlaySkipBack size={18} />
                         </button>
                         <button onClick={handleSkip}
                             className={`cursor-pointer ${colors.text60} rounded-full border ${colors.border10} py-2 flex items-center gap-2 justify-between px-4`}>
